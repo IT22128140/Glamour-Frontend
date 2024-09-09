@@ -18,7 +18,7 @@ const HrNavbar = (props) => {
     if(!token){
       window.location = "/LoginEmp";
     }
-    axios.get(`http://localhost:5555/ProfileEmp/${token}`).then((response) => {
+    axios.get(`http://localhost:3000/ProfileEmp/${token}`).then((response) => {
       setProfileInfo(response.data);
     }).catch((error) => {
       console.error("Error fetching profile information:", error);
