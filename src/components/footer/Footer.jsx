@@ -8,7 +8,7 @@ import FooterFeedback from "./FooterFeedback.jsx";
 const Footer = () => {
   return (
     <>
-      <div className="flex flex-row mt-[5%] w-full bg-footer min-h-[350px] bg-bgc">
+      <div className="flex flex-row mt-[5%] w-full bg-footer min-h-[350px] bg-secondary">
         <FooterSocialLinks />
         <FooterLinks />
         <FooterMap />

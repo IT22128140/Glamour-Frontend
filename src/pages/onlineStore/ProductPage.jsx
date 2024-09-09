@@ -22,7 +22,7 @@ const ProductPage = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/items/${id}`)
+      .get(`http://localhost:3000/items/${id}`)
       .then((response) => {
         setProduct(response.data);
         setLoading(false);
@@ -53,7 +53,7 @@ const ProductPage = () => {
     };
     setLoading(true);
     axios
-      .post(`http://localhost:5555/cart/${token}`, cart)
+      .post(`http://localhost:3000/cart/${token}`, cart)
       .then((response) => {
         console.log(response);
         setLoading(false);

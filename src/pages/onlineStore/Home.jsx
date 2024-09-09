@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5555/items/trending")
+      .get("http://localhost:3000/items/trending")
       .then((response) => {
         setItems(response.data);
         setLoading(false);
@@ -38,7 +38,7 @@ const Home = () => {
           <HomeSlideShow />
         </div>
       </center>
-      <h1 className="m-10 text-[40px] font-Lavish text-center text-secondary">
+      <h1 className="m-10 text-[40px] font-Aboreto text-center text-primary">
         New & Trending
       </h1>
 
@@ -49,13 +49,13 @@ const Home = () => {
           <Category
             image="./Clothes/mens.jpg"
             heading="Male"
-            link="./Catalogue"
+            link="/Catalogue"
             state={"mens"}
           />
           <Category
             image="./Clothes/womens.jpg"
             heading="Women"
-            link="./Catalogue"
+            link="/Catalogue"
             state={"women"}
           />
         </div>
@@ -63,13 +63,13 @@ const Home = () => {
           <Category
             image="./Clothes/unisex.jpg"
             heading="Unisex"
-            link="./Catalogue"
+            link="/Catalogue"
             state={"unisex"}
           />
           <Category
             image="./Clothes/kids.jpg"
             heading="Kids"
-            link="./Catalogue"
+            link="/Catalogue"
             state={"kids"}
           />
         </div>
