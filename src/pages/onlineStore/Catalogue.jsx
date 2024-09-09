@@ -26,7 +26,7 @@ const Catalogue = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5555/items")
+      .get("http://localhost:3000/items")
       .then((response) => {
         setLoading(false);
         setItems(response.data);
@@ -53,7 +53,7 @@ const Catalogue = () => {
       <CustomerNavbar />
       <div className="flex flex-row pt-8 pl-8">
         <div className=" bg-bgc w-1*4 p-5 rounded-lg shadow-lg  h-fit">
-          <h1 className=" font-Lavish text-primary font-bold text-2xl">
+          <h1 className=" font-Aboreto text-primary font-bold text-2xl">
             CATEGORIES
           </h1>
           {/* Mens */}
