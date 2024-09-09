@@ -8,9 +8,9 @@ const Logo = () => {
           <img
             src="/Logo1.png"
             alt="logo"
-            className="w-full h-[3rem] ml-[1rem] mr-[2rem]"
+            className="w-[2rem] h-[3rem] ml-[1rem] mr-[1rem]"
           />
-          <img src="/Logo2.png" alt="logo" className="w-[13rem] h-[3rem] hidden lg:block" />
+          <img src="/Logo2.png" alt="logo" className="w-[18rem] h-[2rem] hidden mt-2 lg:block" />
       </Link>
   );
 };

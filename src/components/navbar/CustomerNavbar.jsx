@@ -31,25 +31,25 @@ const CustomerNavbar = () => {
           <div className="flex items-center">
             <IoPersonCircleOutline className=" menu-hover lg:mx-4 text-[50px] text-primary" />
           </div>
-          <div className="invisible absolute z-50 flex w-full flex-col bg-bgc rounded-md text-ternary shadow-xl group-hover:visible">
-            <Link className="rounded-md p-2 my-2 block font-semibold text-ternary  hover:bg-primary" to="/ProfileCus">
+          <div className="invisible absolute z-50 flex w-full flex-col bg-primary rounded-md text-c shadow-xl group-hover:visible">
+            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/ProfileCus">
               Profile
             </Link>
             <Link
-              className="rounded-md p-2 my-2 block font-semibold text-ternary  hover:bg-primary"
+              className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary "
               to="/Orders"
             >
               Orders
             </Link>
             <Link
-              className="rounded-md p-2 my-2 block font-semibold text-ternary  hover:bg-primary"
+              className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
               to="/Addresses"
             >
               Addresses
             </Link>
             {token && (
               <button
-                className="rounded-md p-2 my-2 block font-semibold text-ternary  hover:bg-primary"
+                className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
                 onClick={() => {
                   sessionStorage.removeItem("token");
                   navigate("/LoginCus");
@@ -61,7 +61,7 @@ const CustomerNavbar = () => {
             {!token && (
               <Link
                 to="/LoginCus"
-                className="rounded-md p-2 my-2 block font-semibold text-ternary  hover:bg-primary"
+                className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
               >
                 Login
               </Link>

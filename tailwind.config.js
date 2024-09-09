@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      Lavish: ["Lavish", "sans-serif"],
+      Aboreto: ["Aboreto", "sans-serif"],
       Philosopher: ["Philosopher", "sans-serif"],
       BreeSerif: ["BreeSerif", "sans-serif"],
     },
@@ -18,10 +18,10 @@ export default {
       },
         colors: {
           //Maneth
-          'primary': '#da6e2e',
-          'secondary': '#c15026',
-          'ternary': '#6e2e2c',
-          'bgc': '#FCEADC',
+          'primary': '#347991',
+          'secondary': '#EFF6F8',
+          'ternary': '#A2BCBF',
+          'bgc': '#0C1620',
   
   
 
