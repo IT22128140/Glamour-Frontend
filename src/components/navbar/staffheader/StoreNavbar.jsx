@@ -6,21 +6,22 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 const StoreNavbar = (props) => {
-
   const [profileInfo, setProfileInfo] = useState({});
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if(!token){
-      window.location = "/LoginEmp";
-    }
-    axios.get(`http://localhost:3000/ProfileEmp/${token}`).then((response) => {
-      setProfileInfo(response.data);
-    }).catch((error) => {
-      console.error("Error fetching profile information:", error);
-    });
-  }
-  , []);
+    // if (!token) {
+    //   window.location = "/LoginEmp";
+    // }
+    axios
+      .get(`http://localhost:3000/ProfileEmp/${token}`)
+      .then((response) => {
+        setProfileInfo(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching profile information:", error);
+      });
+  }, []);
 
   return (
     <div className="">
@@ -33,12 +34,21 @@ const StoreNavbar = (props) => {
         />
       </div>
 
-      <div className="flex flex-row bg-bgc h-fit shadow-md">
-        <NavbarButton active={props.home} button={"Home"} url={"/Store_Manager"} />
+      <div className="flex flex-row bg-secondary h-fit shadow-md">
         <NavbarButton
-          active={props.cel}
-          button={"Ongoing Orders"}
+          active={props.home}
+          button={"Home"}
+          url={"/Store_Manager"}
+        />
+        <NavbarButton
+          active={props.pro}
+          button={"Products"}
           url={"/OngoingOrders"}
+        />
+        <NavbarButton
+          active={props.rel}
+          button={"Completed Orders"}
+          url={"/CompletedOrders"}
         />
         <NavbarButton
           active={props.rel}
@@ -54,7 +64,7 @@ StoreNavbar.propTypes = {
   home: PropTypes.bool,
   cel: PropTypes.bool,
   rel: PropTypes.bool,
+  pro: PropTypes.bool,
 };
-
 
 export default StoreNavbar;

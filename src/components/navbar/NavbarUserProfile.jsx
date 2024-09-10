@@ -6,7 +6,7 @@ const NavbarUserProfile = (props) => {
   return (
     <div className="flex flex-row w-fit mr-2">
       <div className="flex flex-col items-end pr-5">
-      <p className="font-BreeSerif mb-2 text-ternary">{props.username}</p>
+      <p className="font-BreeSerif mb-2 text-primary">{props.username}</p>
       <button className=" bg-primary w-fit p-2 px-4 font-BreeSerif text-white rounded-3xl"
       onClick={
         () => {
