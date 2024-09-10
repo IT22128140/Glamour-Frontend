@@ -5,7 +5,7 @@ const AddButton = ({ onClick, className }) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-between py-1.5 px-4 bg-orange-600 text-white text-xl rounded-lg shadow-md font-BreeSerif ${className}`}
+      className={`flex items-center justify-between py-1.5 px-4 bg-primary text-white text-xl rounded-lg shadow-md font-BreeSerif ${className}`}
     >
       <IoMdAddCircleOutline className="text-xl mr-2" />
       <span className="">Add</span>
