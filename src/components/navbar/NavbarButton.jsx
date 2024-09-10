@@ -13,14 +13,14 @@ const NavbarButton = (props) => {
     >
       {props.active && (
         <Link to={props.url}>
-          <div className=" py-2 px-3 font-Philosopher text-bgc hover:text-bgc text-xl font-bold hover:bg-secondary bg-secondary transition-colors duration-300">
+          <div className=" py-2 px-3 font-Philosopher text-secondary hover:text-primary text-xl font-bold hover:bg-ternary bg-primary transition-colors duration-300">
             {props.button}
           </div>
         </Link>
       )}
       {!props.active && (
         <Link to={props.url}>
-          <div className=" py-2 px-3 font-Philosopher text-ternary hover:text-bgc text-xl font-bold hover:bg-primary transition-colors duration-300">
+          <div className=" py-2 px-3 font-Philosopher text-primary hover:text-primary text-xl font-bold hover:bg-ternary transition-colors duration-300">
             {props.button}
           </div>
         </Link>
