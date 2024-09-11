@@ -15,9 +15,10 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:3000/items/trending")
+      .get("http://localhost:3000/cusItems/trending")
       .then((response) => {
         setItems(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((err) => {
