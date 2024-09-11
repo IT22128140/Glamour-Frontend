@@ -24,6 +24,7 @@ const Category = (props) => {
   );
 };
 
+
 Category.propTypes = {
   image: PropTypes.string,
   heading: PropTypes.string,
