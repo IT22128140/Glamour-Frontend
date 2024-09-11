@@ -34,8 +34,11 @@ import StoreManagerDashboard from './pages/onlineStoreManager/StoreManagerDashbo
 
 
 /*Hiranya*/
-
-
+import AddBodyMeasurement from './pages/model/AddBodyMeasurements.jsx';
+import EditBodyMeasurement from './pages/model/EditBodyMeasurement.jsx';
+import DeleteBodyMeasurement from './pages/model/DeleteBodyMeasurement.jsx';
+import ViewBodyMeasurement from './pages/model/ViewBodyMeasurement.jsx';
+import MeasurementsTable from './pages/model/MeasurementsTable.jsx';
 
 
 
@@ -99,7 +102,11 @@ const App = () => {
 
 
       {/*Hiranya*/}
-
+      <Route path='/measurements/create' element={<AddBodyMeasurement/>} />
+      <Route path='/measurements/edit/:id' element={<EditBodyMeasurement/>} />
+      <Route path='/measurements/delete/:id' element={<DeleteBodyMeasurement/>}/>
+      <Route path='/measurements/view/:id' element={<ViewBodyMeasurement/>}/>
+      <Route path='/measurements/view' element={<MeasurementsTable/>}/>
 
 
 
