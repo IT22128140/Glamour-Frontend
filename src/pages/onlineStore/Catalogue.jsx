@@ -26,7 +26,7 @@ const Catalogue = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:3000/items")
+      .get("http://localhost:3000/cusItems")
       .then((response) => {
         setLoading(false);
         setItems(response.data);
@@ -52,13 +52,13 @@ const Catalogue = () => {
     <div>
       <CustomerNavbar />
       <div className="flex flex-row pt-8 pl-8">
-        <div className=" bg-bgc w-1*4 p-5 rounded-lg shadow-lg  h-fit">
+        <div className=" bg-secondary w-1*4 p-5 rounded-lg shadow-lg  h-fit">
           <h1 className=" font-Aboreto text-primary font-bold text-2xl">
             CATEGORIES
           </h1>
           {/* Mens */}
           <div>
-            <h2 className=" font-Philosopher text-secondary text-2xl my-3">
+            <h2 className=" font-Philosopher text-primary text-2xl my-3">
               Mens
             </h2>
             <RadioButton
@@ -100,7 +100,7 @@ const Catalogue = () => {
           </div>
           {/* Womens */}
           <div>
-            <h2 className=" font-Philosopher text-secondary text-2xl my-3">
+            <h2 className=" font-Philosopher text-primary text-2xl my-3">
               Women
             </h2>
             <RadioButton
@@ -142,7 +142,7 @@ const Catalogue = () => {
           </div>
           {/* Childrens */}
           <div>
-            <h2 className=" font-Philosopher text-secondary text-2xl my-3">
+            <h2 className=" font-Philosopher text-primary text-2xl my-3">
               Kids
             </h2>
             <RadioButton
@@ -184,7 +184,7 @@ const Catalogue = () => {
           </div>
           {/* Unisex */}
           <div>
-            <h2 className=" font-Philosopher text-secondary text-2xl my-3">
+            <h2 className=" font-Philosopher text-primary text-2xl my-3">
               Unisex
             </h2>
             <RadioButton
@@ -221,7 +221,7 @@ const Catalogue = () => {
               heading={item.name}
               description={item.description}
               image={item.image}
-              price={item.price}
+              price={item.minprice}
             />
           ))}
         </div>
