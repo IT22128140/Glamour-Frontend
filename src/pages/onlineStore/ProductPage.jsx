@@ -22,7 +22,7 @@ const ProductPage = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:3000/items/${id}`)
+      .get(`http://localhost:3000/cusItems/${id}`)
       .then((response) => {
         setProduct(response.data);
         setLoading(false);
@@ -74,18 +74,18 @@ const ProductPage = () => {
       <Navbar />
       <div className="flex flex-row justify-evenly mt-[4%] mb-[20%]">
         <img
-          src={"." + product.image}
+          src={product.image}
           className="rounded-l-[10px] px-16 w-1/2"
         />
         <div className="flex flex-col w-1/2">
-          <h1 className=" pb-[2%] text-[1.5rem] font-Philosopher text-secondary">
+          <h1 className=" pb-[2%] text-6xl font-Aboreto text-primary">
             {product.name}
           </h1>
-          <p className="mb-[2%] font-BreeSerif text-ternary">
+          <p className="mb-[2%] font-BreeSerif text-primary">
             {product.description}
           </p>
-          <p className="mb-[2%] font-BreeSerif text-ternary">
-            Rs.{product.price}.00
+          <p className="mb-[2%] mt-8 text-xl font-BreeSerif text-primary">
+            Rs.{product.minprice}.00
           </p>
           <FormProvider {...methods}>
             <form onSubmit={(e) => e.preventDefault} noValidate>
@@ -102,7 +102,7 @@ const ProductPage = () => {
                   />
                 </div>
               </div>
-              <h1 className=" font-Philosopher text-secondary text-3xl mt-[10%] ">
+              <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
                 Select Size
               </h1>
               <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle w-fit">
@@ -133,7 +133,7 @@ const ProductPage = () => {
               </div>
               {product.colors.length > 0 && (
                 <>
-                  <h1 className=" font-Philosopher text-secondary text-3xl ">
+                  <h1 className=" font-Philosopher text-primary text-3xl ">
                     Choose Color
                   </h1>
                   <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle  w-fit">
@@ -166,7 +166,7 @@ const ProductPage = () => {
               )}
               <button
                 onClick={onSubmit}
-                className="bg-ternary text-bgc font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
+                className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
               >
                 Add to Cart
               </button>
