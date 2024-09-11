@@ -38,7 +38,7 @@ const StaffFooter = () => {
 
       <div className="flex flex-row justify-center items-center p-4">
         <p className="text-sm text-gray-500 font-BreeSerif">
-          &copy;2022 Serendib Fashions LTD.
+          &copy;2024 Glamour Fashions LTD.
         </p>
       </div>
     </div>
