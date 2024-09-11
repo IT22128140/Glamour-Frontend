@@ -19,9 +19,9 @@ import StoreItemsList from './pages/onlineStoreManager/StoreItemsList.jsx';
 
 
 /*Sandithi*/
-
-
-
+import Cart from './pages/onlineStore/Cart.jsx';
+import OngoingOrders from "./pages/onlineStoreManager/OngoingOrders.jsx";
+import CompletedOrders from "./pages/onlineStoreManager/CompletedOrders.jsx";
 
 
 
@@ -87,9 +87,9 @@ const App = () => {
 
 
       {/*Sandithi*/}
-
-
-
+      <Route path="/Cart" element={<Cart />} />
+      <Route path='/OngoingOrders' element={<OngoingOrders/>} />
+      <Route path='/CompletedOrders' element={<CompletedOrders/>} />
 
 
 
