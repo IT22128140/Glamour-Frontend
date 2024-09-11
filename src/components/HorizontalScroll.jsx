@@ -34,7 +34,7 @@ const HorizontalScroll = (props) => {
         }}
         disabled={arrowDisable}
       >
-        <IoIosArrowDropleft className="size-10 text-secondary" />
+        <IoIosArrowDropleft className="size-10 text-primary" />
       </button>
       <div className="flex flex-row overflow-hidden w-[90%] h-fit" ref={elementRef}>
         {props.list.map((list) => (
@@ -44,7 +44,7 @@ const HorizontalScroll = (props) => {
             heading={list.name}
             description={list.description}
             image={list.image}
-            price={list.price}
+            price={list.minprice}
           ></CardView>
         ))}
       </div>
@@ -54,7 +54,7 @@ const HorizontalScroll = (props) => {
           handleHorizantalScroll(elementRef.current, 25, 100, 10);
         }}
       >
-        <IoIosArrowDropright className="size-10 text-secondary" />
+        <IoIosArrowDropright className="size-10 text-primary" />
       </button>
     </div>
   );
