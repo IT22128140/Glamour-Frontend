@@ -52,7 +52,7 @@ import StoreItemsList from './pages/onlineStoreManager/StoreItemsList.jsx';
 import Checkout from './pages/onlineStore/Checkout.jsx';
 import CusAddresses from './pages/onlineStore/CusAddresses.jsx';
 import Order from './pages/onlineStore/Order.jsx';
-
+import Payment from './pages/onlineStore/Payment.jsx';
 
 
 
@@ -117,7 +117,7 @@ const App = () => {
       <Route path="/Checkout" element={<Checkout/>}/>
       <Route path="/Addresses" element={<CusAddresses/>}/>
       <Route path="/Orders" element={<Order/>}/>
-
+      <Route path="/Payment" element={<Payment/>}/>
 
 
 
