@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner.jsx";
 import TableView from "../../components/table/TableView";
 import EditButton from "../../components/button/EditButton";
