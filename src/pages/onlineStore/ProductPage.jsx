@@ -132,17 +132,6 @@ const ProductPage = () => {
     }
   };
 
-  // const ProgressBar = ({ value }) => {
-  //   return (
-  //     <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-  //       <div
-  //         className="h-full bg-primary rounded-full"
-  //         style={{ width: `${value * 100}%` }}
-  //       ></div>
-  //     </div>
-  //   );
-  // };
-
   if (loading) {
     return <Spinner />;
   }
