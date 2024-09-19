@@ -10,7 +10,7 @@ const ShowStoreItem = ({item, onClose}) => {
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className="w-[600px] max-w-full h-auto bg-white rounded-xl p-4 flex flex-col relative"
+        className="w-[600px] overflow-scroll max-h-full max-w-full h-auto bg-white rounded-xl p-4 flex flex-col relative"
       >
         <h1 className=" text-primary text-3xl my-4 font-Philosopher text-center">
           Store Product Details

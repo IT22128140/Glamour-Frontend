@@ -15,30 +15,30 @@ const Cart = () => {
   const totalRef = useRef(0);
 
   // const token = sessionStorage.getItem("token");
-  const token = "1234";
+  const token = "12345";
 
   useEffect(() => {
-    //   // if (!token) {
-    //   //   window.location = "/LoginCus";
-    //   // }
     setLoading(true);
     axios
       .get(`http://localhost:3000/cart/${token}`)
       .then((response) => {
         setCart(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
-      });
+        // setLoading(false);
+        enqueueSnackbar("Error", { variant: "error" });
+      }
+      );
   }, []);
 
   useEffect(() => {
     if (!loading) {
       let total = 0;
-      cart.items.forEach((item) => {
-        total += item.price * item.quantity;
+      cart.forEach((item) => {
+        total += item.product.minprice * item.quantity;
       });
       totalRef.current = total;
       setTotal(total);
@@ -102,16 +102,16 @@ const Cart = () => {
       <div className="flex flex-row justify-between">
         {/* cart items */}
         <div className="flex flex-col w-3/4 ">
-          {cart.items.map((item, index) => (
+          {cart.map((item, index) => (
             <div
               key={index}
               className="flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md"
             >
               {/* description */}
               <div className="flex flex-row">
-                <img src={"." + item.image} className="w-20 h-20" />
+                <img src={item.product.image} className="w-20 h-20" />
                 <div className="flex flex-col ml-3 ">
-                  <p className=" font-BreeSerif">{item.name}</p>
+                  <p className=" font-BreeSerif">{item.product.name}</p>
                   <div className="flex flex-row  font-BreeSerif">
                     <p>Size :&nbsp;</p>
                     <p>{item.size}</p>
@@ -134,7 +134,7 @@ const Cart = () => {
                   <FiPlusCircle className="text-3xl text-ternary" />
                 </button>
               </div>
-              <p className=" font-BreeSerif">{"Rs." + item.price + ".00"}</p>
+              <p className=" font-BreeSerif">{"Rs." + item.product.minprice * item.quantity + ".00"}</p>
               <button
                 className="text-red-600"
                 onClick={() => handleDelete(item._id)}
@@ -145,8 +145,8 @@ const Cart = () => {
           ))}
         </div>
         {/* order summary */}
-        <div className="flex flex-col w-1/4 h-fit mr-8 bg-bgc p-5 rounded-lg shadow-md">
-          <h1 className=" font-Philosopher text-2xl mb-5 font-bold text-secondary">
+        <div className="flex flex-col w-1/4 h-fit mr-8 bg-secondary p-5 rounded-lg shadow-md">
+          <h1 className=" font-Philosopher text-2xl mb-5 font-bold text-primary">
             Order Summary
           </h1>
           <div className="flex flex-row justify-between mb-2 font-BreeSerif">
@@ -163,7 +163,7 @@ const Cart = () => {
             <p className=" ">{total + 500}</p>
           </div>
           <hr className="my-3 font-extrabold border-ternary border-2" />
-          {cart.items.length > 0 && (
+          {cart.length > 0 && (
             <Link
               to="/Checkout"
               className="flex flex-row w-full justify-center"
