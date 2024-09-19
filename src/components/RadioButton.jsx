@@ -19,7 +19,6 @@ const Checkbox = (props) => {
 
 Checkbox.propTypes = {
   name: PropTypes.string,
-  value: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func
 }

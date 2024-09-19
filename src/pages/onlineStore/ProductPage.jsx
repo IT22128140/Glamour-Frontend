@@ -18,7 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
 const ProductPage = () => {
-  const token = sessionStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
@@ -75,22 +75,20 @@ const ProductPage = () => {
   const methods = useForm();
 
   const onSubmit = methods.handleSubmit((data) => {
-    if (!token) {
-      window.location = "/LoginCus";
-    }
+    // if (!token) {
+    //   window.location = "/LoginCus";
+    // }
     const cart = {
-      _id: product._id,
-      productId: product.productId,
-      price: product.price,
+      // _id: product._id,
+      product: product._id,
       quantity: data.amount,
       size: data.size,
       color: data.color,
-      name: product.name,
-      image: product.image,
     };
     setLoading(true);
     axios
-      .post(`http://localhost:3000/cart/${token}`, cart)
+      // .post(`http://localhost:3000/cart/${token}`, cart)
+      .post(`http://localhost:3000/cart/12345`, cart)
       .then((response) => {
         console.log(response);
         setLoading(false);

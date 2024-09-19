@@ -6,11 +6,14 @@ import CustomerNavbar from "../../components/navbar/CustomerNavbar";
 import Footer from "../../components/footer/Footer";
 import CardView from "../../components/CardView";
 import { useLocation } from "react-router-dom";
+import { mensTops, mensBottoms } from "../../utils/arrays.js";
+import { womensTops, womensBottoms } from "../../utils/arrays.js";
 
 const Catalogue = () => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [personalized, setPersonalized] = useState([]);
 
   const location = useLocation();
   const recievedData = location.state;
@@ -23,8 +26,54 @@ const Catalogue = () => {
     setFilteredData(filteredData);
   }
 
+  function filterPersonalizedItems(e) {
+    const inputValue = JSON.parse(e.target.value);
+    if (inputValue[2].toLowerCase() == "male") {
+      const filteredTops = items.filter((opt) =>
+        mensTops.includes(opt.category.toLowerCase())
+      );
+      const filteredwithSizeTops = filteredTops.filter(
+        (opt) => opt.sizes.includes(inputValue[0])
+      );
+      const filteredBottoms = items.filter((opt) =>
+        mensBottoms.includes(opt.category.toLowerCase())
+      );
+      const filteredwithSizeBottoms = filteredBottoms.filter(
+        (opt) => opt.sizes.includes(inputValue[1])
+      );
+      const filteredData = filteredwithSizeTops.concat(filteredwithSizeBottoms);
+      setFilteredData(filteredData);
+    } else if (inputValue[2].toLowerCase() == "female") {
+      const filteredTops = items.filter((opt) =>
+        womensTops.includes(opt.category.toLowerCase())
+      );
+      const filteredwithSizeTops = filteredTops.filter(
+        (opt) => opt.sizes.includes(inputValue[0])
+      );
+      const filteredBottoms = items.filter((opt) =>
+        womensBottoms.includes(opt.category.toLowerCase())
+      );
+      const filteredwithSizeBottoms = filteredBottoms.filter(
+        (opt) => opt.sizes.includes(inputValue[1])
+      );
+      const filteredData = filteredwithSizeTops.concat(filteredwithSizeBottoms);
+      setFilteredData(filteredData);
+    }
+  }
+
   useEffect(() => {
     setLoading(true);
+    axios
+      .get("http://localhost:3000/measurements")
+      .then((response) => {
+        setPersonalized(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
     axios
       .get("http://localhost:3000/cusItems")
       .then((response) => {
@@ -56,6 +105,28 @@ const Catalogue = () => {
           <h1 className=" font-Aboreto text-primary font-bold text-2xl">
             CATEGORIES
           </h1>
+          <div>
+            {personalized.length > 0 && (
+              <>
+                <h2 className=" font-Philosopher text-primary text-2xl my-3">
+                  Personalized
+                </h2>
+                {personalized.map((measurements) => (
+                  <RadioButton
+                    key={measurements._id}
+                    name="check"
+                    value={JSON.stringify([
+                      measurements.TopSize,
+                      measurements.PantSize,
+                      measurements.Gender,
+                    ])}
+                    label={measurements.MeasurementID}
+                    onChange={(e) => filterPersonalizedItems(e)}
+                  />
+                ))}
+              </>
+            )}
+          </div>
           {/* Mens */}
           <div>
             <h2 className=" font-Philosopher text-primary text-2xl my-3">
@@ -140,78 +211,6 @@ const Catalogue = () => {
               onChange={(e) => filterItems(e)}
             />
           </div>
-          {/* Childrens */}
-          <div>
-            <h2 className=" font-Philosopher text-primary text-2xl my-3">
-              Kids
-            </h2>
-            <RadioButton
-              name="check"
-              value="kidstshirts"
-              label="T-Shirts"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="kidstops"
-              label="Tops"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="kidshoodies"
-              label="Hoodies"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="kidsshorts"
-              label="Shorts"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="kidstrousers"
-              label="Trousers"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="kidsdenims"
-              label="Denims"
-              onChange={(e) => filterItems(e)}
-            />
-          </div>
-          {/* Unisex */}
-          <div>
-            <h2 className=" font-Philosopher text-primary text-2xl my-3">
-              Unisex
-            </h2>
-            <RadioButton
-              name="check"
-              value="unisextshirts"
-              label="T-Shirt"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="unisexhoodies"
-              label="Hoodies"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="unisextrousers"
-              label="Trousers"
-              onChange={(e) => filterItems(e)}
-            />
-            <RadioButton
-              name="check"
-              value="unisexdenims"
-              label="Denims"
-              onChange={(e) => filterItems(e)}
-            />
-          </div>
         </div>
         <div className="flex flex-row flex-wrap ml-10 h-fit">
           {filteredData.map((item) => (
@@ -226,7 +225,7 @@ const Catalogue = () => {
           ))}
         </div>
       </div>
-      <Footer />
+      <Footer /> 
     </div>
   );
 };
