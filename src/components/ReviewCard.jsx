@@ -25,7 +25,7 @@ const ReviewCard = ({ reviews, id }) => {
     window.location.reload(true);
   };
 
-  const userId = "1234";
+  const userId = "1235";
 
   return (
     <div className="flex flex-col items-center">

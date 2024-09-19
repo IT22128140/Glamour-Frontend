@@ -46,8 +46,8 @@ const EditReview = ({ id, review, onClose }) => {
 
     if (isValidRate && isValidReviewComment) {
       const updatedReview = {
-        userId: "1234",
-        userName: "Sandithi",
+        userId: "1235",
+        userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
       };

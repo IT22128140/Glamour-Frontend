@@ -11,9 +11,9 @@ import Footer from "../../components/footer/Footer.jsx";
 import { enqueueSnackbar } from "notistack";
 import ReviewCard from "../../components/ReviewCard.jsx";
 // import { FaRegStar } from "react-icons/fa";
-// import { FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import ProgressBar from "../../components/ProgressBar.jsx";
 import AddButton from "../../components/button/AddButton.jsx";
-// import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
@@ -28,6 +28,9 @@ const ProductPage = () => {
 
   const [rateError, setRateError] = useState("");
   const [reviewCommentError, setReviewCommentError] = useState("");
+
+  const [reviews, setReviews] = useState([]);
+  const [overallRating, setOverallRating] = useState(0);
 
   function validateRate(rate) {
     let isValid = true;
@@ -100,6 +103,22 @@ const ProductPage = () => {
       });
   });
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:3000/reviews/${id}`)
+      .then((response) => {
+        setReviews(response.data);
+        // Calculate overall rating
+        const totalRating = response.data.reduce((acc, review) => acc + review.rating, 0);
+        const averageRating = totalRating / response.data.length;
+        setOverallRating(averageRating);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id])
+
   const AddReview = () => {
     event.preventDefault();
 
@@ -108,8 +127,8 @@ const ProductPage = () => {
 
     if (isValidRate && isValidReviewComment) {
       const review = {
-        userId: "1234",
-        userName: "Sandithi",
+        userId: "1235",
+        userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -241,13 +260,15 @@ const ProductPage = () => {
         </div>
       </div>
 
+      <hr className="w-full mx-4 mb-4 border-1 border-primary"/>
+
       <div className="flex flex-col items-center mb-[6%] w-full ">
         <h1 className="text-[35px] font-Philosopher text-primary">Reviews</h1>
-        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4">
-          {/* <div className="text-[20px] font-BreeSerif text-primary mx-10">
+        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4 rounded-xl">
+          <div className="text-[20px] font-BreeSerif text-primary mx-10">
             Overall Rating
             <br />
-            0.0
+            {overallRating.toFixed(1)}
             <div className="flex flex-col">
               <div className="flex flex-row text-[20px]">
                 <FaStar className="mt-2 text-yellow-500" />
@@ -255,9 +276,9 @@ const ProductPage = () => {
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.5} />
+                <ProgressBar value={reviews.map(review => review.rating)} />
               </div>
-              <div className="flex flex-row">
+              {/* <div className="flex flex-row">
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
@@ -296,9 +317,9 @@ const ProductPage = () => {
                 <FaRegStar className="mt-2 text-yellow-500" />
                 <FaRegStar className="mt-2 text-yellow-500" />
                 <ProgressBar value={0} />
-              </div>
+              </div> */}
             </div>
-          </div> */}
+          </div>
           <div className="text-[20px] font-BreeSerif text-primary mx-10">
             <div className="text-[30px]">Add Your Review</div>
             <form onSubmit={AddReview} noValidate>
