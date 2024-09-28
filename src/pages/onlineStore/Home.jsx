@@ -60,20 +60,6 @@ const Home = () => {
             state={"women"}
           />
         </div>
-        <div className="flex flex-row justify-evenly">
-          <Category
-            image="./Clothes/unisex.jpg"
-            heading="Unisex"
-            link="/Catalogue"
-            state={"unisex"}
-          />
-          <Category
-            image="./Clothes/kids.jpg"
-            heading="Kids"
-            link="/Catalogue"
-            state={"kids"}
-          />
-        </div>
       </div>
 
       <div className="flex flex-row w-screen mt-[2%]">

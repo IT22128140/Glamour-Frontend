@@ -49,11 +49,11 @@ import CompletedOrders from "./pages/onlineStoreManager/CompletedOrders.jsx";
 
 
 /*Ridmi*/
-
-
-
-
-
+import Checkout from './pages/onlineStore/Checkout.jsx';
+import CusAddresses from './pages/onlineStore/CusAddresses.jsx';
+import Order from './pages/onlineStore/Order.jsx';
+import Payment from './pages/onlineStore/Payment.jsx';
+import PaymentSuccessReport from './pages/onlineStore/PaymentSuccessReport.jsx';
 
 
 
@@ -114,11 +114,11 @@ const App = () => {
 
 
       {/*Ridmi*/}
-
-
-
-
-
+      <Route path="/Checkout" element={<Checkout/>}/>
+      <Route path="/Addresses" element={<CusAddresses/>}/>
+      <Route path="/Orders" element={<Order/>}/>
+      <Route path="/Payment" element={<Payment/>}/>
+      <Route path="/SuccessPayment/:id" element={<PaymentSuccessReport/>}/>
 
 
 
