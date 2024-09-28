@@ -2,13 +2,11 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from "axios";
 import { MdOutlineCancel } from "react-icons/md";
-import Spinner from "../../components/Spinner.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 
-const AddStoreItem = ({ onClose }) => {
-  const [loading, setLoading] = useState(false);
+const AddStoreItem = ({ onClose, onAdd }) => {
   const [productId, setProductId] = useState();
   const [name, setName] = useState();
   const [description, setDescription] = useState();
@@ -249,7 +247,6 @@ const AddStoreItem = ({ onClose }) => {
       isValidColors &&
       isValidSizes
     ) {
-      setLoading(true);
       const data = {
         productId,
         name,
@@ -269,13 +266,12 @@ const AddStoreItem = ({ onClose }) => {
       axios
         .post("http://localhost:3000/items", data)
         .then(() => {
-          setLoading(false);
-          window.location.reload(true);
+          onAdd();
+          onClose();
           enqueueSnackbar("Item added", { variant: "success" });
         })
         .catch((error) => {
           console.log(error);
-          setLoading(false);
           enqueueSnackbar("Error adding item", { variant: "error" });
         });
     } else {
@@ -299,7 +295,6 @@ const AddStoreItem = ({ onClose }) => {
           className="absolute top-6 right-6 text-3xl text-red-600 cursor-pointer"
           onClick={onClose}
         />
-        {loading ? <Spinner /> : ""}
         <form onSubmit={handleAdd} noValidate>
           <div className="flex flex-col w-full items-center font-BreeSerif rounded-xl">
           <img src={image} className='w-60 h-60' ></img>
@@ -631,6 +626,7 @@ const AddStoreItem = ({ onClose }) => {
 
 AddStoreItem.propTypes = {
   onClose: PropTypes.func,
+  onAdd: PropTypes.func,
 };
 
 export default AddStoreItem;

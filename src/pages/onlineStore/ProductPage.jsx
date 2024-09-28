@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../../components/Spinner.jsx";
 import Navbar from "../../components/navbar/CustomerNavbar.jsx";
-import Input from "../../components/form/Input.jsx";
-import InputNoLable from "../../components/form/InputNoLable.jsx";
-import { validation, numberValidation } from "../../utils/inputValidations.js";
 import Footer from "../../components/footer/Footer.jsx";
 import { enqueueSnackbar } from "notistack";
 import ReviewCard from "../../components/ReviewCard.jsx";
 // import { FaRegStar } from "react-icons/fa";
-// import { FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import ProgressBar from "../../components/ProgressBar.jsx";
 import AddButton from "../../components/button/AddButton.jsx";
-// import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
 const ProductPage = () => {
   // const token = sessionStorage.getItem("token");
+
+  const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,12 @@ const ProductPage = () => {
 
   const [rateError, setRateError] = useState("");
   const [reviewCommentError, setReviewCommentError] = useState("");
+  const [AmountError, setAmountError] = useState("");
+  const [sizeError, setSizeError] = useState("");
+  const [colorError, setColorError] = useState("");
+
+  const [reviews, setReviews] = useState([]);
+  const [overallRating, setOverallRating] = useState(0);
 
   function validateRate(rate) {
     let isValid = true;
@@ -53,6 +60,49 @@ const ProductPage = () => {
     return isValid;
   }
 
+  function validateamount(amount) {
+    let isValid = true;
+    if (amount < 1) {
+      setAmountError("Amount should be greater than 0");
+      isValid = false;
+    }
+    if (amount === "") {
+      setAmountError("Amount is required");
+      isValid = false;
+    }
+    if (amount > 5) {
+      setAmountError("Amount should be less than 5");
+      isValid = false;
+    }
+    if (amount > product.stock) {
+      setAmountError("Amount should be less than remaining stock");
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  function validateSize(size) {
+    let isValid = true;
+    if (size === "") {
+      setSizeError("Please select a size");
+      isValid = false;
+    } else {
+      setSizeError("");
+    }
+    return isValid;
+  }
+
+  function validateColor(color) {
+    let isValid = true;
+    if (color === "") {
+      setColorError("Please select a color");
+      isValid = false;
+    } else {
+      setColorError("");
+    }
+    return isValid;
+  }
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -71,32 +121,53 @@ const ProductPage = () => {
 
   const methods = useForm();
 
-  const onSubmit = methods.handleSubmit((data) => {
+  const onSubmit = methods.handleSubmit(() => {
     // if (!token) {
     //   window.location = "/LoginCus";
     // }
-    const cart = {
-      // _id: product._id,
-      product: product._id,
-      quantity: data.amount,
-      size: data.size,
-      color: data.color,
-    };
+    const isValidAmount = validateamount(amount);
+    const isValidSize = validateSize(size);
+    const isValidColor = validateColor(color);
+
+    if (isValidAmount && isValidSize && isValidColor) {
+      const cart = {
+        product: product._id,
+        quantity: amount,
+        size: size,
+        color: color,
+      };
+      setLoading(true);
+      axios
+        // .post(`http://localhost:3000/cart/${token}`, cart)
+        .post(`http://localhost:3000/cart/12345`, cart)
+        .then((response) => {
+          console.log(response);
+          setLoading(false);
+          enqueueSnackbar("Added to cart", { variant: "success" });
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          enqueueSnackbar("Error adding to cart", { variant: "error" });
+        });
+    }
+  });
+
+  useEffect(() => {
     setLoading(true);
     axios
-      // .post(`http://localhost:3000/cart/${token}`, cart)
-      .post(`http://localhost:3000/cart/12345`, cart)
+      .get(`http://localhost:3000/reviews/${id}`)
       .then((response) => {
-        console.log(response);
-        setLoading(false);
-        enqueueSnackbar("Added to cart", { variant: "success" });
+        setReviews(response.data);
+        // Calculate overall rating
+        const totalRating = response.data.reduce((acc, review) => acc + review.rating, 0);
+        const averageRating = totalRating / response.data.length;
+        setOverallRating(averageRating);
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
-        enqueueSnackbar("Error adding to cart", { variant: "error" });
       });
-  });
+  }, [id])
 
   const AddReview = () => {
     event.preventDefault();
@@ -106,8 +177,8 @@ const ProductPage = () => {
 
     if (isValidRate && isValidReviewComment) {
       const review = {
-        userId: "1234",
-        userName: "Sandithi",
+        userId: "1235",
+        userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -130,17 +201,6 @@ const ProductPage = () => {
     }
   };
 
-  // const ProgressBar = ({ value }) => {
-  //   return (
-  //     <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-  //       <div
-  //         className="h-full bg-primary rounded-full"
-  //         style={{ width: `${value * 100}%` }}
-  //       ></div>
-  //     </div>
-  //   );
-  // };
-
   if (loading) {
     return <Spinner />;
   }
@@ -148,10 +208,7 @@ const ProductPage = () => {
     <div>
       <Navbar />
       <div className="flex flex-row justify-evenly mt-[4%] mb-[6%]">
-        <img
-          src={product.image}
-          className="rounded-l-[10px] px-16 w-1/2"
-        />
+        <img src={product.image} className="rounded-l-[10px] px-16 w-1/2" />
         <div className="flex flex-col w-1/2">
           <h1 className=" pb-[2%] text-6xl font-Aboreto text-primary">
             {product.name}
@@ -162,39 +219,65 @@ const ProductPage = () => {
           <p className="mb-[2%] mt-8 text-xl font-BreeSerif text-primary">
             Rs.{product.minprice}.00
           </p>
-          <FormProvider {...methods}>
-            <form onSubmit={(e) => e.preventDefault} noValidate>
-              <div className="flex w-1/2 mt-[10%]">
-                <div className="w-1/2">
-                  <Input
-                    formtype="input"
-                    label="Amount"
-                    min="1"
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    {...numberValidation}
-                  />
-                </div>
+          <form onSubmit={(e) => e.preventDefault} noValidate>
+            <div className="flex flex-col w-1/2 mt-[10%]">
+              <label className="w-1/2">Amount</label>
+              <AnimatePresence mode="wait" initial={false}>
+                {AmountError && (
+                  <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold w-fit text-red-500 bg-red-100 rounded-md">
+                    <MdError />
+                    {AmountError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <div className="w-1/2">
+                <input
+                  className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
+                  label="Amount"
+                  min="1"
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  max={product.stock > 5 ? 5 : product.stock}
+                />
               </div>
-              <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
-                Select Size
-              </h1>
+            </div>
+            {product.stock < 5 && (
+              <p className="text-red-500">
+                Only {product.stock} items left in the stock
+              </p>
+            )}
+            {product.stock > 5 && (
+              <p className="text-red-500">Only 5 items can be added to cart</p>
+            )}
+            <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
+              Select Size
+            </h1>
+            <div className="fle flex-col">
+              <AnimatePresence mode="wait" initial={false}>
+                {colorError && (
+                  <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 w-fit bg-red-100 rounded-md">
+                    <MdError />
+                    {colorError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
               <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle w-fit">
                 {product.sizes.map((size, index) => (
                   <div
                     key={index}
                     className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl "
                   >
-                    <InputNoLable
-                      formtype="input"
+                    <input
                       key={size.id}
                       type="radio"
                       id={size}
                       name="size"
                       value={size}
+                      onChange={(e) => setSize(e.target.value)}
                       className="hidden peer"
-                      {...validation}
                     />
                     <label
                       key={size.id}
@@ -206,57 +289,68 @@ const ProductPage = () => {
                   </div>
                 ))}
               </div>
-              {product.colors.length > 0 && (
-                <>
-                  <h1 className=" font-Philosopher text-primary text-3xl ">
-                    Choose Color
-                  </h1>
+            </div>
+            {product.colors.length > 0 && (
+              <>
+                <h1 className=" font-Philosopher text-primary text-3xl ">
+                  Choose Color
+                </h1>
+                <div className="fle flex-col">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {sizeError && (
+                      <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 w-fit bg-red-100 rounded-md">
+                        <MdError />
+                        {sizeError}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                   <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle  w-fit">
-                    {product.colors.map((colors, index) => (
+                    {product.colors.map((color, index) => (
                       <div
                         key={index}
                         className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl"
                       >
-                        <InputNoLable
-                          formtype="input"
-                          key={colors.id}
+                        <input
+                          key={color.id}
                           type="radio"
-                          id={colors}
+                          id={color}
                           name="color"
-                          value={colors}
+                          value={color}
+                          onChange={(e) => setColor(e.target.value)}
                           className="hidden peer"
-                          {...validation}
                         />
                         <label
-                          key={colors.id}
-                          htmlFor={colors}
+                          key={color.id}
+                          htmlFor={color}
                           className="cursor-pointer font-BreeSerif text-black p-2 text-center w-20 h-10 peer-checked:bg-primary peer-checked:text-white"
                         >
-                          {colors}
+                          {color}
                         </label>
                       </div>
                     ))}
                   </div>
-                </>
-              )}
-              <button
-                onClick={onSubmit}
-                className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
-              >
-                Add to Cart
-              </button>
-            </form>
-          </FormProvider>
+                </div>
+              </>
+            )}
+            <button
+              onClick={onSubmit}
+              className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
+            >
+              Add to Cart
+            </button>
+          </form>
         </div>
       </div>
 
+      <hr className="w-full mx-4 mb-4 border-1 border-primary"/>
+
       <div className="flex flex-col items-center mb-[6%] w-full ">
         <h1 className="text-[35px] font-Philosopher text-primary">Reviews</h1>
-        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4">
-          {/* <div className="text-[20px] font-BreeSerif text-primary mx-10">
+        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4 rounded-xl">
+          <div className="text-[20px] font-BreeSerif text-primary mx-10">
             Overall Rating
             <br />
-            0.0
+            {overallRating.toFixed(1)}
             <div className="flex flex-col">
               <div className="flex flex-row text-[20px]">
                 <FaStar className="mt-2 text-yellow-500" />
@@ -264,9 +358,9 @@ const ProductPage = () => {
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.5} />
+                <ProgressBar value={reviews.map(review => review.rating)} />
               </div>
-              <div className="flex flex-row">
+              {/* <div className="flex flex-row">
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
                 <FaStar className="mt-2 text-yellow-500" />
@@ -305,9 +399,9 @@ const ProductPage = () => {
                 <FaRegStar className="mt-2 text-yellow-500" />
                 <FaRegStar className="mt-2 text-yellow-500" />
                 <ProgressBar value={0} />
-              </div>
+              </div> */}
             </div>
-          </div> */}
+          </div>
           <div className="text-[20px] font-BreeSerif text-primary mx-10">
             <div className="text-[30px]">Add Your Review</div>
             <form onSubmit={AddReview} noValidate>
