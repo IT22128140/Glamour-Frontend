@@ -38,6 +38,19 @@
     },
     
   };
+  export const productamountvalidation = {
+    validation: {
+      required: {
+        value: true,
+        message: "Required",
+      },
+      pattern: {
+        value: /^[1-5]$/,
+        message: "Only 1-5 are allowed",
+      }
+    },
+  };
+  
 
   export const contactValidation = {
     validation: {

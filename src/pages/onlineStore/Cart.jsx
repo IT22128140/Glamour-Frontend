@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import Spinner from "../../components/Spinner";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import CustomerNavbar from "../../components/navbar/CustomerNavbar";
 import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import { MdOutlineDelete } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
+import Spinner from "../../components/Spinner.jsx";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -16,8 +16,7 @@ const Cart = () => {
 
   // const token = sessionStorage.getItem("token");
   const token = "12345";
-
-  useEffect(() => {
+  const loadCart = () => {
     setLoading(true);
     axios
       .get(`http://localhost:3000/cart/${token}`)
@@ -28,10 +27,21 @@ const Cart = () => {
       })
       .catch((error) => {
         console.log(error);
-        // setLoading(false);
+        setLoading(false);
         enqueueSnackbar("Error", { variant: "error" });
-      }
-      );
+      });
+    if (!loading) {
+      let total = 0;
+      cart.forEach((item) => {
+        total += item.product.minprice * item.quantity;
+      });
+      totalRef.current = total;
+      setTotal(total);
+    }
+  };
+
+  useEffect(() => {
+    loadCart();
   }, []);
 
   useEffect(() => {
@@ -46,33 +56,50 @@ const Cart = () => {
   }, [cart, loading]);
 
   const handleMinus = (id) => {
-    setLoading(true);
+    if (cart.find((item) => item._id === id).quantity <= 1) {
+      handleDelete(id);
+    }
     axios
       .put(`http://localhost:3000/cart/minus/${token}/${id}`)
       .then(() => {
-        window.location.reload(false);
-        setLoading(false);
+        loadCart();
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
         enqueueSnackbar("Error", { variant: "error" });
       });
   };
-  const handlePlus = (id) => {
-    setLoading(true);
+  const handlePlus = (itemId, productId) => {
+    if (cart.find((item) => item._id === itemId).quantity >= 5) {
+      enqueueSnackbar("You can only order 5 items at a time", {
+        variant: "error",
+      });
+      return;
+    }
+    if (
+      cart.find((item) => item._id === itemId).quantity >=
+      cart.find((item) => item._id === itemId).product.stock
+    ) {
+      enqueueSnackbar(
+        `Only ${
+          cart.find((item) => item._id === itemId).product.stock
+        }  available in the stock`,
+        { variant: "error" }
+      );
+      return;
+    }
     axios
-      .put(`http://localhost:3000/cart/plus/${token}/${id}`)
+      .put(`http://localhost:3000/cart/plus/${token}/${itemId}/${productId}`)
       .then(() => {
-        window.location.reload(false);
-        setLoading(false);
+        loadCart();
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
         enqueueSnackbar("Error", { variant: "error" });
       });
   };
+
+
 
   const handleDelete = (id) => {
     setLoading(true);
@@ -90,6 +117,15 @@ const Cart = () => {
     window.location.reload(false);
   };
 
+  const isCheckoutDisabled = cart.some(item => item.product.stock <= 0 || item.product.stock < item.quantity);
+
+  const handleCheckoutClick = (e) => {
+    if (isCheckoutDisabled) {
+      e.preventDefault();
+      enqueueSnackbar("Some items are out of stock or low on stock. Please review your cart.", { variant: "error" });
+    }
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -101,48 +137,100 @@ const Cart = () => {
       </h1>
       <div className="flex flex-row justify-between">
         {/* cart items */}
-        <div className="flex flex-col w-3/4 ">
-          {cart.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md"
-            >
-              {/* description */}
-              <div className="flex flex-row">
-                <img src={item.product.image} className="w-20 h-20" />
-                <div className="flex flex-col ml-3 ">
-                  <p className=" font-BreeSerif">{item.product.name}</p>
-                  <div className="flex flex-row  font-BreeSerif">
-                    <p>Size :&nbsp;</p>
-                    <p>{item.size}</p>
-                  </div>
-                  <div className="flex flex-row  font-BreeSerif">
-                    <p>Color :&nbsp;</p>
-                    <p className=" font-BreeSerif">{item.color}</p>
+        <div disabled className="flex flex-col w-3/4 ">
+          {cart.map((item, index) =>
+            item.product.stock === 0 ? (
+              <div
+                key={index}
+                className="flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md bg-gray-100 opacity-75"
+              >
+                {/* description */}
+                <div className="flex flex-row">
+                  <img src={item.product.image} className="w-20 h-20" />
+                  <div className="flex flex-col ml-3">
+                    <p className="font-BreeSerif">{item.product.name}</p>
+                    <div className="flex flex-row font-BreeSerif">
+                      <p>Size :&nbsp;</p>
+                      <p>{item.size}</p>
+                    </div>
+                    <div className="flex flex-row font-BreeSerif">
+                      <p>Color :&nbsp;</p>
+                      <p>{item.color}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* amount */}
-              <div className="flex justify-evenly w-32 h-8">
-                <button onClick={() => handleMinus(item._id)}>
-                  <FiMinusCircle className=" text-3xl text-ternary" />
-                </button>
-                <p className=" font-BreeSerifc border-2 p-0.5 px-2 mx-3 border-ternary">
-                  {item.quantity}
-                </p>
-                <button onClick={() => handlePlus(item._id)}>
-                  <FiPlusCircle className="text-3xl text-ternary" />
+                <div className="flex flex-row justify-between items-center">
+                  <p className="text-red-600 font-bold font-BreeSerif">Out of Stock</p>
+                </div>
+                <button
+                  className="text-red-600"
+                  onClick={() => handleDelete(item._id)}
+                >
+                  <MdOutlineDelete className="text-3xl" />
                 </button>
               </div>
-              <p className=" font-BreeSerif">{"Rs." + item.product.minprice * item.quantity + ".00"}</p>
-              <button
-                className="text-red-600"
-                onClick={() => handleDelete(item._id)}
+            ) : (
+              <div
+                key={index}
+                className={`flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md ${
+                  item.product.stock < item.quantity ? "border-red-500 border-2 bg-gray-100 opacity-75" : ""
+                }`}
               >
-                <MdOutlineDelete className=" text-3xl" />
-              </button>
-            </div>
-          ))}
+                {/* description */}
+                <div className="flex flex-row">
+                  <img src={item.product.image} className="w-20 h-20" />
+                  <div className="flex flex-col ml-3">
+                    <p className="font-BreeSerif">{item.product.name}</p>
+                    <div className="flex flex-row font-BreeSerif">
+                      <p>Size :&nbsp;</p>
+                      <p>{item.size}</p>
+                    </div>
+                    <div className="flex flex-row font-BreeSerif">
+                      <p>Color :&nbsp;</p>
+                      <p>{item.color}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Stock Warning */}
+                {item.product.stock < item.quantity && (
+                  <div className="text-red-600 font-bold font-BreeSerif">
+                    Only {item.product.stock} left in stock
+                  </div>
+                )}
+                {/* amount */}
+                <div className="flex justify-evenly w-32 h-8">
+                  <button
+                    onClick={() => handleMinus(item._id)}
+                    disabled={item.quantity === 1}
+                  >
+                    <FiMinusCircle className="text-3xl text-ternary" />
+                  </button>
+                  <p className="font-BreeSerif border-2 p-0.5 px-2 mx-3 border-ternary">
+                    {item.quantity}
+                  </p>
+                  <button
+                    onClick={() => handlePlus(item._id, item.product._id)}
+                    disabled={item.product.stock <= item.quantity}
+                  >
+                    <FiPlusCircle
+                      className={`text-3xl ${
+                        item.product.stock <= item.quantity ? "text-gray-400" : "text-ternary"
+                      }`}
+                    />
+                  </button>
+                </div>
+                <p className="font-BreeSerif">
+                  {"Rs." + item.product.minprice * item.quantity + ".00"}
+                </p>
+                <button
+                  className="text-red-600"
+                  onClick={() => handleDelete(item._id)}
+                >
+                  <MdOutlineDelete className="text-3xl" />
+                </button>
+              </div>
+            )
+          )}
         </div>
         {/* order summary */}
         <div className="flex flex-col w-1/4 h-fit mr-8 bg-secondary p-5 rounded-lg shadow-md">
@@ -167,6 +255,7 @@ const Cart = () => {
             <Link
               to="/Checkout"
               className="flex flex-row w-full justify-center"
+              onClick={handleCheckoutClick}
             >
               <button className="bg-ternary text-bgc p-3 rounded-md font-BreeSerif shadow-lg">
                 Proceed to Checkout
