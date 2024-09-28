@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../../components/Spinner.jsx";
 import Navbar from "../../components/navbar/CustomerNavbar.jsx";
-import Input from "../../components/form/Input.jsx";
-import InputNoLable from "../../components/form/InputNoLable.jsx";
-import { validation, numberValidation } from "../../utils/inputValidations.js";
 import Footer from "../../components/footer/Footer.jsx";
 import { enqueueSnackbar } from "notistack";
 import ReviewCard from "../../components/ReviewCard.jsx";
@@ -18,7 +15,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
 const ProductPage = () => {
-  const token = sessionStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
+
+  const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,9 @@ const ProductPage = () => {
 
   const [rateError, setRateError] = useState("");
   const [reviewCommentError, setReviewCommentError] = useState("");
+  const [AmountError, setAmountError] = useState("");
+  const [sizeError, setSizeError] = useState("");
+  const [colorError, setColorError] = useState("");
 
   function validateRate(rate) {
     let isValid = true;
@@ -53,6 +57,49 @@ const ProductPage = () => {
     return isValid;
   }
 
+  function validateamount(amount) {
+    let isValid = true;
+    if (amount < 1) {
+      setAmountError("Amount should be greater than 0");
+      isValid = false;
+    }
+    if (amount === "") {
+      setAmountError("Amount is required");
+      isValid = false;
+    }
+    if (amount > 5) {
+      setAmountError("Amount should be less than 5");
+      isValid = false;
+    }
+    if (amount > product.stock) {
+      setAmountError("Amount should be less than remaining stock");
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  function validateSize(size) {
+    let isValid = true;
+    if (size === "") {
+      setSizeError("Please select a size");
+      isValid = false;
+    } else {
+      setSizeError("");
+    }
+    return isValid;
+  }
+
+  function validateColor(color) {
+    let isValid = true;
+    if (color === "") {
+      setColorError("Please select a color");
+      isValid = false;
+    } else {
+      setColorError("");
+    }
+    return isValid;
+  }
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -71,33 +118,36 @@ const ProductPage = () => {
 
   const methods = useForm();
 
-  const onSubmit = methods.handleSubmit((data) => {
-    if (!token) {
-      window.location = "/LoginCus";
+  const onSubmit = methods.handleSubmit(() => {
+    // if (!token) {
+    //   window.location = "/LoginCus";
+    // }
+    const isValidAmount = validateamount(amount);
+    const isValidSize = validateSize(size);
+    const isValidColor = validateColor(color);
+
+    if (isValidAmount && isValidSize && isValidColor) {
+      const cart = {
+        product: product._id,
+        quantity: amount,
+        size: size,
+        color: color,
+      };
+      setLoading(true);
+      axios
+        // .post(`http://localhost:3000/cart/${token}`, cart)
+        .post(`http://localhost:3000/cart/12345`, cart)
+        .then((response) => {
+          console.log(response);
+          setLoading(false);
+          enqueueSnackbar("Added to cart", { variant: "success" });
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          enqueueSnackbar("Error adding to cart", { variant: "error" });
+        });
     }
-    const cart = {
-      _id: product._id,
-      productId: product.productId,
-      price: product.price,
-      quantity: data.amount,
-      size: data.size,
-      color: data.color,
-      name: product.name,
-      image: product.image,
-    };
-    setLoading(true);
-    axios
-      .post(`http://localhost:3000/cart/${token}`, cart)
-      .then((response) => {
-        console.log(response);
-        setLoading(false);
-        enqueueSnackbar("Added to cart", { variant: "success" });
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-        enqueueSnackbar("Error adding to cart", { variant: "error" });
-      });
   });
 
   const AddReview = () => {
@@ -142,7 +192,6 @@ const ProductPage = () => {
   //     </div>
   //   );
   // };
-
   if (loading) {
     return <Spinner />;
   }
@@ -150,10 +199,7 @@ const ProductPage = () => {
     <div>
       <Navbar />
       <div className="flex flex-row justify-evenly mt-[4%] mb-[6%]">
-        <img
-          src={product.image}
-          className="rounded-l-[10px] px-16 w-1/2"
-        />
+        <img src={product.image} className="rounded-l-[10px] px-16 w-1/2" />
         <div className="flex flex-col w-1/2">
           <h1 className=" pb-[2%] text-6xl font-Aboreto text-primary">
             {product.name}
@@ -164,39 +210,65 @@ const ProductPage = () => {
           <p className="mb-[2%] mt-8 text-xl font-BreeSerif text-primary">
             Rs.{product.minprice}.00
           </p>
-          <FormProvider {...methods}>
-            <form onSubmit={(e) => e.preventDefault} noValidate>
-              <div className="flex w-1/2 mt-[10%]">
-                <div className="w-1/2">
-                  <Input
-                    formtype="input"
-                    label="Amount"
-                    min="1"
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    {...numberValidation}
-                  />
-                </div>
+          <form onSubmit={(e) => e.preventDefault} noValidate>
+            <div className="flex flex-col w-1/2 mt-[10%]">
+              <label className="w-1/2">Amount</label>
+              <AnimatePresence mode="wait" initial={false}>
+                {AmountError && (
+                  <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold w-fit text-red-500 bg-red-100 rounded-md">
+                    <MdError />
+                    {AmountError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <div className="w-1/2">
+                <input
+                  className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
+                  label="Amount"
+                  min="1"
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  max={product.stock > 5 ? 5 : product.stock}
+                />
               </div>
-              <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
-                Select Size
-              </h1>
+            </div>
+            {product.stock < 5 && (
+              <p className="text-red-500">
+                Only {product.stock} items left in the stock
+              </p>
+            )}
+            {product.stock > 5 && (
+              <p className="text-red-500">Only 5 items can be added to cart</p>
+            )}
+            <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
+              Select Size
+            </h1>
+            <div className="fle flex-col">
+              <AnimatePresence mode="wait" initial={false}>
+                {colorError && (
+                  <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 w-fit bg-red-100 rounded-md">
+                    <MdError />
+                    {colorError}
+                  </motion.p>
+                )}
+              </AnimatePresence>
               <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle w-fit">
                 {product.sizes.map((size, index) => (
                   <div
                     key={index}
                     className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl "
                   >
-                    <InputNoLable
-                      formtype="input"
+                    <input
                       key={size.id}
                       type="radio"
                       id={size}
                       name="size"
                       value={size}
+                      onChange={(e) => setSize(e.target.value)}
                       className="hidden peer"
-                      {...validation}
                     />
                     <label
                       key={size.id}
@@ -208,47 +280,56 @@ const ProductPage = () => {
                   </div>
                 ))}
               </div>
-              {product.colors.length > 0 && (
-                <>
-                  <h1 className=" font-Philosopher text-primary text-3xl ">
-                    Choose Color
-                  </h1>
+            </div>
+            {product.colors.length > 0 && (
+              <>
+                <h1 className=" font-Philosopher text-primary text-3xl ">
+                  Choose Color
+                </h1>
+                <div className="fle flex-col">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {sizeError && (
+                      <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 w-fit bg-red-100 rounded-md">
+                        <MdError />
+                        {sizeError}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                   <div className="flex flex-row my-5 border-t-2 border-l-2 border-b-2 border-ternary align-middle  w-fit">
-                    {product.colors.map((colors, index) => (
+                    {product.colors.map((color, index) => (
                       <div
                         key={index}
                         className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl"
                       >
-                        <InputNoLable
-                          formtype="input"
-                          key={colors.id}
+                        <input
+                          key={color.id}
                           type="radio"
-                          id={colors}
+                          id={color}
                           name="color"
-                          value={colors}
+                          value={color}
+                          onChange={(e) => setColor(e.target.value)}
                           className="hidden peer"
-                          {...validation}
                         />
                         <label
-                          key={colors.id}
-                          htmlFor={colors}
+                          key={color.id}
+                          htmlFor={color}
                           className="cursor-pointer font-BreeSerif text-black p-2 text-center w-20 h-10 peer-checked:bg-primary peer-checked:text-white"
                         >
-                          {colors}
+                          {color}
                         </label>
                       </div>
                     ))}
                   </div>
-                </>
-              )}
-              <button
-                onClick={onSubmit}
-                className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
-              >
-                Add to Cart
-              </button>
-            </form>
-          </FormProvider>
+                </div>
+              </>
+            )}
+            <button
+              onClick={onSubmit}
+              className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
+            >
+              Add to Cart
+            </button>
+          </form>
         </div>
       </div>
 
