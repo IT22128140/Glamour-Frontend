@@ -39,7 +39,10 @@ import EditBodyMeasurement from './pages/model/EditBodyMeasurement.jsx';
 import DeleteBodyMeasurement from './pages/model/DeleteBodyMeasurement.jsx';
 import ViewBodyMeasurement from './pages/model/ViewBodyMeasurement.jsx';
 import MeasurementsTable from './pages/model/MeasurementsTable.jsx';
-
+import Register from './pages/users/Register.jsx';
+import Login from './pages/users/LoginUser.jsx';
+import CusProfile from './pages/users/CusProfile.jsx';
+import EditCusProfile from './pages/users/EditCusProfile.jsx';
 
 
 
@@ -107,6 +110,10 @@ const App = () => {
       <Route path='/measurements/delete/:id' element={<DeleteBodyMeasurement/>}/>
       <Route path='/measurements/view/:id' element={<ViewBodyMeasurement/>}/>
       <Route path='/measurements/view' element={<MeasurementsTable/>}/>
+      <Route path='/Register' element={<Register/>}/>
+      <Route path='/Login' element={<Login/>}/>
+      <Route path='/cusProfile' element={<CusProfile/>}/>
+      <Route path='/EditCusProfile' element={<EditCusProfile/>}/>
 
 
 
