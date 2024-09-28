@@ -1,25 +1,20 @@
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
-import Spinner from "../../components/Spinner";
 import { enqueueSnackbar } from "notistack";
 
-const DeleteStoreItem = ({id, onClose}) => {
-  const [loading, setLoading] = useState(false);
+const DeleteStoreItem = ({id, onClose, onDelete}) => {
 
   const handleDelete = () => {
-    setLoading(true);
     axios
       .delete(`http://localhost:3000/items/${id}`)
       .then(() => {
-        setLoading(false);
-        window.location.reload(true);
+        onDelete();
+        onClose();
         enqueueSnackbar("Address deleted", { variant: "success" });
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false);
         enqueueSnackbar("Error deleting address", { variant: "error" });
       });
   };
@@ -38,7 +33,6 @@ const DeleteStoreItem = ({id, onClose}) => {
           className="absolute top-6 right-6 text-3xl text-red-600 cursor-pointer"
           onClick={onClose}
         />
-        {loading ? <Spinner /> : ""}
         <div className="flex flex-col items-center border-sky-400 rounded-xl w-[600px] p-8 mx-auto">
           <h3 className="text-2xl font-BreeSerif">
             Are you shure you want to delete this product?
@@ -60,6 +54,7 @@ const DeleteStoreItem = ({id, onClose}) => {
 DeleteStoreItem.propTypes = {
   id: PropTypes.string,
   onClose: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default DeleteStoreItem;

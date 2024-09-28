@@ -70,3 +70,61 @@ export const womensBottoms = [
   "womenstrousers",
   "womensdenims",
 ];
+
+export const provinces = [
+  { id: 0, option: "Western", value: "Western" },
+  { id: 1, option: "Central", value: "Central" },
+  { id: 2, option: "Southern", value: "Southern" },
+  { id: 3, option: "Nothern", value: "Nothern" },
+  { id: 4, option: "Eastern", value: "Eastern" },
+  { id: 5, option: "North Western", value: "North_Western" },
+  { id: 6, option: "North Central", value: "North_Central" },
+  { id: 7, option: "Uva", value: "Uva" },
+  { id: 8, option: "Sabaragamuwa", value: "Sabaragamuwa" },
+];
+
+export const districts = {
+  Western: [
+    {id: 0, option: "Colombo", value: "Colombo" },
+    {id: 1, option: "Gamapaha", value: "Gamapaha" },
+    {id: 2, option: "Kalutara", value: "Kalutara" },
+  ],
+  Central: [
+    {id: 0, option: "Kandy", value: "Kandy" },
+    {id: 1, option: "Matale", value: "Matale" },
+    {id: 2, option: "Nuwara Eliya", value: "Nuwara_Eliya" },
+  ],
+  Southern: [
+    {id: 0, option: "Galle", value: "Galle" },
+    {id: 1, option: "Matara", value: "Matara" },
+    {id: 2, option: "Hambantota", value: "Hambantota" },
+  ],
+  Northern: [
+    {id: 0, option: "Jaffna", value: "Jaffna" },
+    {id: 1, option: "Kilinochchi", value: "Kilinochchi" },
+    {id: 2, option: "Mannar", value: "Mannar" },
+    {id: 3, option: "Vavuniya", value: "Vavuniya" },
+    {id: 4, option: "Mullaitivu", value: "Mullaitivu" },
+  ],
+  Eastern: [
+    {id: 0, option: "Trincomalee", value: "Trincomalee" },
+    {id: 1, option: "Batticaloa", value: "Batticaloa" },
+    {id: 2, option: "Ampara", value: "Ampara" },
+  ],
+  North_Western: [
+    {id: 0, option: "Kurunegala", value: "Kurunegala" },
+    {id: 1, option: "Puttalam", value: "Puttalam" },
+  ],
+  North_Central: [
+    {id: 0, option: "Anuradhapura", value: "Anuradhapura" },
+    {id: 1, option: "Polonnaruwa", value: "Polonnaruwa" },
+  ],
+  Uva: [
+    {id: 0, option: "Badulla", value: "Badulla" },
+    {id: 1, option: "Monaragala", value: "Monaragala" },
+  ],
+  Sabaragamuwa: [
+    {id: 0, option: "Ratnapura", value: "Ratnapura" },
+    {id: 1, option: "Kegalle", value: "Kegalle" },
+  ],
+};

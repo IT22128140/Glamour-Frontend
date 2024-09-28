@@ -17,7 +17,7 @@ const Input = (props) => {
 
   return (
     <div className="flex flex-col font-BreeSerif">
-      <div className="flex justify-between mb-2">
+      <div className="flex flex-col mb-2">
         <label>{props.label}</label>
         <AnimatePresence mode="wait" initial={false}>
           {isInvalid && (
@@ -36,6 +36,7 @@ const Input = (props) => {
               id={props.id}
               type={props.type}
               min={props.min}
+              max={props.max}
               placeholder={props.placeholder}
               name={props.name}
               value={props.value}
@@ -89,6 +90,7 @@ Input.propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
   min: PropTypes.string,
+  max: PropTypes.string,
   value: PropTypes.any,
 };
 

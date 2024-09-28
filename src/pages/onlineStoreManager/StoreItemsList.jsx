@@ -8,15 +8,14 @@ import ViewButton from "../../components/button/ViewButton";
 import AddButton from "../../components/button/AddButton";
 import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
-import SearchBar from "../../components/SearchBar";
 import AddStoreItem from "./AddStoreItem.jsx";
 import DeleteStoreItem from "./DeleteStoreItem.jsx";
 import EditStoreItem from "./EditStoreItem.jsx";
 import ShowStoreItem from "./ShowStoreItem.jsx";
 
 const StoreItemsList = () => {
+  const [loading, setLoading] = useState(true);
   const [storeItems, setStoreItems] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [itemId, setItemId] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
@@ -30,14 +29,31 @@ const StoreItemsList = () => {
     axios
       .get("http://localhost:3000/items")
       .then((response) => {
-        setStoreItems(response.data);
         setLoading(false);
+        setStoreItems(response.data);
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error fetching store items:", error);
       });
   }, []);
 
+  const loadItems = () => {
+    setLoading(true);
+    axios
+      .get("http://localhost:3000/items")
+      .then((response) => {
+        setLoading(false);
+        setStoreItems(response.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Error fetching store items:", error);
+      });
+  }
+if (loading) {
+    return <Spinner />;
+  }
   return (
     <div>
       <StoreNavbar home={false} pro={true} cel={false} rel={false} />
@@ -51,9 +67,6 @@ const StoreItemsList = () => {
         }}
       />
       </div>
-      {loading ? (
-        <Spinner />
-      ) : (
         <div className="px-10 mx-auto">
           <table className="bg-white w-full mx-auto mb-5 font-BreeSerif ">
             <TableView headers={headers} />
@@ -105,13 +118,12 @@ const StoreItemsList = () => {
             </tbody>
           </table>
         </div>
-      )}
-      {showAdd && <AddStoreItem onClose={() => setShowAdd(false)} />}
+      {showAdd && <AddStoreItem onClose={() =>  setShowAdd(false)} onAdd={()=>  loadItems()} />}
       {showDelete && (
-        <DeleteStoreItem id={itemId} onClose={() => setShowDelete(false)} />
+        <DeleteStoreItem id={itemId} onClose={() => setShowDelete(false)} onDelete={()=>  loadItems()}/>
       )}
       {showEdit && (
-        <EditStoreItem item={item} onClose={() => setShowEdit(false)} />
+        <EditStoreItem item={item} onClose={() =>  setShowEdit(false) } onEdit={()=>  loadItems()} />
       )}
       {showView && (
         <ShowStoreItem item={item} onClose={() => setShowView(false)} />
