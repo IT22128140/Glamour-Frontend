@@ -68,7 +68,7 @@ const ReviewCard = ({ reviews, id }) => {
               .map((_, i) => (
                 <FaStar key={i} className="text-[20px] text-yellow-500" />
               ))}
-            {Array(10 - review.rating)
+            {Array(5 - review.rating)
               .fill()
               .map((_, i) => (
                 <FaRegStar key={i} className="text-[20px] text-yellow-500" />
