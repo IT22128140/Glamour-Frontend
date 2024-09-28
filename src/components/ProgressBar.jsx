@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { FaRegStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
 const ProgressBar = ({ ratings }) => {
   const [progress, setProgress] = useState({
@@ -12,11 +14,21 @@ const ProgressBar = ({ ratings }) => {
 
   useEffect(() => {
     const totalRatings = ratings.length;
-    const group1 = ratings.filter(rating => rating >= 1 && rating <= 2).length;
-    const group2 = ratings.filter(rating => rating >= 3 && rating <= 4).length;
-    const group3 = ratings.filter(rating => rating >= 5 && rating <= 6).length;
-    const group4 = ratings.filter(rating => rating >= 7 && rating <= 8).length;
-    const group5 = ratings.filter(rating => rating >= 9 && rating <= 10).length;
+    const group1 = ratings.filter(
+      (rating) => rating == 1 
+    ).length;
+    const group2 = ratings.filter(
+      (rating) => rating == 2 
+    ).length;
+    const group3 = ratings.filter(
+      (rating) => rating == 3
+    ).length;
+    const group4 = ratings.filter(
+      (rating) => rating == 4
+    ).length;
+    const group5 = ratings.filter(
+      (rating) => rating == 5
+    ).length;
 
     setProgress({
       group1: (group1 / totalRatings) * 100,
@@ -29,20 +41,70 @@ const ProgressBar = ({ ratings }) => {
 
   return (
     <div>
-      <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-        <div className="h-full bg-primary rounded-full" style={{ width: `${progress.group1}%` }}></div>
+      <div className="flex flex-row">
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
+          <div
+            className="h-full bg-primary rounded-full"
+            style={{ width: `${progress.group5}%` }}
+          ></div>
+        </div>
       </div>
-      <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-        <div className="h-full bg-primary rounded-full" style={{ width: `${progress.group2}%` }}></div>
+      <div className="flex flex-row">
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
+          <div
+            className="h-full bg-primary rounded-full"
+            style={{ width: `${progress.group4}%` }}
+          ></div>
+        </div>
       </div>
-      <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-        <div className="h-full bg-primary rounded-full" style={{ width: `${progress.group3}%` }}></div>
+      <div className="flex flex-row">
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
+          <div
+            className="h-full bg-primary rounded-full"
+            style={{ width: `${progress.group3}%` }}
+          ></div>
+        </div>
       </div>
-      <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-        <div className="h-full bg-primary rounded-full" style={{ width: `${progress.group4}%` }}></div>
+      <div className="flex flex-row">
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
+          <div
+            className="h-full bg-primary rounded-full"
+            style={{ width: `${progress.group2}%` }}
+          ></div>
+        </div>
       </div>
-      <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-        <div className="h-full bg-primary rounded-full" style={{ width: `${progress.group5}%` }}></div>
+      <div className="flex flex-row">
+        <FaStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <FaRegStar className="mt-2 text-yellow-500" />
+        <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
+          <div
+            className="h-full bg-primary rounded-full"
+            style={{ width: `${progress.group1}%` }}
+          ></div>
+        </div>
       </div>
     </div>
   );
