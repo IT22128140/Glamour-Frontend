@@ -42,7 +42,7 @@ const HorizontalScroll = (props) => {
             key={list._id}
             id={list._id}
             heading={list.name}
-            description={list.description}
+            stock={list.stock}
             image={list.image}
             price={list.minprice}
           ></CardView>
