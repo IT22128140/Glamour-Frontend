@@ -18,7 +18,6 @@ const Home = () => {
       .get("http://localhost:3000/cusItems/trending")
       .then((response) => {
         setItems(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -27,6 +26,8 @@ const Home = () => {
         enqueueSnackbar("Error fetching items", { variant: "error" });
       });
   }, []);
+
+ 
 
   if (loading) {
     return <Spinner />;
@@ -44,6 +45,7 @@ const Home = () => {
       </h1>
 
       <HorizontalScroll list={items}></HorizontalScroll>
+      
 
       <div className="flex flex-col">
         <div className="flex flex-row justify-evenly">
