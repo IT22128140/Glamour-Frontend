@@ -11,7 +11,7 @@ const NavbarUserProfile = (props) => {
       onClick={
         () => {
           sessionStorage.removeItem("token");
-          window.location = "/LoginEmp";
+          window.location = "/EmpLogin";
         }
       }>Logout</button>
       </div>

@@ -132,7 +132,7 @@ const Cart = () => {
   return (
     <div className="flex flex-col w-full">
       <CustomerNavbar />
-      <h1 className="text-center font-Lavish font-bold text-5xl mt-8 text-primary">
+      <h1 className="text-center font-Aboreto font-bold text-5xl mt-8 text-primary">
         CART
       </h1>
       <div className="flex flex-row justify-between">
@@ -142,7 +142,7 @@ const Cart = () => {
             item.product.stock === 0 ? (
               <div
                 key={index}
-                className="flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md bg-gray-100 opacity-75"
+                className="flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md bg-gray-100 opacity-75 border-red-500 border-2"
               >
                 {/* description */}
                 <div className="flex flex-row">
@@ -203,9 +203,9 @@ const Cart = () => {
                     onClick={() => handleMinus(item._id)}
                     disabled={item.quantity === 1}
                   >
-                    <FiMinusCircle className="text-3xl text-ternary" />
+                    <FiMinusCircle className="text-3xl text-primary" />
                   </button>
-                  <p className="font-BreeSerif border-2 p-0.5 px-2 mx-3 border-ternary">
+                  <p className="font-BreeSerif border-2 p-0.5 px-2 mx-3 border-primary">
                     {item.quantity}
                   </p>
                   <button
@@ -214,7 +214,7 @@ const Cart = () => {
                   >
                     <FiPlusCircle
                       className={`text-3xl ${
-                        item.product.stock <= item.quantity ? "text-gray-400" : "text-ternary"
+                        item.product.stock <= item.quantity ? "text-gray-400" : "text-primary"
                       }`}
                     />
                   </button>
