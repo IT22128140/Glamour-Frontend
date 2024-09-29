@@ -13,7 +13,7 @@ const Category = (props) => {
       transition={{ duration: 1 }}
       className="flex flex-col justify-around items-center w-[750px]"
     >
-      <img src={props.image} className="w-full h-[600px] mt-[10%]" />
+      <img src={props.image} className="w-full h-[600px] mt-[10%] rounded-[10px]" />
       <h1 className="font-Aboreto text-5xl m-2 text-primary ">
         {props.heading}
       </h1>
