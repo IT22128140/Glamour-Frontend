@@ -20,8 +20,8 @@ const EmpLogin = () => {
             const response = await axios.post('http://localhost:3000/empLogin', data);
             setLoading(false);
             console.log(response.data.token);
-            localStorage.setItem("token", response.data.token);
-            navigate('/measurements/view');
+            localStorage.setItem("emptoken", response.data.token);
+            navigate('/Store_Manager');
         } catch (error) {
             setLoading(false);
             alert('An error happened. Please check console');

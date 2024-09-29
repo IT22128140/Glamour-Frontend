@@ -119,8 +119,9 @@ const Catalogue = () => {
                       measurements.TopSize,
                       measurements.PantSize,
                       measurements.Gender,
+                      measurements._id,
                     ])}
-                    label={measurements.MeasurementID}
+                    label={measurements.UniqueName}
                     onChange={(e) => filterPersonalizedItems(e)}
                   />
                 ))}
@@ -218,7 +219,7 @@ const Catalogue = () => {
               key={item._id}
               id={item._id}
               heading={item.name}
-              description={item.description}
+              stock={item.stock}
               image={item.image}
               price={item.minprice}
             />
