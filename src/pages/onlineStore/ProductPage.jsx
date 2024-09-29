@@ -18,7 +18,7 @@ const ProductPage = () => {
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
-
+  const [userID, setuserID] = useState("");
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -102,6 +102,18 @@ const ProductPage = () => {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+        .post("http://localhost:3000/login/auth", { token: token })
+        .then((response) => {
+            setuserID(response.data.userID)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+  useEffect(() => {
     setLoading(true);
     axios
       .get(`http://localhost:3000/cusItems/${id}`)
@@ -120,9 +132,9 @@ const ProductPage = () => {
   const methods = useForm();
 
   const onSubmit = methods.handleSubmit(() => {
-    // if (!token) {
-    //   window.location = "/LoginCus";
-    // }
+    if (userID.staus) {
+      window.location = "/LoginCus";
+    }
     const isValidAmount = validateamount(amount);
     const isValidSize = validateSize(size);
     const isValidColor = validateColor(color);
@@ -136,8 +148,7 @@ const ProductPage = () => {
       };
       setLoading(true);
       axios
-        // .post(`http://localhost:3000/cart/${token}`, cart)
-        .post(`http://localhost:3000/cart/12345`, cart)
+        .post(`http://localhost:3000/cart/${userID}`, cart)
         .then((response) => {
           console.log(response);
           setLoading(false);
@@ -171,6 +182,9 @@ const ProductPage = () => {
   }, [id]);
 
   const AddReview = () => {
+    if (userID.satus) {
+      window.location = "/LoginCus";
+    }
     event.preventDefault();
 
     const isValidRate = validateRate(rate);
@@ -178,7 +192,7 @@ const ProductPage = () => {
 
     if (isValidRate && isValidReviewComment) {
       const review = {
-        userId: "1235",
+        userId: { userID },
         userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
