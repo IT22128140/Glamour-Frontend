@@ -63,8 +63,6 @@ const OngoingOrders = () => {
       });
   }, []);
 
-  console.log(orders);
-
   return (
     <div className='w-full h-full bg-fixed bg-no-repeat bg-bgform' style={{ backgroundPosition:'top right', backgroundSize:'cover' }}>
       <StoreNavbar ogo={true} />

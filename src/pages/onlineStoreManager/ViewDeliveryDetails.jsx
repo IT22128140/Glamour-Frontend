@@ -2,7 +2,6 @@ import { MdOutlineCancel } from "react-icons/md";
 import PropTypes from "prop-types";
 
 const ViewDeliveryDetails = ({ delivery, onClose }) => {
-  console.log(delivery);
   return (
     <div
       className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
@@ -19,16 +18,17 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
           className="absolute top-6 right-6 text-3xl text-red-600 cursor-pointer"
           onClick={onClose}
         />
-        <div className="flex flex-col w-full items-center font-BreeSerif rounded-xl">
-          <div className="flex flex-row justify-between">
+        {/* {delivery.map((del, index) => ( */}
+        <div className="flex flex-col w-full items-center font-BreeSerif rounded-xl" >
+          {delivery.map((del, index) => (
+          <div className="flex flex-row justify-between" key={index}>
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">First name</label>
-              <span className="font-semibold">{delivery.firstName}</span>
               <input
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 type="text"
                 readOnly
-                value={delivery.firstName}
+                value={del.firstName}
               />
             </div>
             <div className="flex flex-col ml-10">
@@ -37,19 +37,21 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
                 className="h-11 p-2  border-gray-200 rounded-md border-2  shadow-sm "
                 readOnly
                 type="text"
-                value={delivery.lastName}
+                value={del.lastName}
               />
             </div>
           </div>
+          ))}
           {/*contact*/}
-          <div className="flex flex-row mt-5 justify-between">
+          {delivery.map((del, index) => (
+          <div className="flex flex-row mt-5 justify-between" key={index}>
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">Contact number</label>
               <input
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 readOnly
                 type="text"
-                value={delivery.contact}
+                value={del.contact}
               />
             </div>
             <div className="flex flex-col ml-10">
@@ -58,18 +60,20 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
                 className="h-11 p-2  border-gray-200 rounded-md border-2  shadow-sm "
                 readOnly
                 type="email"
-                value={delivery.email}
+                value={del.email}
               />
             </div>
           </div>
-          <div className="flex flex-row mt-5 justify-between">
+          ))}
+          {delivery.map((del, index) => (
+          <div className="flex flex-row mt-5 justify-between" key={index}>
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">Address</label>
               <input
                 className="h-11 p-2  border-gray-200 rounded-md border-2  shadow-sm "
                 readOnly
                 type="text"
-                value={delivery.address}
+                value={del.address}
               />
             </div>
             <div className="flex flex-col ml-10">
@@ -78,18 +82,20 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 readOnly
                 type="text"
-                value={delivery.postalCode}
+                value={del.postalCode}
               />
             </div>
           </div>
-          <div className="flex flex-row mt-5 justify-between">
+          ))}
+          {delivery.map((del, index) => (
+          <div className="flex flex-row mt-5 justify-between" key={index}>
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">Province</label>
               <input
               readOnly
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 type="text"
-                value={delivery.province}
+                value={del.province}
               />
             </div>
             <div className="flex flex-col ml-10 ">
@@ -98,18 +104,20 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
                 readOnly
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 type="text"
-                value={delivery.district}
+                value={del.district}
               />
             </div>
           </div>
+          ))}
         </div>
+        {/* ))} */}
       </div>
     </div>
   );
 };
 
 ViewDeliveryDetails.propTypes = {
-  delivery: PropTypes.string,
+  delivery: PropTypes.array,
   onClose: PropTypes.func.isRequired,
 };
 
