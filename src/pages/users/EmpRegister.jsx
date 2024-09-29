@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useForm, FormProvider } from 'react-hook-form';
 import Input from '../../components/form/Input'; // Ensure you have this component
-import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
 import Spinner from '../../components/Spinner';
 
@@ -30,7 +29,6 @@ const EmpSignup = () => {
 
     return (
         <div className='w-full h-full  bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
-            <StoreNavbar />
             <div className="flex flex-col w-full h-full">
                 <div className="w-full h-1/2">
                     <img

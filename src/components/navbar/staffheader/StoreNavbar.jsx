@@ -40,7 +40,7 @@ const StoreNavbar = (props) => {
         <NavbarLogo />
         <NavbarUserProfile
           source={"/emp.png"}
-          username={profileInfo.FirstName + " " + profileInfo.LastName}
+          username={profileInfo.firstName + " " + profileInfo.lastName}
           url={"/Store_Manager"}
         />
       </div>
@@ -71,6 +71,11 @@ const StoreNavbar = (props) => {
           button={"Canceled Orders"}
           url={"/CanceledOrders"}
         />
+         <NavbarButton
+          active={props.models}
+          button={"Model Sizes"}
+          url={"/measurements/view"}
+        />
       </div>
     </div>
   );
@@ -82,6 +87,7 @@ StoreNavbar.propTypes = {
   coo: PropTypes.bool,
   pro: PropTypes.bool,
   can: PropTypes.bool,
+  models: PropTypes.bool,
 };
 
 export default StoreNavbar;

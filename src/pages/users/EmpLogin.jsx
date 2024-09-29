@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import Input from '../../components/form/Input'; // Ensure you have this component
 import Spinner from '../../components/Spinner';
-import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
 
 const EmpLogin = () => {
@@ -32,7 +31,6 @@ const EmpLogin = () => {
 
     return (
         <div className='w-full h-full bg-fixed bg-ternary bg-no-repeat'>
-            <StoreNavbar />
             {loading && <Spinner />}
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(handleLogin)} className="bg-white  bg-opacity-20 rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
