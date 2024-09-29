@@ -57,7 +57,7 @@ if (loading) {
   return (
     <div>
       <StoreNavbar pro={true}/>
-      <h1 className="my-8 text-5xl font-semibold font-Aboreto text-primary text-center">
+      <h1 className="my-8 text-6xl font-semibold font-Aboreto text-primary text-center">
         Store Products
       </h1>
       <div className="m-10">
