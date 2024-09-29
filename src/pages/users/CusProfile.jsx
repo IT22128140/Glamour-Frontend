@@ -11,18 +11,6 @@ const Profile = () => {
   const [measurements, setMeasurements] = useState(null);
   const [loadingMeasurements, setLoadingMeasurements] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .post("http://localhost:3000/login/auth", { token: token })
-      .then((response) => {
-        console.log(response.data.userID);
-        setuserID(response.data.userID);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 
   useEffect(() => {
     axios

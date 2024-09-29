@@ -21,7 +21,7 @@ const EmpLogin = () => {
             setLoading(false);
             console.log(response.data.token);
             localStorage.setItem("emptoken", response.data.token);
-            navigate('/measurements/view');
+            navigate('/Store_Manager');
         } catch (error) {
             setLoading(false);
             alert('An error happened. Please check console');
