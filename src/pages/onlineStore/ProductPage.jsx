@@ -158,14 +158,17 @@ const ProductPage = () => {
       .then((response) => {
         setReviews(response.data);
         // Calculate overall rating
-        const totalRating = response.data.reduce((acc, review) => acc + review.rating, 0);
+        const totalRating = response.data.reduce(
+          (acc, review) => acc + review.rating,
+          0
+        );
         const averageRating = totalRating / response.data.length;
         setOverallRating(averageRating || 0);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [id])
+  }, [id]);
 
   const AddReview = () => {
     event.preventDefault();
@@ -237,19 +240,24 @@ const ProductPage = () => {
                   id="amount"
                   name="amount"
                   value={amount}
+                  disabled={product.stock === 0}
                   onChange={(e) => setAmount(e.target.value)}
                   max={product.stock > 5 ? 5 : product.stock}
                 />
               </div>
             </div>
-            {product.stock < 5 && (
+            {product.stock === 0 && (
+              <p className="text-red-500 font-bold text-3xl">Out of stock</p>
+            )}
+            {product.stock > 0 && product.stock < 5 && (
               <p className="text-red-500">
-                Only {product.stock} items left in the stock
+                Only {product.stock} items left in stock
               </p>
             )}
-            {product.stock > 5 && (
+            {product.stock >= 5 && (
               <p className="text-red-500">Only 5 items can be added to cart</p>
             )}
+
             <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
               Select Size
             </h1>
@@ -274,6 +282,7 @@ const ProductPage = () => {
                       id={size}
                       name="size"
                       value={size}
+                      disabled={product.stock === 0}
                       onChange={(e) => setSize(e.target.value)}
                       className="hidden peer"
                     />
@@ -309,6 +318,7 @@ const ProductPage = () => {
                         className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl"
                       >
                         <input
+                          disabled={product.stock === 0}
                           key={color.id}
                           type="radio"
                           id={color}
@@ -332,6 +342,7 @@ const ProductPage = () => {
             )}
             <button
               onClick={onSubmit}
+              disabled={product.stock === 0}
               className="bg-ternary text-black font-BreeSerif w-1/2 text-xl  p-4 rounded-[10px] shadow-xl"
             >
               Add to Cart
@@ -340,7 +351,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <hr className="w-full mx-4 mb-4 border-1 border-primary"/>
+      <hr className="w-full mx-4 mb-4 border-1 border-primary" />
 
       <div className="flex flex-col items-center mb-[6%] w-full ">
         <h1 className="text-[35px] font-Philosopher text-primary">Reviews</h1>
@@ -351,7 +362,7 @@ const ProductPage = () => {
             <div className="text-6xl">{overallRating.toFixed(1)}</div>
             <div className="flex flex-col">
               <div className="flex flex-row text-[20px]">
-                <ProgressBar ratings={reviews.map(review => review.rating)} />
+                <ProgressBar ratings={reviews.map((review) => review.rating)} />
               </div>
             </div>
           </div>

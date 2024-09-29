@@ -49,28 +49,28 @@ const Home = () => {
         <div className="flex flex-row justify-evenly">
           <Category
             image="./Clothes/mens.jpg"
-            heading="Male"
+            heading="Mens"
             link="/Catalogue"
             state={"mens"}
           />
           <Category
             image="./Clothes/womens.jpg"
-            heading="Women"
+            heading="Womens"
             link="/Catalogue"
             state={"women"}
           />
         </div>
       </div>
 
-      <div className="flex flex-row w-screen mt-[2%]">
+      <div className="flex flex-row w-full mt-[2%]">
         <div className="flex flex-col w-1/2">
-          <img src="./Picture1.jpg" alt="image" />
+          <img src="/Clothes/home/Home2.jpg" alt="image"  />
           <div className="flex flex-row">
-            <img src="./Picture1.jpg" alt="image" className="w-1/2" />
-            <img src="./Picture1.jpg" alt="image" className="w-1/2" />
+            <img src="/Clothes/home/Home4.jpg" alt="image" className="w-1/2" />
+            <img src="/Clothes/home/Home3.jpg" alt="image" className="w-1/2" />
           </div>
         </div>
-        <img src="./Picture1.jpg" alt="image" className="w-1/2" />
+        <img src="/Clothes/home/Home1.jpg" alt="image" className="w-1/2" />
       </div>
 
       <Footer />
