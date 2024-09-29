@@ -16,8 +16,8 @@ const EditReview = ({ id, review, onClose }) => {
 
   function validateRate(rate) {
     let isValid = true;
-    if (rate < 1 || rate > 10) {
-      setRateError("Rating should be between 1 and 10");
+    if (rate < 1 || rate > 5) {
+      setRateError("Rating should be between 1 and 5");
       isValid = false;
     }
     if (rate === "") {
@@ -46,8 +46,8 @@ const EditReview = ({ id, review, onClose }) => {
 
     if (isValidRate && isValidReviewComment) {
       const updatedReview = {
-        userId: "1234",
-        userName: "Sandithi",
+        userId: "1235",
+        userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -58,6 +58,7 @@ const EditReview = ({ id, review, onClose }) => {
             variant: "success",
           });
           console.log(response);
+          window.location.reload(true);
         })
         .catch((err) => {
           enqueueSnackbar("Error updating data", { variant: "error" });
@@ -86,11 +87,11 @@ const EditReview = ({ id, review, onClose }) => {
                     className="border-2 border-primary rounded-lg p-2 mx-4"
                     type="number"
                     min="1"
-                    max="10"
+                    max="5"
                     value={rate}
                     onChange={(e) => setRate(e.target.value)}
                   />
-                  / 10
+                  / 5
                 </div>
                 <AnimatePresence mode="wait" initial={false}>
                   {rateError && (
@@ -129,10 +130,14 @@ const EditReview = ({ id, review, onClose }) => {
   );
 };
 
-EditReview.propsTypes = {
-  id: PropTypes.string,
-  review: PropTypes.array,
-  onClose: PropTypes.func,
+EditReview.propTypes = {
+  id: PropTypes.string.isRequired,
+  review: PropTypes.shape({
+    rating: PropTypes.number.isRequired,
+    reviewComment: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default EditReview;

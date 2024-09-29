@@ -45,12 +45,12 @@ const OngoingOrders = () => {
 
   useEffect(() => {
     const token = /*sessionStorage.getItem("token");*/ 123;
-    if(!token){
+    if (!token) {
       window.location = "/LoginEmp";
     }
     setLoading(true);
     axios
-      .get("http://localhost:3000/orders/ongoing")
+      .get("http://localhost:3000/orders/canceled")
       .then((res) => {
         setOrders(res.data);
         setFilteredData(res.data);
@@ -63,17 +63,18 @@ const OngoingOrders = () => {
       });
   }, []);
 
-  console.log(orders);
-
   return (
-    <div className='w-full h-full bg-fixed bg-no-repeat bg-bgform' style={{ backgroundPosition:'top right', backgroundSize:'cover' }}>
-      <StoreNavbar ogo={true} />
+    <div
+      className="w-full h-full bg-fixed bg-no-repeat bg-bgform"
+      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}
+    >
+      <StoreNavbar can={true} />
       <h1 className="text-6xl my-8 font-semibold font-Philosopher text-center text-primary">
-        Ongoing Orders
+        Canceled Orders
       </h1>
 
       <div className="flex flex-row p-3.5 justify-center mb-5">
-        <div className=" bg-primary px-5 text-white h-10 rounded-l-xl shadow-md">
+        <div className=" bg-primary px-5 flex text-white h-10 rounded-l-xl shadow-md">
           <CiSearch className="text-[35px] mt-0.5" />
         </div>
         <input
@@ -87,7 +88,7 @@ const OngoingOrders = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <table className="min-w-full font-BreeSerif bg-white">
+        <table className="min-w-full font-BreeSerif  bg-white">
           <TableView headers={headers} />
           <tbody>
             {filteredData.map((order) => {
@@ -111,7 +112,7 @@ const OngoingOrders = () => {
                   <td className="border border-slate-700 text-center">
                     Rs.{order.total}.00
                   </td>
-                  <td className="border border-slate-700">
+                  <td className="border border-slate-700 ">
                     <div className="flex justify-center gap-x-4">
                       <ViewButton
                         onClick={() => {
@@ -124,9 +125,10 @@ const OngoingOrders = () => {
                   <td className="border border-slate-700 text-center">
                     <div className="flex justify-center gap-x-4">
                       <ViewButton
-                      onClick={()=>{setPaymentId(order.paymentId),
-                        setShowPayment(true);}
-                      } />
+                        onClick={() => {
+                          setPaymentId(order.paymentId), setShowPayment(true);
+                        }}
+                      />
                     </div>
                   </td>
                   <td className="border border-slate-700 text-center">
@@ -141,31 +143,32 @@ const OngoingOrders = () => {
                   <td className="border border-slate-700 text-center">
                     <div className="flex flex-col">
                       Current :- {order.status}
-                      <select
-                        className="h-11 mx-3 my-2 font-BreeSerif p-2 border-gray-200 rounded-md border-2"
-                        onChange={(e) => {
-                          axios
-                            .put(`http://localhost:3000/orders/${order._id}`, {
-                              status: e.target.value,
-                            })
-                            .then((res) => {
-                              console.log(res);
-                              enqueueSnackbar("Order status updated", { variant: "success" });
-                            })
-                            .catch((err) => {
-                              console.log(err);
-                              enqueueSnackbar("Error updating order status", { variant: "error" });
-                            });
-                          window.location.reload();
-                        }}
-                      >
-                        <option disabled selected value="">Select status</option>
-                        <option value="Not processed">Not processed</option>
-                        <option value="Processing">Processing</option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Canceled">Canceled</option>
-                      </select>
+                        <select
+                          className="h-11 mx-3 my-2 font-BreeSerif p-2 border-gray-200 rounded-md border-2"
+                          onChange={(e) => {
+                            axios
+                              .put(`http://localhost:3000/orders/${order._id}`, {
+                                status: e.target.value,
+                              })
+                              .then((res) => {
+                                console.log(res);
+                                enqueueSnackbar("Order status updated", {
+                                  variant: "success",
+                                });
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                                enqueueSnackbar("Error updating order status", {
+                                  variant: "error",
+                                });
+                              });
+                            window.location.reload();
+                          }}
+                        >
+                          <option disabled selected value="">Select status</option>
+                          <option value="Canceled">Canceled</option>
+                          <option value="Refunded">Refunded</option>
+                        </select>
                     </div>
                   </td>
                 </tr>
@@ -181,8 +184,9 @@ const OngoingOrders = () => {
         />
       )}
       {showBill && <ViewBill bill={bill} onClose={() => setShowBill(false)} />}
-      {showPayemnt && (<ViewPayment paymentId={pay} onClose={() => setShowPayment(false)} />)}
-
+      {showPayemnt && (
+        <ViewPayment paymentId={pay} onClose={() => setShowPayment(false)} />
+      )}
       <br/><br/><br/>
       <StaffFooter />
     </div>

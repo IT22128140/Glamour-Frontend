@@ -22,9 +22,9 @@ import StoreItemsList from './pages/onlineStoreManager/StoreItemsList.jsx';
 import Cart from './pages/onlineStore/Cart.jsx';
 import OngoingOrders from "./pages/onlineStoreManager/OngoingOrders.jsx";
 import CompletedOrders from "./pages/onlineStoreManager/CompletedOrders.jsx";
-
-
-
+import CanceledOrders from "./pages/onlineStoreManager/CanceledOrders.jsx";
+import StoreManagerDB from './pages/onlineStoreManager/StoreManagerDashboard.jsx';
+import ViewOrderReport from './pages/onlineStoreManager/ViewOrderReport.jsx';
 
 
 
@@ -96,9 +96,9 @@ const App = () => {
       <Route path="/Cart" element={<Cart />} />
       <Route path='/OngoingOrders' element={<OngoingOrders/>} />
       <Route path='/CompletedOrders' element={<CompletedOrders/>} />
-
-
-
+      <Route path='/CanceledOrders' element={<CanceledOrders/>} />
+      <Route path='/Store_Manager' element={<StoreManagerDB/>} />
+      <Route path='/ViewOrderReport' element={<ViewOrderReport/>} />
 
 
 

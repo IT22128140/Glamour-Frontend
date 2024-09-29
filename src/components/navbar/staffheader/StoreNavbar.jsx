@@ -54,17 +54,22 @@ const StoreNavbar = (props) => {
         <NavbarButton
           active={props.pro}
           button={"Products"}
+          url={"/StoreItemsList"}
+        />
+        <NavbarButton
+          active={props.ogo}
+          button={"Ongoing Orders"}
           url={"/OngoingOrders"}
         />
         <NavbarButton
-          active={props.rel}
+          active={props.coo}
           button={"Completed Orders"}
           url={"/CompletedOrders"}
         />
         <NavbarButton
-          active={props.rel}
-          button={"Completed Orders"}
-          url={"/CompletedOrders"}
+          active={props.can}
+          button={"Canceled Orders"}
+          url={"/CanceledOrders"}
         />
       </div>
     </div>
@@ -73,9 +78,10 @@ const StoreNavbar = (props) => {
 
 StoreNavbar.propTypes = {
   home: PropTypes.bool,
-  cel: PropTypes.bool,
-  rel: PropTypes.bool,
+  ogo: PropTypes.bool,
+  coo: PropTypes.bool,
   pro: PropTypes.bool,
+  can: PropTypes.bool,
 };
 
 export default StoreNavbar;
