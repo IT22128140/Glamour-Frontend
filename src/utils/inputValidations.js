@@ -260,7 +260,7 @@ export const RPRidValidation = {
   }
 };
 
-export const MIDValidation = {
+export const BMIDValidation = {
 
   validation: {
     required: {
@@ -268,8 +268,8 @@ export const MIDValidation = {
       message: "Required",
     },
     pattern: {
-      value: /^[M][0-9]{3}$/,
-      message: "Invalid Machine ID",
+      value: /^[B][M][0-9]{3}$/,
+      message: "Invalid Measurement ID",
     }
   }
 };
@@ -301,5 +301,19 @@ export const MAINTidValidation = {
     }
   }
 };
+
+export const measurementValidation = {
+  validation: {
+    required: {
+      value: true,
+      message: "Required",
+    },
+    pattern: {
+      value: /^[+]?\d*\.?\d{0,2}$/,
+      message: "Only positive numbers with up to 2 decimal places are allowed",
+    }
+  },
+};
+
 
 
