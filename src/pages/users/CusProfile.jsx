@@ -8,17 +8,20 @@ import AddButton from '../../components/button/AddButton.jsx';
 const Profile = () => {
 
     const [userProfile, setUserProfile] = useState([]);
-    const [userID, setuserID] = useState("");
+    const [userID, setuserID] = useState(0);
     const [measurements, setMeasurements] = useState(null);
     const [loadingMeasurements, setLoadingMeasurements] = useState(true);
+
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         axios
             .post("http://localhost:3000/login/auth", { token: token })
             .then((response) => {
-                console.log(response.data.userID)
                 setuserID(response.data.userID)
+                if (response.data.status === false) {
+                    window.location.href = "/login";
+                }
             })
             .catch((err) => {
                 console.log(err);

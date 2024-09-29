@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useForm, FormProvider } from 'react-hook-form';
 import Input from '../../components/form/Input'; // Ensure you have this component
-import Navbar from "../../components/navbar/CustomerNavbar";
 import Spinner from '../../components/Spinner';
 import Footer from "../../components/footer/Footer";
 
@@ -29,7 +28,6 @@ const Signup = () => {
 
     return (
         <div className='w-full h-full  bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
-            <Navbar />
             <div className="flex flex-col w-full h-full">
                 <div className="w-full h-1/2">
                     <img
