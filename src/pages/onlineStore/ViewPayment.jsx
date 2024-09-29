@@ -38,7 +38,7 @@ const ViewPayment = ({ paymentId, onClose }) => {
           onClick={onClose}
         />
         <div
-          className="flex flex-col w-full items-center font-BreeSerif rounded-xl"
+          className="flex flex-col w-full font-BreeSerif rounded-xl"
           id="bill"
         >
           <br />
@@ -52,15 +52,11 @@ const ViewPayment = ({ paymentId, onClose }) => {
           </div>
           <div className="mb-2">
             <span className="font-bold">Phone Number: </span>
-            {successPayment.contact}
+            0{successPayment.contact}
           </div>
           <div className="mb-2">
             <span className="font-bold">Bank Name: </span>
             {successPayment.bank}
-          </div>
-          <div className="mb-2">
-            <span className="font-bold">Phone Number: </span>
-            {successPayment.contact}
           </div>
           <div className="mb-2">
             <span className="font-bold">Branch: </span>
@@ -68,7 +64,7 @@ const ViewPayment = ({ paymentId, onClose }) => {
           </div>
           <div className="mb-2">
             <span className="font-bold">Total Amount: </span>
-            {successPayment.totalPay}
+            Rs.{successPayment.totalPay}.00
           </div>
           <div>
             <span className="font-bold">Slip Upload:</span>

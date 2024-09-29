@@ -174,7 +174,9 @@ const Payment = () => {
                 //const userId = sessionStorage.getItem("userId"); 
 
                 const products = cart.map((item) => ({
-                    product: item.product._id,
+                    product: item.product.productId,
+                    name: item.product.name,
+                    price: item.product.minprice,
                     quantity: item.quantity,
                     color: item.color,
                     size: item.size,
