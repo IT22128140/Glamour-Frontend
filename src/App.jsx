@@ -43,6 +43,9 @@ import Register from './pages/users/Register.jsx';
 import Login from './pages/users/LoginUser.jsx';
 import CusProfile from './pages/users/CusProfile.jsx';
 import EditCusProfile from './pages/users/EditCusProfile.jsx';
+import EmpRegister from './pages/users/EmpRegister.jsx';
+import EmpLogin from './pages/users/EmpLogin.jsx';
+
 
 
 
@@ -114,6 +117,8 @@ const App = () => {
       <Route path='/Login' element={<Login/>}/>
       <Route path='/cusProfile' element={<CusProfile/>}/>
       <Route path='/EditCusProfile' element={<EditCusProfile/>}/>
+      <Route path='/EmpRegister' element={<EmpRegister/>}/>
+      <Route path='/EmpLogin' element={<EmpLogin/>}/>
 
 
 

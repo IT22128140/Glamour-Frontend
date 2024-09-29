@@ -1,0 +1,150 @@
+import React, { useState, useEffect } from 'react';
+import Spinner from '../../components/Spinner';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Input from '../../components/form/Input';
+import { FormProvider, useForm } from 'react-hook-form';
+import SubmitButton from '../../components/button/SubmitButton';
+import { enqueueSnackbar } from "notistack";
+import Navbar from "../../components/navbar/CustomerNavbar.jsx";
+import Footer from "../../components/footer/Footer.jsx";
+import BackButton from '../../components/button/BackButton.jsx';
+import {measurementValidation} from '../../utils/inputValidations';
+import {textValidation} from '../../utils/inputValidations';
+import {BMIDValidation} from '../../utils/inputValidations';
+
+
+const AddMeasurement = () => {
+
+  const [userID, setuserID] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const methods = useForm();
+  const { handleSubmit } = methods;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+        .post("http://localhost:3000/login/auth", { token: token })
+        .then((response) => {
+            console.log(response.data.userID)
+            setuserID(response.data.userID)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+const handleSaveMeasurement = async (data) => {
+  setLoading(true);
+  try {
+    // Attach the userID to the form data as MeasurementID
+    const formData = {
+      ...data,
+      MeasurementID: userID  // Replace MeasurementID with userID
+    };
+
+    await axios.post('http://localhost:3000/measurements', formData);
+    setLoading(false);
+    navigate('/cusProfile');
+  } catch (error) {
+    setLoading(false);
+    enqueueSnackbar("Error adding measurement details", { variant: "error" });
+    console.log(error);
+  }
+};
+
+  return (
+    <div >
+      <Navbar />
+      <BackButton />
+      {loading ? <Spinner /> : ''}
+
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handleSaveMeasurement)} className="bg-secondary rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
+          <h1 className='text-4xl  font-philosopher text-primary font-semibold my-8 text-center alignment-center'>Add New Measurement</h1>
+          <Input
+            formtype='input'
+            label='Unique Name'
+            id='uniqueName'
+            type='text'
+            placeholder='Enter a unique name'
+            name='UniqueName'
+            {...textValidation}
+          />
+          
+          <Input
+            formtype='input'
+            label='Gender'
+            id='gender'
+            type='text'
+            placeholder='Enter your gender'
+            name='Gender'
+            {...textValidation}
+            />
+
+          <Input
+            formtype='input'
+            label='Bust Size'
+            id='bust'
+            type='text'
+            placeholder='Enter Bust Size'
+            name='Bust'
+            {...measurementValidation}
+            />
+          <Input
+            formtype='input'
+            label='Under Bust Size'
+            id='underBust'
+            type='text'
+            placeholder='Enter Under Bust Size'
+            name='UnderBust'
+            {...measurementValidation}
+            />
+          <Input
+            formtype='input'
+            label='Neck Base Size'
+            id='neckBase'
+            type='text'
+            placeholder='Enter Neck Base Size'
+            name='NeckBase'
+            {...measurementValidation}
+            />
+          <Input
+            formtype='input'
+            label='Waist'
+            id='waist'
+            type='text'
+            placeholder='Enter Waist Size'
+            name='Waist'
+            {...measurementValidation}
+            />
+          <Input
+            formtype='input'
+            label='Hip Size'
+            id='Hip'
+            type='text'
+            placeholder='Enter Hip Size'
+            name='Hip'
+            {...measurementValidation}
+            />
+          <Input
+            formtype='input'
+            label='Shoulder Width Size'
+            id='shoulderWidth'
+            type='text'
+            placeholder='Enter Shoulder Width Size'
+            name='ShoulderWidth'
+            {...measurementValidation}
+
+          />
+          <center className='mt-5'><SubmitButton /></center>
+        </form>
+      </FormProvider>
+      <div className='h-40'></div>
+      <Footer />
+    </div>
+  )
+}
+
+export default AddMeasurement;

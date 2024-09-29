@@ -7,28 +7,39 @@ import axios from "axios";
 
 const StoreNavbar = (props) => {
   const [profileInfo, setProfileInfo] = useState({});
+  const [empID, setempID] = useState("");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    // if (!token) {
-    //   window.location = "/LoginEmp";
-    // }
+    const token = localStorage.getItem("token");
     axios
-      .get(`http://localhost:3000/ProfileEmp/${token}`)
+      .post("http://localhost:3000/empLogin/empAuth", { token: token })
       .then((response) => {
-        setProfileInfo(response.data);
+        console.log(response.data.empID)
+        setempID(response.data.empID)
       })
-      .catch((error) => {
-        console.error("Error fetching profile information:", error);
+      .catch((err) => {
+        console.log(err);
       });
-  }, []);
+  });
+
+  useEffect(() => {
+    if (empID.length > 0) {
+      axios.get(`http://localhost:3000/empLogin/${empID}`)
+        .then((response) => {
+          console.log(response.data)
+          setProfileInfo(response.data);
+        }).catch((error) => {
+          console.error("Error fetching profile information:", error);
+        });
+    }
+  }, [empID]);
 
   return (
     <div className="">
       <div className="flex h-fit flex-row justify-between bg-white mt-3 pb-3 ">
         <NavbarLogo />
         <NavbarUserProfile
-          source={"emp.png"}
+          source={"/emp.png"}
           username={profileInfo.FirstName + " " + profileInfo.LastName}
           url={"/Store_Manager"}
         />
