@@ -7,10 +7,8 @@ import Navbar from "../../components/navbar/CustomerNavbar.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 import { enqueueSnackbar } from "notistack";
 import ReviewCard from "../../components/ReviewCard.jsx";
-// import { FaRegStar } from "react-icons/fa";
-// import { FaStar } from "react-icons/fa";
+import ProgressBar from "../../components/ProgressBar.jsx";
 import AddButton from "../../components/button/AddButton.jsx";
-// import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
@@ -25,7 +23,7 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [reviewComment, setReviewComment] = useState("");
-  const [rate, setRate] = useState(0);
+  const [rate, setRate] = useState("");
 
   const [rateError, setRateError] = useState("");
   const [reviewCommentError, setReviewCommentError] = useState("");
@@ -33,10 +31,13 @@ const ProductPage = () => {
   const [sizeError, setSizeError] = useState("");
   const [colorError, setColorError] = useState("");
 
+  const [reviews, setReviews] = useState([]);
+  const [overallRating, setOverallRating] = useState(0);
+
   function validateRate(rate) {
     let isValid = true;
-    if (rate < 1 || rate > 10) {
-      setRateError("Rating should be between 1 and 10");
+    if (rate < 1 || rate > 5) {
+      setRateError("Rating should be between 1 and 5");
       isValid = false;
     }
     if (rate === "") {
@@ -150,6 +151,22 @@ const ProductPage = () => {
     }
   });
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:3000/reviews/${id}`)
+      .then((response) => {
+        setReviews(response.data);
+        // Calculate overall rating
+        const totalRating = response.data.reduce((acc, review) => acc + review.rating, 0);
+        const averageRating = totalRating / response.data.length;
+        setOverallRating(averageRating || 0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id])
+
   const AddReview = () => {
     event.preventDefault();
 
@@ -158,8 +175,8 @@ const ProductPage = () => {
 
     if (isValidRate && isValidReviewComment) {
       const review = {
-        userId: "1234",
-        userName: "Sandithi",
+        userId: "1235",
+        userName: "Hiranya",
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -182,16 +199,6 @@ const ProductPage = () => {
     }
   };
 
-  // const ProgressBar = ({ value }) => {
-  //   return (
-  //     <div className="w-72 h-3 bg-gray-200 rounded-full overflow-hidden my-3 mx-2">
-  //       <div
-  //         className="h-full bg-primary rounded-full"
-  //         style={{ width: `${value * 100}%` }}
-  //       ></div>
-  //     </div>
-  //   );
-  // };
   if (loading) {
     return <Spinner />;
   }
@@ -333,64 +340,21 @@ const ProductPage = () => {
         </div>
       </div>
 
+      <hr className="w-full mx-4 mb-4 border-1 border-primary"/>
+
       <div className="flex flex-col items-center mb-[6%] w-full ">
         <h1 className="text-[35px] font-Philosopher text-primary">Reviews</h1>
-        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4">
-          {/* <div className="text-[20px] font-BreeSerif text-primary mx-10">
+        <div className="flex flex-row justify-evenly w-fit bg-secondary p-4 rounded-xl">
+          <div className="text-[20px] font-BreeSerif text-primary mx-10">
             Overall Rating
             <br />
-            0.0
+            <div className="text-6xl">{overallRating.toFixed(1)}</div>
             <div className="flex flex-col">
               <div className="flex flex-row text-[20px]">
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.5} />
-              </div>
-              <div className="flex flex-row">
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.75} />
-              </div>
-              <div className="flex flex-row">
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.42} />
-              </div>
-              <div className="flex flex-row">
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.2} />
-              </div>
-              <div className="flex flex-row">
-                <FaStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0.5} />
-              </div>
-              <div className="flex flex-row">
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <FaRegStar className="mt-2 text-yellow-500" />
-                <ProgressBar value={0} />
+                <ProgressBar ratings={reviews.map(review => review.rating)} />
               </div>
             </div>
-          </div> */}
+          </div>
           <div className="text-[20px] font-BreeSerif text-primary mx-10">
             <div className="text-[30px]">Add Your Review</div>
             <form onSubmit={AddReview} noValidate>
@@ -402,11 +366,11 @@ const ProductPage = () => {
                       className="border-2 border-primary rounded-lg p-2 mx-4"
                       type="number"
                       min="1"
-                      max="10"
+                      max="5"
                       value={rate}
                       onChange={(e) => setRate(e.target.value)}
                     />
-                    / 10
+                    / 5
                   </div>
                   <AnimatePresence mode="wait" initial={false}>
                     {rateError && (

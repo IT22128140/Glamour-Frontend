@@ -6,22 +6,22 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 const StoreNavbar = (props) => {
-  const [profileInfo, setProfileInfo] = useState({});
+  // const [profileInfo, setProfileInfo] = useState({});
 
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
+  // useEffect(() => {
+    // const token = sessionStorage.getItem("token");
     // if (!token) {
     //   window.location = "/LoginEmp";
     // }
-    axios
-      .get(`http://localhost:3000/ProfileEmp/${token}`)
-      .then((response) => {
-        setProfileInfo(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching profile information:", error);
-      });
-  }, []);
+  //   axios
+  //     .get(`http://localhost:3000/ProfileEmp/${token}`)
+  //     .then((response) => {
+  //       setProfileInfo(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching profile information:", error);
+  //     });
+  // }, []);
 
   return (
     <div className="">
@@ -29,7 +29,7 @@ const StoreNavbar = (props) => {
         <NavbarLogo />
         <NavbarUserProfile
           source={"emp.png"}
-          username={profileInfo.FirstName + " " + profileInfo.LastName}
+          // username={profileInfo.FirstName + " " + profileInfo.LastName}
           url={"/Store_Manager"}
         />
       </div>
@@ -43,17 +43,22 @@ const StoreNavbar = (props) => {
         <NavbarButton
           active={props.pro}
           button={"Products"}
+          url={"/StoreItemsList"}
+        />
+        <NavbarButton
+          active={props.ogo}
+          button={"Ongoing Orders"}
           url={"/OngoingOrders"}
         />
         <NavbarButton
-          active={props.rel}
+          active={props.coo}
           button={"Completed Orders"}
           url={"/CompletedOrders"}
         />
         <NavbarButton
-          active={props.rel}
-          button={"Completed Orders"}
-          url={"/CompletedOrders"}
+          active={props.can}
+          button={"Canceled Orders"}
+          url={"/CanceledOrders"}
         />
       </div>
     </div>
@@ -62,9 +67,10 @@ const StoreNavbar = (props) => {
 
 StoreNavbar.propTypes = {
   home: PropTypes.bool,
-  cel: PropTypes.bool,
-  rel: PropTypes.bool,
+  ogo: PropTypes.bool,
+  coo: PropTypes.bool,
   pro: PropTypes.bool,
+  can: PropTypes.bool,
 };
 
 export default StoreNavbar;
