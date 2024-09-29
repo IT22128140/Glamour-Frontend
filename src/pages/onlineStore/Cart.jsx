@@ -13,16 +13,43 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
   const totalRef = useRef(0);
+  const [userID, setuserID] = useState(0);
 
-  // const token = sessionStorage.getItem("token");
-  const token = "12345";
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+        .post("http://localhost:3000/login/auth", { token: token })
+        .then((response) => {
+            setuserID(response.data.userID)
+            if (response.data.status === false) {
+                window.location.href = "/login";
+            }else {
+                axios
+                    .get(`http://localhost:3000/cart/${response.data.userID}`)
+                    .then((response) => {
+                        setCart(response.data);
+                        console.log(response.data);
+                        setLoading(false);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        setLoading(false);
+                    });
+            }  
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+
   const loadCart = () => {
     setLoading(true);
     axios
-      .get(`http://localhost:3000/cart/${token}`)
+      .get(`http://localhost:3000/cart/${userID}`)
       .then((response) => {
         setCart(response.data);
-        console.log(response.data);
+        console.log(response.data);2
         setLoading(false);
       })
       .catch((error) => {
@@ -41,10 +68,6 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    loadCart();
-  }, []);
-
-  useEffect(() => {
     if (!loading) {
       let total = 0;
       cart.forEach((item) => {
@@ -60,7 +83,7 @@ const Cart = () => {
       handleDelete(id);
     }
     axios
-      .put(`http://localhost:3000/cart/minus/${token}/${id}`)
+      .put(`http://localhost:3000/cart/minus/${userID}/${id}`)
       .then(() => {
         loadCart();
       })
@@ -89,7 +112,7 @@ const Cart = () => {
       return;
     }
     axios
-      .put(`http://localhost:3000/cart/plus/${token}/${itemId}/${productId}`)
+      .put(`http://localhost:3000/cart/plus/${userID}/${itemId}/${productId}`)
       .then(() => {
         loadCart();
       })
@@ -104,7 +127,7 @@ const Cart = () => {
   const handleDelete = (id) => {
     setLoading(true);
     axios
-      .put(`http://localhost:3000/cart/${token}/${id}`)
+      .put(`http://localhost:3000/cart/${userID}/${id}`)
       .then(() => {
         setLoading(false);
         enqueueSnackbar("Item removed", { variant: "success" });
