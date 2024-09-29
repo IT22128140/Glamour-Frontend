@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 import Input from '../../components/form/Input'; // Ensure you have this component
 import Spinner from '../../components/Spinner';
-import Navbar from '../../components/navbar/CustomerNavbar';
 import Footer from '../../components/footer/Footer';
 
 const Login = () => {
@@ -31,7 +30,6 @@ const Login = () => {
 
     return (
         <div className='w-full h-full bg-fixed bg-ternary bg-no-repeat'>
-            <Navbar />
             {loading && <Spinner />}
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(handleLogin)} className="bg-white  bg-opacity-20 rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">

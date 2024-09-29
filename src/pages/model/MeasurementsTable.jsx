@@ -41,7 +41,7 @@ const MeasurementTable = () => {
     console.log(data1);
 
     return (
-        <div className='w-full h-full bg-fixed bg-no-repeat ' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
+        <div className='w-full h-full bg-fixed bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
             <StoreNavbar />
             <div>
                 <h1 className='text-6xl text-center font-Aboreto text-primary font-semibold my-8 alignment-center'>Measurements List</h1>
@@ -49,7 +49,7 @@ const MeasurementTable = () => {
                     <Spinner />
                 ) : (
 
-                    <table className='bg-white ml-1 mr-1 font-BreeSerif'>
+                    <table className='bg-white ml-1 mr-1 font-BreeSerif w-full'>
                         <TableView headers={headers} />
                         <tbody>
                             {measurements.map((measurement, index) => (
