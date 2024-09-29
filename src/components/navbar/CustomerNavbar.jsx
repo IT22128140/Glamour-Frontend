@@ -1,4 +1,7 @@
 //import React from 'react'
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
 import Logo from "./NavbarLogo.jsx";
 import DropDownButton from "../button/DropDownButton.jsx";
 import { mens, womens, kids, Unisex } from "../../utils/arrays.js";
@@ -9,8 +12,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomerNavbar = () => {
-  const token = sessionStorage.getItem("token");
-
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   return (
@@ -32,7 +34,7 @@ const CustomerNavbar = () => {
             <IoPersonCircleOutline className=" menu-hover lg:mx-4 text-[50px] text-primary" />
           </div>
           <div className="invisible absolute z-50 flex w-full flex-col bg-primary rounded-md text-c shadow-xl group-hover:visible">
-            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/ProfileCus">
+            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/cusProfile">
               Profile
             </Link>
             <Link
@@ -51,8 +53,8 @@ const CustomerNavbar = () => {
               <button
                 className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
                 onClick={() => {
-                  sessionStorage.removeItem("token");
-                  navigate("/LoginCus");
+                  localStorage.removeItem("token");
+                  navigate("/login");
                 }}
               >
                 Logout
@@ -60,7 +62,7 @@ const CustomerNavbar = () => {
             )}
             {!token && (
               <Link
-                to="/LoginCus"
+                to="/login"
                 className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
               >
                 Login

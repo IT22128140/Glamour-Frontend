@@ -6,30 +6,41 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 const StoreNavbar = (props) => {
-  // const [profileInfo, setProfileInfo] = useState({});
+  const [profileInfo, setProfileInfo] = useState({});
+  const [empID, setempID] = useState("");
 
-  // useEffect(() => {
-    // const token = sessionStorage.getItem("token");
-    // if (!token) {
-    //   window.location = "/LoginEmp";
-    // }
-  //   axios
-  //     .get(`http://localhost:3000/ProfileEmp/${token}`)
-  //     .then((response) => {
-  //       setProfileInfo(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching profile information:", error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .post("http://localhost:3000/empLogin/empAuth", { token: token })
+      .then((response) => {
+        console.log(response.data.empID)
+        setempID(response.data.empID)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  useEffect(() => {
+    if (empID.length > 0) {
+      axios.get(`http://localhost:3000/empLogin/${empID}`)
+        .then((response) => {
+          console.log(response.data)
+          setProfileInfo(response.data);
+        }).catch((error) => {
+          console.error("Error fetching profile information:", error);
+        });
+    }
+  }, [empID]);
 
   return (
     <div className="">
       <div className="flex h-fit flex-row justify-between bg-white mt-3 pb-3 ">
         <NavbarLogo />
         <NavbarUserProfile
-          source={"emp.png"}
-          // username={profileInfo.FirstName + " " + profileInfo.LastName}
+          source={"/emp.png"}
+          username={profileInfo.firstName + " " + profileInfo.lastName}
           url={"/Store_Manager"}
         />
       </div>
@@ -60,6 +71,11 @@ const StoreNavbar = (props) => {
           button={"Canceled Orders"}
           url={"/CanceledOrders"}
         />
+         <NavbarButton
+          active={props.models}
+          button={"Model Sizes"}
+          url={"/measurements/view"}
+        />
       </div>
     </div>
   );
@@ -71,6 +87,7 @@ StoreNavbar.propTypes = {
   coo: PropTypes.bool,
   pro: PropTypes.bool,
   can: PropTypes.bool,
+  models: PropTypes.bool,
 };
 
 export default StoreNavbar;
