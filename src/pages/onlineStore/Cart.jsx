@@ -23,7 +23,19 @@ const Cart = () => {
             setuserID(response.data.userID)
             if (response.data.status === false) {
                 window.location.href = "/login";
-            }
+            }else {
+                axios
+                    .get(`http://localhost:3000/cart/${response.data.userID}`)
+                    .then((response) => {
+                        setCart(response.data);
+                        console.log(response.data);
+                        setLoading(false);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        setLoading(false);
+                    });
+            }  
         })
         .catch((err) => {
             console.log(err);
@@ -54,11 +66,6 @@ const Cart = () => {
       setTotal(total);
     }
   };
-
-  useEffect(() => {
-    if(userID.length > 0)
-    loadCart();
-  }, []);
 
   useEffect(() => {
     if (!loading) {
