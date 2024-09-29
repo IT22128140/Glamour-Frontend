@@ -5,11 +5,26 @@ import CustomerNavbar from '../../components/navbar/CustomerNavbar';
 import Footer from '../../components/footer/Footer';
 import ViewPayment from './ViewPayment';
 import DeleteOrder from './DeleteOrder';
+import axios from 'axios';
 
 const Order = () => {
 
-  // const token = sessionStorage.getItem("token");
-  const token = "12345";
+  const [userID, setuserID] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .post("http://localhost:3000/login/auth", { token: token })
+      .then((response) => {
+        setuserID(response.data.userID)
+        if (response.data.status === false) {
+          window.location.href = "/login";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,9 +38,6 @@ const Order = () => {
   const [pay, setPaymentId] = useState("");
 
   useEffect(() => {
-    // if (!token) {
-    //   window.location = "#"   //navigate to login page once the session expired
-    // }
     const timer = setInterval(() => {
       setDate(new Date());               //update the time and date once every 10 secs
     }, 10000);
@@ -54,7 +66,7 @@ const Order = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:3000/orders/${token}`)
+    fetch(`http://localhost:3000/orders/${userID}`)
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);

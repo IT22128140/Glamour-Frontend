@@ -9,9 +9,22 @@ import { MdError } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 
 const Payment = () => {
+    const [userID, setuserID] = useState(0);
 
-    // const token = sessionStorage.getItem("token");
-    const token = "12345";
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios
+            .post("http://localhost:3000/login/auth", { token: token })
+            .then((response) => {
+                setuserID(response.data.userID)
+                if (response.data.status === false) {
+                    window.location.href = "/login";
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 
     // const [payment, setPayment] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -30,7 +43,7 @@ const Payment = () => {
     const [lastNameError, setLastNameError] = useState("");
     const [contactError, setContactError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [slipError, setSlipError ] = useState("");
+    const [slipError, setSlipError] = useState("");
 
     function validateFirstName(firstName) {
         let isValid = true;
@@ -107,8 +120,9 @@ const Payment = () => {
         // if (!token) {  //if session expired, navigates to login
         //     window.location = "#"
         // }
+        const deliveryid = sessionStorage.getItem("deliveryInfoId");
         setLoading(true);
-        axios.get(`http://localhost:3000/deliveryInfo/${token}`)
+        axios.get(`http://localhost:3000/deliveryInfo/delivery/${deliveryid}`)
             .then((response) => {
                 setDeliveryInfo(response.data);
             }).catch((error) => {
@@ -119,7 +133,7 @@ const Payment = () => {
     //fetch cart items
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:3000/cart/${token}`)
+        axios.get(`http://localhost:3000/cart/${userID}`)
             .then((response) => {
                 setCart(response.data);
                 setLoading(false);
@@ -157,8 +171,8 @@ const Payment = () => {
                 contact: contact,
                 email: email,
                 bank: "Bank of Ceylon",  // Hardcoded bank name
-                branch: "Kaduwela", 
-                totalPay: total+500,     // Hardcoded branch name
+                branch: "Kaduwela",
+                totalPay: total + 500,     // Hardcoded branch name
                 slip: slip,
             };
 
@@ -183,7 +197,7 @@ const Payment = () => {
                 }));
 
                 const ordercon = {
-                    userId: "12345",
+                    userId: userID,
                     products: products,
                     deliveryInfo: deliveryInfo,
                     total: total + 500,
@@ -192,7 +206,7 @@ const Payment = () => {
                 await axios.post(`http://localhost:3000/orders`, ordercon);
 
                 //after a successful payment clear the cart
-                await clearCartItems(token);
+                await clearCartItems(userID);
 
                 enqueueSnackbar("Payment Successful", { variant: "success" });
                 navigate(`/SuccessPayment/${paymentId}`);
@@ -215,9 +229,9 @@ const Payment = () => {
     }
 
     //clear the cart after the payment
-    const clearCartItems = async (token) => {
-        try {  
-            await axios.delete(`http://localhost:3000/cart/${token}`);
+    const clearCartItems = async (userID) => {
+        try {
+            await axios.delete(`http://localhost:3000/cart/${userID}`);
             setCart([]);
             enqueueSnackbar("Cart cleared successfully", { variant: "success" });
         } catch (error) {
@@ -354,7 +368,7 @@ const Payment = () => {
                             </div>
                         </div>
                         <div className="flex flex-row mt-5 justify-between">
-                        <div className="flex flex-col">
+                            <div className="flex flex-col">
                                 <div>
                                     <label className="ml-0.5 mb-1">Total Payment</label>
                                 </div>
@@ -362,7 +376,7 @@ const Payment = () => {
                                     className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
                                     type="number"
                                     id="payment"
-                                    value={total+500}
+                                    value={total + 500}
                                     name="payment"
                                     readOnly
                                 />

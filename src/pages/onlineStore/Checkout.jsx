@@ -1,8 +1,8 @@
 import CustomerNavbar from "../../components/navbar/CustomerNavbar";
 import Footer from "../../components/footer/Footer.jsx";
-import { useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { provinces,districts } from "../../utils/arrays.js";
+import { provinces, districts } from "../../utils/arrays.js";
 import Spinner from "../../components/Spinner";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
@@ -11,10 +11,24 @@ import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
 
-    // const token = sessionStorage.getItem("token");
-    const token = "12345";
+    const [userID, setuserID] = useState(0);
 
-    const [cart, setCart ] = useState([]);
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios
+            .post("http://localhost:3000/login/auth", { token: token })
+            .then((response) => {
+                setuserID(response.data.userID)
+                if (response.data.status === false) {
+                    window.location.href = "/login";
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
+
+    const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
     const totalRef = useRef(0);
     const [info, setInfo] = useState([]);
@@ -43,7 +57,7 @@ const Checkout = () => {
         let isValid = true;
         const nameRegex = /^[a-zA-Z]+$/;
         setFirstNameError("");
-        if(!nameRegex.test(firstName)){
+        if (!nameRegex.test(firstName)) {
             setFirstNameError("First name should be in alphabets only");
             isValid = false;
         }
@@ -58,7 +72,7 @@ const Checkout = () => {
         let isValid = true;
         const nameRegex = /^[a-zA-Z]+$/;
         setLastNameError("");
-        if(!nameRegex.test(lastName)){
+        if (!nameRegex.test(lastName)) {
             setLastNameError("Last name should be in alphabets only");
             isValid = false;
         }
@@ -73,7 +87,7 @@ const Checkout = () => {
         let isValid = true;
         const contactRegex = /^[0-9]{9}$/;
         setContactError("");
-        if(!contactRegex.test(contact)){
+        if (!contactRegex.test(contact)) {
             setContactError("Contact should contain only 10 digits");
             isValid = false;
         }
@@ -88,7 +102,7 @@ const Checkout = () => {
         let isValid = true;
         const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
         setEmailError("");
-        if(!emailRegex.test(email)){
+        if (!emailRegex.test(email)) {
             setEmailError("Invalid email address");
             isValid = false;
         }
@@ -133,7 +147,7 @@ const Checkout = () => {
         let isValid = true;
         const pCodeRegex = /^[0-9]{5}$/;
         setPostalCodeError("");
-        if(!pCodeRegex.test(postalCode)){
+        if (!pCodeRegex.test(postalCode)) {
             setPostalCodeError("Postal Code should contain only 5 digits");
             isValid = false;
         }
@@ -150,43 +164,43 @@ const Checkout = () => {
         //     window.location = "#"
         // }
         setLoading(true);
-        axios.get(`http://localhost:3000/deliveryInfo/${token}`)
-        .then((response) =>{
-            setInfo(response.data);
-        }).catch((error) => {
-            console.log(error);
-        });  
-    },[]);
+        axios.get(`http://localhost:3000/deliveryInfo/${userID}`)
+            .then((response) => {
+                setInfo(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     //fetch cart items
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:3000/cart/${token}`)
-        .then((response) =>{
-            setCart(response.data);
-            setLoading(false);
-        }).catch((error) => {
-            console.log(error);
-            setLoading(false);
-        });
-    },[]);
+        axios.get(`http://localhost:3000/cart/${userID}`)
+            .then((response) => {
+                setCart(response.data);
+                setLoading(false);
+            }).catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
+    }, []);
 
     //Calculate and display total amount needed to be paid
     useEffect(() => {
         if (!loading) {
-          let total = 0;  //declare a variable as total and initialize it to 0
-          cart.forEach((item) => {
-            total += item.product.minprice * item.quantity;
-          });
-          totalRef.current = total;
-          setTotal(total);
+            let total = 0;  //declare a variable as total and initialize it to 0
+            cart.forEach((item) => {
+                total += item.product.minprice * item.quantity;
+            });
+            totalRef.current = total;
+            setTotal(total);
         }
     }, [cart, loading]);  //total is re-calculates when the cart is updated
 
     //Handle delivery info change
     const handleInfoChange = (e) => {
         const selectedIndex = e.target.value;
-        if(selectedIndex === ""){
+        if (selectedIndex === "") {
             setId("");
             setFirstName("");
             setLastName("");
@@ -196,7 +210,7 @@ const Checkout = () => {
             setPostalCode("");
             setProvince("");
             setDistrict("");
-        }else{
+        } else {
             setId(info[selectedIndex]._id);
             setFirstName(info[selectedIndex].firstName);
             setLastName(info[selectedIndex].lastName);
@@ -220,7 +234,7 @@ const Checkout = () => {
         const isValidProvince = validateProvince(province);
         const isValidDistrict = validateDistrict(district);
 
-        if(isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict){
+        if (isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict) {
             const deliveryInfo = {
                 firstName: firstName,
                 lastName: lastName,
@@ -232,51 +246,51 @@ const Checkout = () => {
                 district: district
             };
 
-            sessionStorage.setItem("total", total+500);
+            sessionStorage.setItem("total", total + 500);
 
-            if(!id) {
-                axios.post(`http://localhost:3000/deliveryInfo/${token}`, deliveryInfo)
-                .then((response) => {
-                    console.log(response);
-                    sessionStorage.setItem("deliveryInfoId", response.data._id);
-                    enqueueSnackbar("Delivery Information Saved", {variant: "success" });
-                    navigate('/Payment'); //navigate to payment
-                })
-                .catch((error) => {
-                    console.log(error);
-                    enqueueSnackbar("Error creating address", {variant: "error" });
-                });
-            }else{
-                axios.put(`http://localhost:3000/deliveryInfo/${id}`, deliveryInfo )
-                .then((response) => {
-                    sessionStorage.setItem("detailsInfoId", id);
-                    console.log(response);
-                    enqueueSnackbar("Delivery Information Saved", {variant: "success" });
-                    navigate('/Payment'); //navigate to payment
-                })
-                .catch((error) => {
-                    console.log(error);
-                    enqueueSnackbar("Error updating address", {variant: "error"});
-                });
+            if (!id) {
+                axios.post(`http://localhost:3000/deliveryInfo/${userID}`, deliveryInfo)
+                    .then((response) => {
+                        console.log(response);
+                        sessionStorage.setItem("deliveryInfoId", response.data._id);
+                        enqueueSnackbar("Delivery Information Saved", { variant: "success" });
+                        navigate('/Payment'); //navigate to payment
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        enqueueSnackbar("Error creating address", { variant: "error" });
+                    });
+            } else {
+                axios.put(`http://localhost:3000/deliveryInfo/${id}`, deliveryInfo)
+                    .then((response) => {
+                        sessionStorage.setItem("deliveryInfoId", id);
+                        console.log(response);
+                        enqueueSnackbar("Delivery Information Saved", { variant: "success" });
+                        navigate('/Payment'); //navigate to payment
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        enqueueSnackbar("Error updating address", { variant: "error" });
+                    });
             }
         } else {
-            enqueueSnackbar("Please fill all the required fields", {variant: "error"});
+            enqueueSnackbar("Please fill all the required fields", { variant: "error" });
         }
     }
     if (loading) {
-        return <Spinner/> ;
+        return <Spinner />;
     }
     return (
         <div>
             <form onSubmit={handleSubmit} noValidate>
-                <CustomerNavbar/>
+                <CustomerNavbar />
                 <h1 className="text-center font-Aboreto font-bold text-5xl mt-8 mb-5 text-primary">CHECKOUT</h1>
                 <div className="flex flex-row w-full justify-between font-BreeSerif">
                     {/*for Delivery Info*/}
                     <div className="flex flex-col w-[30rem] mx-16 h-fit bg-secondary p-5 rounded-lg shadow-md">
                         <h2 className="font-Philosopher text-2xl mb-5 font-bold text-primary">Delivery Information</h2>
                         <select className="h-11 ml-3 mb-5 font-BreeSerif p-2 border-gray-200 rounded-md border-2" onChange={(e) => handleInfoChange(e)}>
-                            <option value= "" defaultChecked >Select Delivery Information</option>
+                            <option value="" defaultChecked >Select Delivery Information</option>
                             {info.map((info, index) => (
                                 <option key={index} value={index} >{info.firstName + " " + info.lastName}</option>
                             ))}
@@ -289,19 +303,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {firstNameError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {firstNameError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <input 
-                                  className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                  type="text"
-                                  id="name"
-                                  value={firstName}
-                                  name="firstName"
-                                  onChange={(e) => setFirstName(e.target.value)}
+                                <input
+                                    className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    type="text"
+                                    id="name"
+                                    value={firstName}
+                                    name="firstName"
+                                    onChange={(e) => setFirstName(e.target.value)}
                                 />
                             </div>
                             <div className="flex flex-col ml-10">
@@ -310,19 +324,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {lastNameError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {lastNameError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <input 
-                                  className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                  type="text"
-                                  id="name"
-                                  value={lastName}
-                                  name="lastName"
-                                  onChange={(e) => setLastName(e.target.value)}
+                                <input
+                                    className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    type="text"
+                                    id="name"
+                                    value={lastName}
+                                    name="lastName"
+                                    onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -333,7 +347,7 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {contactError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {contactError}
                                             </motion.p>
                                         )}
@@ -341,13 +355,13 @@ const Checkout = () => {
                                 </div>
                                 <div className="flex flex-row">
                                     <p className="p-2 border-gray-200 border-2 rounded-l-md">+94</p>
-                                    <input 
-                                      className="h-11 w-40 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                      type="text"
-                                      id="contact"
-                                      value={contact}
-                                      name="contact"
-                                      onChange={(e) => setContact(e.target.value)}
+                                    <input
+                                        className="h-11 w-40 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                        type="text"
+                                        id="contact"
+                                        value={contact}
+                                        name="contact"
+                                        onChange={(e) => setContact(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -357,19 +371,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {emailError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {emailError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <input 
-                                  className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                  type="text"
-                                  id="email"
-                                  value={email}
-                                  name="email"
-                                  onChange={(e) => setEmail(e.target.value)}
+                                <input
+                                    className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    type="text"
+                                    id="email"
+                                    value={email}
+                                    name="email"
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -380,19 +394,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {addressError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {addressError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <input 
-                                   className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                   type="text"
-                                   id="address"
-                                   value={address}
-                                   name="address"
-                                   onChange={(e) => setAddress(e.target.value)}
+                                <input
+                                    className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    type="text"
+                                    id="address"
+                                    value={address}
+                                    name="address"
+                                    onChange={(e) => setAddress(e.target.value)}
                                 />
                             </div>
                             <div className="flex flex-col ml-10">
@@ -401,19 +415,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {postalCodeError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {postalCodeError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
-                                <input 
-                                  className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                  type="text"
-                                  id="postalcode"
-                                  value={postalCode}
-                                  name="postalcode"
-                                  onChange={(e) => setPostalCode(e.target.value)}
+                                <input
+                                    className="h-11 p-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    type="text"
+                                    id="postalcode"
+                                    value={postalCode}
+                                    name="postalcode"
+                                    onChange={(e) => setPostalCode(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -424,18 +438,18 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {provinceError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {provinceError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
                                 <select
-                                   className="h-11 p-2 w-[200px] mr-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                   id="province"
-                                   value={province}
-                                   name="province"
-                                   onChange={(e) => setProvince(e.target.value)}
+                                    className="h-11 p-2 w-[200px] mr-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    id="province"
+                                    value={province}
+                                    name="province"
+                                    onChange={(e) => setProvince(e.target.value)}
                                 >
                                     <option value="" defaultChecked hidden>Select</option>
                                     {provinces.map((opt) => (
@@ -449,19 +463,19 @@ const Checkout = () => {
                                     <AnimatePresence mode="wait" initial={false}>
                                         {districtError && (
                                             <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
-                                                <MdError/>
+                                                <MdError />
                                                 {districtError}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
                                 </div>
                                 <select
-                                   className="h-11 p-2 w-[200px] mr-2 border-gray-200 rounded-md border-2 shadow-sm"
-                                   id="district"
-                                   value={district}
-                                   name="district"
-                                   onChange={(e) => setDistrict(e.target.value)}
-                                   disabled={!province}
+                                    className="h-11 p-2 w-[200px] mr-2 border-gray-200 rounded-md border-2 shadow-sm"
+                                    id="district"
+                                    value={district}
+                                    name="district"
+                                    onChange={(e) => setDistrict(e.target.value)}
+                                    disabled={!province}
                                 >
                                     <option value="" defaultChecked hidden>Select</option>
                                     {province && districts[province].map((opt) => (
@@ -480,13 +494,13 @@ const Checkout = () => {
                             <p>Bank Name : Bank of Ceylon</p>
                             <p>Branch Name : Kaduwela</p>
                         </div>
-                        <hr className="my-3 font-extrabold border-ternary border-1"/>
+                        <hr className="my-3 font-extrabold border-ternary border-1" />
                         <div className="flex flex-row justify-between font-BreeSerif">
                             <p>Total Amount</p>
-                            <p> {total+500} </p>
+                            <p> {total + 500} </p>
                         </div>
-                        <hr className="my-3 font-extrabold border-ternary border-2"/>
-                        <button 
+                        <hr className="my-3 font-extrabold border-ternary border-2" />
+                        <button
                             onClick={handleSubmit}
                             className="bg-ternary text-primary font-bold p-3 rounded-md font-BreeSerif shadow-lg"
                         >
@@ -494,7 +508,7 @@ const Checkout = () => {
                         </button>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </form>
         </div>
     );
