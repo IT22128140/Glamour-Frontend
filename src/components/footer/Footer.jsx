@@ -3,16 +3,14 @@ import React from "react";
 import FooterSocialLinks from "./FooterSocialLinks";
 import FooterLinks from "./FooterLinks";
 import FooterMap from "./FooterMap";
-import FooterFeedback from "./FooterFeedback.jsx";
 
 const Footer = () => {
   return (
     <>
-      <div className="flex flex-row mt-[5%] w-full bg-footer min-h-[350px] bg-secondary">
+      <div className="flex flex-row mt-[5%] w-[100%] bg-footer min-h-[350px] bg-secondary">
         <FooterSocialLinks />
         <FooterLinks />
         <FooterMap />
-        <FooterFeedback />
       </div>
       <center>
         <label className=" font-BreeSerif">© 2024 Glamour Fashions Ltd.</label>

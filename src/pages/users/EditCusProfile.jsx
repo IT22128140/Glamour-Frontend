@@ -19,7 +19,7 @@ function EditProfile() {
 
     // Fetch userID on component mount
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("emptoken");
         if (token) {
             axios
                 .post("http://localhost:3000/login/auth", { token })

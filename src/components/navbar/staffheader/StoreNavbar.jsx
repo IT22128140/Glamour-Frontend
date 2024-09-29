@@ -10,12 +10,14 @@ const StoreNavbar = (props) => {
   const [empID, setempID] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("emptoken");
     axios
       .post("http://localhost:3000/empLogin/empAuth", { token: token })
       .then((response) => {
-        console.log(response.data.empID)
         setempID(response.data.empID)
+        if (!response.data.status) {
+          window.location.href = "/EmpLogin";
+        }
       })
       .catch((err) => {
         console.log(err);

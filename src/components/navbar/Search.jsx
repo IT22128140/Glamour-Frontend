@@ -50,15 +50,15 @@ const Search = () => {
         </div>
       </div>
       {keyword && (
-        <div className=" invisible px-2 font-BreeSerif absolute z-50 flex w-fit flex-col bg-bgc rounded-md text-ternary shadow-xl group-hover:visible">
+        <div className=" invisible px-2 font-BreeSerif absolute z-50 flex w-fit flex-col bg-secondary rounded-md text-primary shadow-xl group-hover:visible">
           {filteredData.map((opt) => (
             <Link
               key={opt._id}
               to={`/ProductPage/${opt._id}`}
-              className="flex w-96 rounded-md p-2 my-2 font-semibold text-ternary hover:text-bgc hover:bg-primary"
+              className="flex w-96 rounded-md p-2 my-2 font-semibold text-primary hover:text-secondary hover:bg-primary"
             >
               <img
-                src={"." + opt.image}
+                src={opt.image}
                 alt={opt.name}
                 className="w-32 rounded-lg mr-5"
               />
