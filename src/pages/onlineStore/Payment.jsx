@@ -117,31 +117,34 @@ const Payment = () => {
 
     //Fetching delivery info
     useEffect(() => {
-        // if (!token) {  //if session expired, navigates to login
-        //     window.location = "#"
-        // }
-        const deliveryid = sessionStorage.getItem("deliveryInfoId");
-        setLoading(true);
-        axios.get(`http://localhost:3000/deliveryInfo/delivery/${deliveryid}`)
-            .then((response) => {
-                setDeliveryInfo(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        if (userID) {
+            const deliveryid = localStorage.getItem("deliveryInfoId");
+            console.log(deliveryid)
+            setLoading(true);
+            axios.get(`http://localhost:3000/deliveryInfo/delivery/${deliveryid}`)
+                .then((response) => {
+                    setDeliveryInfo(response.data);
+                    console.log(response.data)
+                }).catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [userID]);
 
     //fetch cart items
     useEffect(() => {
-        setLoading(true);
-        axios.get(`http://localhost:3000/cart/${userID}`)
-            .then((response) => {
-                setCart(response.data);
-                setLoading(false);
-            }).catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
+        if (userID) {
+            setLoading(true);
+            axios.get(`http://localhost:3000/cart/${userID}`)
+                .then((response) => {
+                    setCart(response.data);
+                    setLoading(false);
+                }).catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        }
+    }, [userID]);
 
     //Calculate and display total amount needed to be paid
     useEffect(() => {
@@ -185,8 +188,6 @@ const Payment = () => {
 
                 const paymentId = response.data._id;
 
-                //const userId = sessionStorage.getItem("userId"); 
-
                 const products = cart.map((item) => ({
                     product: item.product.productId,
                     name: item.product.name,
@@ -203,6 +204,7 @@ const Payment = () => {
                     total: total + 500,
                     paymentId: paymentId,
                 };
+                console.log("Order Data: ", ordercon);
                 await axios.post(`http://localhost:3000/orders`, ordercon);
 
                 //after a successful payment clear the cart

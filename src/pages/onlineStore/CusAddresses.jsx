@@ -34,10 +34,8 @@ const CusAddresses = () => {
     });
 
     useEffect(() => {
-        // if (!token) {
-        //     window.location = "#";  //if session expired navigate to login page
-        // }
-        setLoading(true);
+        if(userID)
+        {setLoading(true);
 
         axios.get(`http://localhost:3000/deliveryInfo/${userID}`)
             .then((response) => {
@@ -47,8 +45,8 @@ const CusAddresses = () => {
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
-            });
-    }, []);
+            });}
+    }, [userID]);
 
     if (loading) {
         return <Spinner />

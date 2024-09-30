@@ -65,7 +65,8 @@ const Order = () => {
   }
 
   useEffect(() => {
-    setLoading(true);
+    if(userID)
+    {setLoading(true);
     fetch(`http://localhost:3000/orders/${userID}`)
       .then((response) => response.json())
       .then((data) => {
@@ -77,8 +78,8 @@ const Order = () => {
         console.log(error);
         setLoading(false);
         enqueueSnackbar("Error fetching orders", { variant: "error" });
-      }, [ongoing]);
-  }, []);
+      }, [ongoing]);}
+  }, [userID]);
 
   if (loading) {
     return <Spinner />

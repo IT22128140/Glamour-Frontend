@@ -158,32 +158,42 @@ const Checkout = () => {
         return isValid;
     }
 
+    function validateId(id) {
+        let isValid = true;
+        if (id == "") {
+            console.log("noid")
+            isValid = false;
+        }
+        return isValid
+    }
+
     //Fetching delivery info
     useEffect(() => {
-        // if (!token) {  //if session expired, navigates to login
-        //     window.location = "#"
-        // }
-        setLoading(true);
-        axios.get(`http://localhost:3000/deliveryInfo/${userID}`)
-            .then((response) => {
-                setInfo(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        if (userID) {
+            setLoading(true);
+            axios.get(`http://localhost:3000/deliveryInfo/${userID}`)
+                .then((response) => {
+                    setInfo(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [userID]);
 
     //fetch cart items
     useEffect(() => {
-        setLoading(true);
-        axios.get(`http://localhost:3000/cart/${userID}`)
-            .then((response) => {
-                setCart(response.data);
-                setLoading(false);
-            }).catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
+        if (userID) {
+            setLoading(true);
+            axios.get(`http://localhost:3000/cart/${userID}`)
+                .then((response) => {
+                    setCart(response.data);
+                    setLoading(false);
+                }).catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        }
+    }, [userID]);
 
     //Calculate and display total amount needed to be paid
     useEffect(() => {
@@ -225,6 +235,7 @@ const Checkout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();  //ensure form submisssion does not reload the page
+        const isvalidId = validateId(id)
         const isValidFirstName = validateFirstName(firstName);
         const isValidLastName = validateLastName(lastName);
         const isValidContact = validateContact(contact);
@@ -234,7 +245,7 @@ const Checkout = () => {
         const isValidProvince = validateProvince(province);
         const isValidDistrict = validateDistrict(district);
 
-        if (isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict) {
+        if (isvalidId && isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict) {
             const deliveryInfo = {
                 firstName: firstName,
                 lastName: lastName,
@@ -246,13 +257,13 @@ const Checkout = () => {
                 district: district
             };
 
-            sessionStorage.setItem("total", total + 500);
+            // sessionStorage.setItem("total", total + 500);
 
-            if (!id) {
+            if (id.length < 0) {
                 axios.post(`http://localhost:3000/deliveryInfo/${userID}`, deliveryInfo)
                     .then((response) => {
                         console.log(response);
-                        sessionStorage.setItem("deliveryInfoId", response.data._id);
+                        localStorage.setItem("deliveryInfoId", response.data._id);
                         enqueueSnackbar("Delivery Information Saved", { variant: "success" });
                         navigate('/Payment'); //navigate to payment
                     })
@@ -263,10 +274,10 @@ const Checkout = () => {
             } else {
                 axios.put(`http://localhost:3000/deliveryInfo/${id}`, deliveryInfo)
                     .then((response) => {
-                        sessionStorage.setItem("deliveryInfoId", id);
+                        localStorage.setItem("deliveryInfoId", id);
                         console.log(response);
                         enqueueSnackbar("Delivery Information Saved", { variant: "success" });
-                        navigate('/Payment'); //navigate to payment
+                        navigate('/Payment'); // navigate to payment
                     })
                     .catch((error) => {
                         console.log(error);
