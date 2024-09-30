@@ -13,8 +13,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
 const ProductPage = () => {
-  // const token = sessionStorage.getItem("token");
-
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
@@ -30,6 +28,7 @@ const ProductPage = () => {
   const [AmountError, setAmountError] = useState("");
   const [sizeError, setSizeError] = useState("");
   const [colorError, setColorError] = useState("");
+  const [userProfile, setUserProfile] = useState([]);
 
   const [reviews, setReviews] = useState([]);
   const [overallRating, setOverallRating] = useState(0);
@@ -101,17 +100,17 @@ const ProductPage = () => {
     return isValid;
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-        .post("http://localhost:3000/login/auth", { token: token })
-        .then((response) => {
-            setuserID(response.data.userID)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3000/login/${userID}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setUserProfile(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching profile information:", error);
+  //     });
+  // }, [userID]);
 
   useEffect(() => {
     setLoading(true);
@@ -119,6 +118,25 @@ const ProductPage = () => {
       .get(`http://localhost:3000/cusItems/${id}`)
       .then((response) => {
         setProduct(response.data);
+        const token = localStorage.getItem("token");
+        if (token !== null) {
+          axios
+            .post("http://localhost:3000/login/auth", { token: token })
+            .then((response) => {
+              setuserID(response.data);
+              axios
+                .get(`http://localhost:3000/login/${response.data.userID}`)
+                .then((response) => {
+                  setUserProfile(response.data);
+                })
+                .catch((error) => {
+                  console.error("Error fetching profile information:", error);
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -132,8 +150,9 @@ const ProductPage = () => {
   const methods = useForm();
 
   const onSubmit = methods.handleSubmit(() => {
-    if (userID.staus) {
-      window.location = "/LoginCus";
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      window.location = "/Login";
     }
     const isValidAmount = validateamount(amount);
     const isValidSize = validateSize(size);
@@ -148,7 +167,7 @@ const ProductPage = () => {
       };
       setLoading(true);
       axios
-        .post(`http://localhost:3000/cart/${userID}`, cart)
+        .post(`http://localhost:3000/cart/${userID.userID}`, cart)
         .then((response) => {
           console.log(response);
           setLoading(false);
@@ -182,18 +201,21 @@ const ProductPage = () => {
   }, [id]);
 
   const AddReview = () => {
-    if (userID.satus) {
-      window.location = "/LoginCus";
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      window.location = "/Login";
     }
     event.preventDefault();
+
+    console.log(userProfile);
 
     const isValidRate = validateRate(rate);
     const isValidReviewComment = validateReviewComment(reviewComment);
 
     if (isValidRate && isValidReviewComment) {
       const review = {
-        userId: { userID },
-        userName: "Hiranya",
+        userId: userProfile._id,
+        userName: userProfile.firstName+" "+userProfile.lastName,
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -433,7 +455,7 @@ const ProductPage = () => {
       </div>
 
       <div className="mx-16">
-        <ReviewCard reviews={product.reviews} id={id} />
+        <ReviewCard reviews={product.reviews} profile={userProfile} id={id} />
       </div>
       <Footer />
     </div>

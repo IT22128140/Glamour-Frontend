@@ -13,14 +13,15 @@ const HrDashboard = () => {
 
   return (
     <div
-      className="w-full h-full bg-fixed bg-no-repeat bg-bgform"
-      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}
+      className="w-full h-full bg-secondary"
+      /*bg-fixed bg-no-repeat bg-bgform
+      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}*/
     >
       <StoreNavbar home={true} />
 
       <div className="p-4">
         <center>
-          <h1 className="text-6xl my-8 font-Philosopher text-primary font-semibold">
+          <h1 className="text-6xl my-8 font-Aboreto text-primary font-semibold">
             Dashboard
           </h1>
         </center>
@@ -30,7 +31,7 @@ const HrDashboard = () => {
         <div>
           <div className="px-14 py-8">
             <div className="border border-black rounded-xl w-[800px] h-fit  flex flex-col items-center font-BreeSerif p-6 bg-white">
-              <h1 className="text-3xl font-Philosopher text-ternary">
+              <h1 className="text-3xl font-Philosopher text-primary font-bold">
                 Order Management
               </h1>
 

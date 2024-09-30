@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import html2pdf from "html2pdf.js";
 
 const ViewBill = ({ bill, onClose }) => {
+
+  console.log(bill);
   const downloadPDF = () => {
     const opt = {
       margin: 1,
@@ -24,7 +26,7 @@ const ViewBill = ({ bill, onClose }) => {
         onClick={(event) => event.stopPropagation()}
         className="w-[600px] max-w-full h-auto bg-white rounded-xl p-4 flex flex-col relative"
       >
-        <h1 className="text-3xl my-4 font-Philosopher text-primary font-bold text-center">
+        <h1 className="text-3xl my-4 font-Aboreto text-primary font-bold text-center">
           View Bill
         </h1>
         <MdOutlineCancel
@@ -45,8 +47,7 @@ const ViewBill = ({ bill, onClose }) => {
           </div>
           <div className="flex flex-col w-full p-2">
             <span className="font-semibold">Delivery Details:</span>
-            {bill.deliveryInfo.map((delivery, index) => (
-              <div key={index} className="flex flex-row">
+              <div className="flex flex-row">
                 <div className="flex flex-col pr-4">
                   <span>Name: </span>
                   <span>Phone: </span>
@@ -54,13 +55,12 @@ const ViewBill = ({ bill, onClose }) => {
                   <span>Postal Code: </span>
                 </div>
                 <div className="flex flex-col">
-                  <span>{delivery.firstName}{" "}{delivery.lastName}</span>
-                  <span>{delivery.contact}</span>
-                  <span>{delivery.address}{", "}{delivery.district}{", "}{delivery.province}{"."}</span>
-                  <span>{delivery.postalCode}</span>
+                  <span>{bill.deliveryInfo.firstName}{" "}{bill.deliveryInfo.lastName}</span>
+                  <span>{bill.deliveryInfo.contact}</span>
+                  <span>{bill.deliveryInfo.address}{", "}{bill.deliveryInfo.district}{", "}{bill.deliveryInfo.province}{"."}</span>
+                  <span>{bill.deliveryInfo.postalCode}</span>
                 </div>
               </div>
-            ))}
           </div>
           <div className="flex flex-col w-full p-2">
             <span className="font-semibold">Products:</span>

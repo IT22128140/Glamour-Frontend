@@ -65,11 +65,12 @@ const OngoingOrders = () => {
 
   return (
     <div
-      className="w-full h-full bg-fixed bg-no-repeat bg-bgform"
-      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}
+      className="w-full h-full bg-secondary"
+      /*bg-fixed bg-no-repeat bg-bgform
+      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}*/
     >
       <StoreNavbar can={true} />
-      <h1 className="text-6xl my-8 font-semibold font-Philosopher text-center text-primary">
+      <h1 className="text-6xl my-8 font-semibold font-Aboreto text-center text-primary">
         Canceled Orders
       </h1>
 

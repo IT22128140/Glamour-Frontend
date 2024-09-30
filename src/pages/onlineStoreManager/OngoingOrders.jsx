@@ -44,10 +44,6 @@ const OngoingOrders = () => {
   };
 
   useEffect(() => {
-    const token = /*sessionStorage.getItem("token");*/ 123;
-    if(!token){
-      window.location = "/LoginEmp";
-    }
     setLoading(true);
     axios
       .get("http://localhost:3000/orders/ongoing")
@@ -64,9 +60,13 @@ const OngoingOrders = () => {
   }, []);
 
   return (
-    <div className='w-full h-full bg-fixed bg-no-repeat bg-bgform' style={{ backgroundPosition:'top right', backgroundSize:'cover' }}>
+    <div
+      className="w-full h-full bg-secondary"
+      /*bg-fixed bg-no-repeat bg-bgform
+      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}*/
+    >
       <StoreNavbar ogo={true} />
-      <h1 className="text-6xl my-8 font-semibold font-Philosopher text-center text-primary">
+      <h1 className="text-6xl my-8 font-semibold font-Aboreto text-center text-primary">
         Ongoing Orders
       </h1>
 
@@ -101,7 +101,7 @@ const OngoingOrders = () => {
                   <td className="border border-slate-700 text-center">
                     {order.products.map((product, index) => (
                       <div key={index}>
-                        {product.product} - {product.color} - {product.size} - {" "}
+                        {product.product} - {product.color} - {product.size} -{" "}
                         {product.quantity}
                       </div>
                     ))}
@@ -113,8 +113,10 @@ const OngoingOrders = () => {
                     <div className="flex justify-center gap-x-4">
                       <ViewButton
                         onClick={() => {
+                          console.log(order.deliveryInfo);
                           setDelivery(order.deliveryInfo),
                             setShowDelivery(true);
+                          console.log(showDelivery);
                         }}
                       />
                     </div>
@@ -122,9 +124,10 @@ const OngoingOrders = () => {
                   <td className="border border-slate-700 text-center">
                     <div className="flex justify-center gap-x-4">
                       <ViewButton
-                      onClick={()=>{setPaymentId(order.paymentId),
-                        setShowPayment(true);}
-                      } />
+                        onClick={() => {
+                          setPaymentId(order.paymentId), setShowPayment(true);
+                        }}
+                      />
                     </div>
                   </td>
                   <td className="border border-slate-700 text-center">
@@ -148,16 +151,22 @@ const OngoingOrders = () => {
                             })
                             .then((res) => {
                               console.log(res);
-                              enqueueSnackbar("Order status updated", { variant: "success" });
+                              enqueueSnackbar("Order status updated", {
+                                variant: "success",
+                              });
                             })
                             .catch((err) => {
                               console.log(err);
-                              enqueueSnackbar("Error updating order status", { variant: "error" });
+                              enqueueSnackbar("Error updating order status", {
+                                variant: "error",
+                              });
                             });
                           window.location.reload();
                         }}
                       >
-                        <option disabled selected value="">Select status</option>
+                        <option disabled selected value="">
+                          Select status
+                        </option>
                         <option value="Not processed">Not processed</option>
                         <option value="Processing">Processing</option>
                         <option value="Shipped">Shipped</option>
@@ -179,9 +188,13 @@ const OngoingOrders = () => {
         />
       )}
       {showBill && <ViewBill bill={bill} onClose={() => setShowBill(false)} />}
-      {showPayemnt && (<ViewPayment paymentId={pay} onClose={() => setShowPayment(false)} />)}
+      {showPayemnt && (
+        <ViewPayment paymentId={pay} onClose={() => setShowPayment(false)} />
+      )}
 
-      <br/><br/><br/>
+      <br />
+      <br />
+      <br />
       <StaffFooter />
     </div>
   );

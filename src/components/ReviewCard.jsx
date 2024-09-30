@@ -9,7 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import PropTypes from "prop-types";
 import EditReview from "../pages/onlineStore/EditReview.jsx";
 
-const ReviewCard = ({ reviews, id }) => {
+const ReviewCard = ({ reviews, profile, id }) => {
   const [review, setReview] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
 
@@ -25,8 +25,6 @@ const ReviewCard = ({ reviews, id }) => {
     window.location.reload(true);
   };
 
-  const userId = "1235";
-
   return (
     <div className="flex flex-col items-center">
       {reviews.map((review, index) => (
@@ -38,7 +36,7 @@ const ReviewCard = ({ reviews, id }) => {
             <p className="text-[30px] font-BreeSerif text-primary mx-3">
               {review.userName}
             </p>
-            {review.userId === userId && (
+            {review.userId === profile._id && (
               <div className="flex flex-row justify-evenly m-2 text-primary">
                 <button
                   onClick={() => {
@@ -84,7 +82,7 @@ const ReviewCard = ({ reviews, id }) => {
       ))}
 
       {showEdit && (
-        <EditReview id={id} review={review} onClose={() => setShowEdit(false)} />
+        <EditReview id={id}  review={review} onClose={() => setShowEdit(false)} />
       )}
     </div>
   );
@@ -93,6 +91,7 @@ const ReviewCard = ({ reviews, id }) => {
 ReviewCard.propTypes = {
   reviews: PropTypes.array,
   id: PropTypes.string,
+  profile: PropTypes.object,
 };
 
 export default ReviewCard;
