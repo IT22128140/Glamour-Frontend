@@ -16,16 +16,28 @@ const CusAddresses = () => {
     const [id, setId] = useState(null);
     const [caddress, setCAddress] = useState(null);
 
-    // const token = sessionStorage.getItem("token");
-    const token = "12345";
+    const [userID, setuserID] = useState(0);
 
     useEffect(() => {
-        // if (!token) {
-        //     window.location = "#";  //if session expired navigate to login page
-        // }
-        setLoading(true);
+        const token = localStorage.getItem("token");
+        axios
+            .post("http://localhost:3000/login/auth", { token: token })
+            .then((response) => {
+                setuserID(response.data.userID)
+                if (response.data.status === false) {
+                    window.location.href = "/login";
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 
-        axios.get(`http://localhost:3000/deliveryInfo/${token}`)
+    useEffect(() => {
+        if(userID)
+        {setLoading(true);
+
+        axios.get(`http://localhost:3000/deliveryInfo/${userID}`)
             .then((response) => {
                 setAddresses(response.data);
                 setLoading(false);
@@ -33,8 +45,8 @@ const CusAddresses = () => {
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
-            });
-    }, []);
+            });}
+    }, [userID]);
 
     if (loading) {
         return <Spinner />

@@ -3,13 +3,28 @@ import { enqueueSnackbar } from 'notistack';
 import Spinner from '../../components/Spinner';
 import CustomerNavbar from '../../components/navbar/CustomerNavbar';
 import Footer from '../../components/footer/Footer';
-import axios from 'axios';
 import ViewPayment from './ViewPayment';
+import DeleteOrder from './DeleteOrder';
+import axios from 'axios';
 
 const Order = () => {
 
-  // const token = sessionStorage.getItem("token");
-  const token = "12345";
+  const [userID, setuserID] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .post("http://localhost:3000/login/auth", { token: token })
+      .then((response) => {
+        setuserID(response.data.userID)
+        if (response.data.status === false) {
+          window.location.href = "/login";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,12 +33,11 @@ const Order = () => {
   const [completed, setCompleted] = useState([]);
   const [date, setDate] = useState(new Date());
   const [showPayment, setShowPayment] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [id, setId] = useState(null);
   const [pay, setPaymentId] = useState("");
 
   useEffect(() => {
-    // if (!token) {
-    //   window.location = "#"   //navigate to login page once the session expired
-    // }
     const timer = setInterval(() => {
       setDate(new Date());               //update the time and date once every 10 secs
     }, 10000);
@@ -51,8 +65,9 @@ const Order = () => {
   }
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`http://localhost:3000/orders/${token}`)
+    if(userID)
+    {setLoading(true);
+    fetch(`http://localhost:3000/orders/${userID}`)
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
@@ -63,8 +78,8 @@ const Order = () => {
         console.log(error);
         setLoading(false);
         enqueueSnackbar("Error fetching orders", { variant: "error" });
-      }, [ongoing]);
-  }, []);
+      }, [ongoing]);}
+  }, [userID]);
 
   if (loading) {
     return <Spinner />
@@ -114,7 +129,7 @@ const Order = () => {
                     <div className='text-primary'>
                       {order.products.map((product) => (
                         <div key={product._id}>
-                          <h1>{product.name}&nbsp;x&nbsp;{product.quantity}</h1>
+                          <h1>{product.name}&nbsp;x&nbsp;{product.quantity}&nbsp;x&nbsp;Rs.{product.price}.00</h1>
                         </div>
                       ))}
                     </div>
@@ -128,33 +143,28 @@ const Order = () => {
                       }}
                       className='rounded-xl self-end text-white w-fit h-fit bg-primary hover:bg-sky-800 py-2 px-5'
                     >
-                      View Payment Infomation
+                      View Payment Information
                     </button>
 
                     <div className='flex items-end ml-3'>
-                      {diff <= 120 && order.status !== "canceled" ? (
-                        <button
-                          className='rounded-xl text-white h-fit bg-red-500 hover:bg-red-600 py-2 px-4'
-                          onClick={() => {
-                            axios.put(`http://localhost:3000/orders/${order._id}`, { status: "canceled" })
-                              .then((response) => {
-                                console.log(response);
-                                enqueueSnackbar("Order Cancelled", { variant: "success" });
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                                enqueueSnackbar("Error Cancelling Order", { variant: "error" });
-                              });
-                            window.location.reload();
-                          }}
-                        >
-                          Cancel Order
-                        </button>
+                      {order.status === "canceled" || order.status === "Canceled" ? (
+                        <p className="text-red-600">Order Cancelled</p>
                       ) : (
-                        order.status === "canceled" ? (
-                          <p className='text-red-600'>Order Cancelled</p>
+                        order.status === "Delivered" ? (
+                          <p className="text-red-600">Order Delivered</p>
                         ) : (
-                          <p className="text-red-600">You cannot delete your order after 2 hours</p>
+                          diff <= 120 && order.status !== "Canceled" ? (
+                            <button
+                              onClick={() => {
+                                setId(order._id), setShowDelete(true);
+                              }}
+                              className="rounded-xl text-white h-fit bg-red-500 hover:bg-red-600 py-2 px-4"
+                            >
+                              Cancel Order
+                            </button>
+                          ) : (
+                            <p className="text-red-600">You cannot delete your order after 2 hours</p>
+                          )
                         )
                       )}
                     </div>
@@ -167,6 +177,9 @@ const Order = () => {
       </div>
       {showPayment && (
         <ViewPayment paymentId={pay} onClose={() => setShowPayment(false)} />
+      )}
+      {showDelete && (
+        <DeleteOrder id={id} onClose={() => setShowDelete(false)} />
       )}
       <Footer />
     </div>
