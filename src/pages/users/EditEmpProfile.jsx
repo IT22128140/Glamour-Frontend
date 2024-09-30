@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Spinner from '../../components/Spinner';
-import Navbar from "../../components/navbar/CustomerNavbar.jsx";
-import Footer from "../../components/footer/Footer.jsx";
+import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
+import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 
-function EditProfile() {
+function EditEmpProfile() {
     const [userProfile, setUserProfile] = useState({
         firstName: "",
         lastName: "",
@@ -14,39 +14,41 @@ function EditProfile() {
         phoneNumber: "",
         password: "" // Password is initially blank and update if only need to 
     });
-    const [userID, setuserID] = useState("");
+    const [empID, setempID] = useState("");
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate(); 
 
-    // Fetch userID on component mount
+    // Fetch empID on component mount
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("emptoken");
         if (token) {
             axios
-                .post("http://localhost:3000/login/auth", { token })
+                .post("http://localhost:3000/empLogin/empAuth", { token })
                 .then((response) => {
-                    setuserID(response.data.userID);
+                    setempID(response.data.empID);
                 })
                 .catch((err) => {
-                    console.error("Error fetching user ID:", err);
+                    console.error(err);
+                    enqueueSnackbar("Error fetching user ID:", { variant: "error" });
                 });
         }
     }, []);
 
-    // Fetch user profile based on userID
+    // Fetch user profile based on empID
     useEffect(() => {
-        if (userID) {
-            axios.get(`http://localhost:3000/login/${userID}`)
+        if (empID) {
+            axios.get(`http://localhost:3000/empLogin/${empID}`)
                 .then((response) => {
                     const { firstName, lastName, email, phoneNumber } = response.data;
                     setUserProfile({ firstName, lastName, email, phoneNumber, password: "" });
                     setLoading(false);
                 })
                 .catch((error) => {
-                    console.error("Error fetching profile information:", error);
+                    console.error(error);
+                    enqueueSnackbar("Error fetching profile information:", { variant: "error" });
                 });
         }
-    }, [userID]);
+    }, [empID]);
 
     // Handle input change
     const handleInputChange = (e, field) => {
@@ -61,32 +63,33 @@ function EditProfile() {
         const { firstName, lastName, email, phoneNumber, password } = userProfile;
 
         if (!firstName || !lastName || !email || !phoneNumber) {
-            alert("Please fill in all the fields.");
+            enqueueSnackbar("Please fill in all the fields", { variant: "error" });
             return;
         }
 
         if (!/\S+@\S+\.\S+/.test(email)) {
-            alert("Please enter a valid email address.");
+            enqueueSnackbar("Please enter a valid email address", { variant: "error" });
             return;
         }
 
         if (!/^\d{10}$/.test(phoneNumber)) {
-            alert("Please enter a valid 10-digit phone number.");
+            enqueueSnackbar("Please enter a valid 10-digit phone number", { variant: "error" });
             return;
         }
 
         if (password && (password.length < 8 || !/\d/.test(password) || !/[!@#$%^&*]/.test(password))) {
-            alert("Password must be at least 8 characters long and contain at least one digit and one special character.");
+            enqueueSnackbar("Password must be at least 8 characters long and contain at least one digit and one special character", { variant: "error" });
             return;
         }
 
         try {
-            const response = await axios.put(`http://localhost:3000/users/${userID}`, userProfile);
+            const response = await axios.put(`http://localhost:3000/emps/${empID}`, userProfile);
             console.log("Profile information saved:", response.data);
             enqueueSnackbar("Profile updated successfully.", { variant: "success" });
-            navigate("/cusProfile")
+            navigate("/EmpProfile")
         } catch (error) {
-            console.error("Error saving profile:", error);
+            console.error( error);
+            enqueueSnackbar("Error saving profile:", { variant: "error" });
             alert("Failed to save profile.");
         }
     };
@@ -94,14 +97,15 @@ function EditProfile() {
     // Handle delete profile
     const handleDeleteProfile = async () => {
         try {
-            const response = await axios.delete(`http://localhost:3000/users/${userID}`);
+            const response = await axios.delete(`http://localhost:3000/emps/${empID}`);
             console.log("Profile deleted:", response.data);
             enqueueSnackbar("Profile deleted successfully", { variant: "success" });
-            localStorage.removeItem("token");
-            navigate("/Register");
+            localStorage.removeItem("emptoken");
+            navigate("/EmpRegister");
         } catch (error) {
-            console.error(error);
-            enqueueSnackbar("Failed to delete profile", { variant: "error" });
+            console.error( error);
+            enqueueSnackbar("Error deleting profile:", { variant: "error" });
+            alert("Failed to delete profile.");
         }
     };
 
@@ -111,7 +115,7 @@ function EditProfile() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center">
-            <Navbar />
+            <StoreNavbar />
             <div className="mt-8 w-full max-w-4xl">
                 <div className="flex flex-col items-center">
                     <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
@@ -192,9 +196,9 @@ function EditProfile() {
                 </button>
             </div>
 
-            <Footer />
+            <StaffFooter />
         </div>
     );
 }
 
-export default EditProfile;
+export default EditEmpProfile;

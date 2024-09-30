@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
+import { enqueueSnackbar } from "notistack";
+import Logo from "../../components/navbar/NavbarLogo";
 import Input from '../../components/form/Input'; // Ensure you have this component
 import Spinner from '../../components/Spinner';
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
@@ -24,13 +26,21 @@ const EmpLogin = () => {
             navigate('/Store_Manager');
         } catch (error) {
             setLoading(false);
-            alert('An error happened. Please check console');
+            enqueueSnackbar("Error Login", { variant: "error" });
             console.log(error);
         }
     };
 
     return (
         <div className='w-full h-full bg-fixed bg-ternary bg-no-repeat'>
+             <div className='flex h-fit flex-row justify-center bg-white mt-3 pb-3 '>
+             <img
+            src="/Logo1.png"
+            alt="logo"
+            className="w-[2rem] h-[3rem] ml-[1rem] mr-[1rem]"
+          />
+          <img src="/Logo2.png" alt="logo" className="w-[18rem] h-[2rem] hidden mt-2 lg:block" />
+            </div>
             {loading && <Spinner />}
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(handleLogin)} className="bg-white  bg-opacity-20 rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">

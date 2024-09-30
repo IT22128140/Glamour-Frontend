@@ -45,6 +45,9 @@ import CusProfile from './pages/users/CusProfile.jsx';
 import EditCusProfile from './pages/users/EditCusProfile.jsx';
 import EmpRegister from './pages/users/EmpRegister.jsx';
 import EmpLogin from './pages/users/EmpLogin.jsx';
+import EmpProfile from './pages/users/EmpProfile.jsx';
+import EditEmpProfile from './pages/users/EditEmpProfile.jsx';
+import ModelSizeReport from './pages/model/ModelSizesReport.jsx';
 
 
 
@@ -119,6 +122,10 @@ const App = () => {
       <Route path='/EditCusProfile' element={<EditCusProfile/>}/>
       <Route path='/EmpRegister' element={<EmpRegister/>}/>
       <Route path='/EmpLogin' element={<EmpLogin/>}/>
+      <Route path='/EmpProfile' element={<EmpProfile/>}/>
+      <Route path='/EditEmpProfile' element={<EditEmpProfile/>}/>
+      <Route path='/ModelSizesReport' element={<ModelSizeReport/>}/>
+
 
 
 
