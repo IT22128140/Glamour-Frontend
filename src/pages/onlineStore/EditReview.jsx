@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 
-const EditReview = ({ id, review, onClose }) => {
+const EditReview = ({ id, review, onClose}) => {
   const [rate, setRate] = useState(review.rating);
   const [reviewComment, setReviewComment] = useState(review.reviewComment);
 
@@ -46,8 +46,8 @@ const EditReview = ({ id, review, onClose }) => {
 
     if (isValidRate && isValidReviewComment) {
       const updatedReview = {
-        userId: "1235",
-        userName: "Hiranya",
+        userId: review.userId,
+        userName: review.userName,
         rating: rate,
         reviewComment: reviewComment,
       };
@@ -136,6 +136,8 @@ EditReview.propTypes = {
     rating: PropTypes.number.isRequired,
     reviewComment: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };

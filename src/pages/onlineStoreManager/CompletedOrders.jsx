@@ -44,10 +44,6 @@ const OngoingOrders = () => {
   };
 
   useEffect(() => {
-    const token = /*sessionStorage.getItem("token");*/ 123;
-    if (!token) {
-      window.location = "/LoginEmp";
-    }
     setLoading(true);
     axios
       .get("http://localhost:3000/orders/completed")
@@ -67,11 +63,12 @@ const OngoingOrders = () => {
 
   return (
     <div
-      className="w-full h-full bg-fixed bg-no-repeat bg-bgform"
-      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}
+      className="w-full h-full bg-secondary"
+      /*bg-fixed bg-no-repeat bg-bgform
+      style={{ backgroundPosition: "top right", backgroundSize: "cover" }}*/
     >
       <StoreNavbar coo={true} />
-      <h1 className="text-6xl my-8 font-semibold font-Philosopher text-center text-primary">
+      <h1 className="text-6xl my-8 font-semibold font-Aboreto text-center text-primary">
         Completed Orders
       </h1>
 

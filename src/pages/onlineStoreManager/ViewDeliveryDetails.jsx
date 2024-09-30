@@ -12,7 +12,7 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
         onClick={(event) => event.stopPropagation()}
         className="w-[600px] max-w-full h-auto bg-white rounded-xl p-4 flex flex-col relative"
       >
-        <h1 className="text-3xl my-4 font-Philosopher font-bold text-primary text-center">
+        <h1 className="text-3xl my-4 font-Aboreto font-bold text-primary text-center">
           View Delivery Details
         </h1>
         <MdOutlineCancel
@@ -20,10 +20,9 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
           onClick={onClose}
         />
         <div className="flex flex-col w-full items-center font-BreeSerif rounded-xl">
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between" >
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">First name</label>
-              <span className="font-semibold">{delivery.firstName}</span>
               <input
                 className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                 type="text"
@@ -42,7 +41,7 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
             </div>
           </div>
           {/*contact*/}
-          <div className="flex flex-row mt-5 justify-between">
+          <div className="flex flex-row mt-5 justify-between" >
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">Contact number</label>
               <input
@@ -62,7 +61,7 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
               />
             </div>
           </div>
-          <div className="flex flex-row mt-5 justify-between">
+          <div className="flex flex-row mt-5 justify-between" >
             <div className="flex flex-col">
               <label className="ml-0.5 mb-1">Address</label>
               <input
@@ -109,8 +108,8 @@ const ViewDeliveryDetails = ({ delivery, onClose }) => {
 };
 
 ViewDeliveryDetails.propTypes = {
-  delivery: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  delivery: PropTypes.object,
+  onClose: PropTypes.func,
 };
 
 export default ViewDeliveryDetails;
