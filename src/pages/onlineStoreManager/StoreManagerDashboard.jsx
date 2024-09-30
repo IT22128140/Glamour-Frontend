@@ -26,7 +26,7 @@ const HrDashboard = () => {
         </center>
       </div>
 
-      <div className="flex flex-row justify-evenly">
+      <div className="flex flex-col items-center justify-center">
         <div>
           <div className="px-14 py-8">
             <div className="border border-black rounded-xl w-[800px] h-fit  flex flex-col items-center font-BreeSerif p-6 bg-white">
@@ -44,6 +44,29 @@ const HrDashboard = () => {
                 </p>
 
                 <Link to="/ViewOrderReport">
+                  <ViewButton />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="px-14 py-8">
+            <div className="border border-black rounded-xl w-[800px] h-fit  flex flex-col items-center font-BreeSerif p-6 bg-white">
+              <h1 className="text-3xl font-Philosopher text-ternary">
+                Model Sizes
+              </h1>
+
+              <div className="border border-black rounded-xl w-100% h-fit bg-ternary flex flex-col items-center font-BreeSerif p-2 m-8">
+                <h2 className="text-xl text black pb-2">
+                  View Model Sizes Report
+                </h2>
+                <p className="text-md text-black pb-2">
+                  Generate reports based on the model sizes that customers created for a particular period
+                </p>
+
+                <Link to="/ModelSizesReport">
                   <ViewButton />
                 </Link>
               </div>

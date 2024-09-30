@@ -1,0 +1,99 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
+import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
+
+const EmpProfile = () => {
+    const [userProfile, setUserProfile] = useState([]);
+    const [empID, setempID] = useState("");
+
+    useEffect(() => {
+        const token = localStorage.getItem("emptoken");
+        axios
+            .post("http://localhost:3000/empLogin/empAuth", { token: token })
+            .then((response) => {
+                setempID(response.data.empID)
+                if (response.data.status === false) {
+                    window.location.href = "/EmpLogin";
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
+
+    useEffect(() => {
+        if (empID) {
+            axios
+                .get(`http://localhost:3000/empLogin/${empID}`)
+                .then((response) => {
+                    console.log(response.data);
+                    setUserProfile(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching profile information:", error);
+                });
+        }
+    }, [empID]);
+
+    return (
+        <div>
+            <StoreNavbar />
+            <div className="min-h-full flex flex-col items-center">
+                <div className="mt-8 w-full max-w-4xl">
+                    <div className="flex flex-col items-center">
+                        <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
+                            <img
+                                src="emp.png"
+                                alt="Profile"
+                                className="object-cover w-full h-full"
+                            />
+                        </div>
+                        <div className="bg-white shadow-lg rounded-lg w-full p-8 mb-8">
+                            <h1 className="text-3xl font-Aboreto font-bold text-primary mb-6 text-center">
+                                Profile Details
+                            </h1>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-primary text-white p-4 rounded-lg">
+                                    <p className="font-semibold">First Name</p>
+                                </div>
+                                <div className="bg-gray-100 p-4 rounded-lg">
+                                    <p>{userProfile.firstName || "N/A"}</p>
+                                </div>
+                                <div className="bg-primary text-white p-4 rounded-lg">
+                                    <p className="font-semibold">Last Name</p>
+                                </div>
+                                <div className="bg-gray-100 p-4 rounded-lg">
+                                    <p>{userProfile.lastName || "N/A"}</p>
+                                </div>
+                                <div className="bg-primary text-white p-4 rounded-lg">
+                                    <p className="font-semibold">Email Address</p>
+                                </div>
+                                <div className="bg-gray-100 p-4 rounded-lg">
+                                    <p>{userProfile.email || "N/A"}</p>
+                                </div>
+                                <div className="bg-primary text-white p-4 rounded-lg">
+                                    <p className="font-semibold">Phone Number</p>
+                                </div>
+                                <div className="bg-gray-100 p-4 rounded-lg">
+                                    <p>{userProfile.phoneNumber || "N/A"}</p>
+                                </div>
+                            </div>
+                            <div className="flex justify-center mt-6">
+                                <Link to="/EditEmpProfile">
+                                    <button className="bg-bgc text-white font-bold py-2 px-8 rounded">
+                                        Edit Profile
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <StaffFooter />
+        </div>
+    );
+};
+
+export default EmpProfile;

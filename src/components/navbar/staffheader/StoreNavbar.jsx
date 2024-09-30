@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import NavbarButton from "../NavbarButton";
 import NavbarLogo from "../NavbarLogo";
+import { Link } from "react-router-dom";
 import NavbarUserProfile from "../NavbarUserProfile";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -41,6 +42,7 @@ const StoreNavbar = (props) => {
       <div className="flex h-fit flex-row justify-between bg-white mt-3 pb-3 ">
         <NavbarLogo />
         <NavbarUserProfile
+          url2={"/EmpProfile"}
           source={"/emp.png"}
           username={profileInfo.firstName + " " + profileInfo.lastName}
           url={"/Store_Manager"}
@@ -59,6 +61,11 @@ const StoreNavbar = (props) => {
           url={"/StoreItemsList"}
         />
         <NavbarButton
+          active={props.models}
+          button={"Model Sizes"}
+          url={"/measurements/view"}
+        />
+        <NavbarButton
           active={props.ogo}
           button={"Ongoing Orders"}
           url={"/OngoingOrders"}
@@ -73,11 +80,7 @@ const StoreNavbar = (props) => {
           button={"Canceled Orders"}
           url={"/CanceledOrders"}
         />
-         <NavbarButton
-          active={props.models}
-          button={"Model Sizes"}
-          url={"/measurements/view"}
-        />
+
       </div>
     </div>
   );

@@ -3,10 +3,8 @@ import axios from "axios";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
 import TableView from '../../components/table/TableView';
-import EditButton from "../../components/button/EditButton";
 import DeleteButton from "../../components/button/DeleteButton";
 import ViewButton from "../../components/button/ViewButton";
-import AddButton from "../../components/button/AddButton";
 import DeleteMeasurement from "./DeleteBodyMeasurement";
 import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
@@ -18,7 +16,7 @@ const MeasurementTable = () => {
     const [data1, setdata1] = useState([]);
     const [showDelete, setShowDelete] = useState(false);
     const [selectedMeasurement, setSelectedMeasurement] = useState(null);
-    const headers = ['Unique Name', 'Gender', 'Bust Size', 'Under Bust Size', 'Neck Base Size', 'Waist Size', 'Hip Size', 'Shoulder Width Size', 'Top Size', 'Pant Size', 'Operations']
+    const headers = ['Gender', 'Bust Size', 'Under Bust Size', 'Neck Base Size', 'Waist Size', 'Hip Size', 'Shoulder Width Size', 'Top Size', 'Pant Size', 'Operations']
 
     useEffect(() => {
         setLoading(true);
@@ -41,8 +39,8 @@ const MeasurementTable = () => {
     console.log(data1);
 
     return (
-        <div className='w-full h-full bg-fixed bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
-            <StoreNavbar />
+        <div className='w-full h-full bg-secondary bg-fixed bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
+            <StoreNavbar models={true} />
             <div>
                 <h1 className='text-6xl text-center font-Aboreto text-primary font-semibold my-8 alignment-center'>Measurements List</h1>
                 {loading ? (
@@ -55,9 +53,6 @@ const MeasurementTable = () => {
                             {measurements.map((measurement, index) => (
                                 <tr key={measurement._id} className='h-8'>
 
-                                    <td className='border border-slate-700 rounded-md text-center'>
-                                        {measurement.UniqueName}
-                                    </td>
                                     <td className='border border-slate-700 rounded-md text-center'>
                                         {measurement.Gender}
                                     </td>
@@ -87,10 +82,6 @@ const MeasurementTable = () => {
                                     </td>
                                     <td className='border border-slate-700 rounded-md text-center'>
                                         <div className='flex justify-center gap-x-4 ml-2 mr-2'>
-                                            <Link to={`/measurements/view/${measurement._id}`}>
-                                                <ViewButton />
-                                            </Link>
-
                                             <DeleteButton
                                                 onClick={() => {
                                                     setSelectedMeasurement(measurement);
