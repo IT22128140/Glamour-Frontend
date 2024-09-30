@@ -25,7 +25,7 @@ const StoreNavbar = (props) => {
   });
 
   useEffect(() => {
-    if (empID.length > 0) {
+    if (empID.length > 0) { 
       axios.get(`http://localhost:3000/empLogin/${empID}`)
         .then((response) => {
           console.log(response.data)
