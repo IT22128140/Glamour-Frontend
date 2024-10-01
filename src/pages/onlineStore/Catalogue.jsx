@@ -259,6 +259,7 @@ const Catalogue = () => {
           ))}
         </div>
       </div>
+      <div className="h-20"/>
       <Footer /> 
     </div>
   );
