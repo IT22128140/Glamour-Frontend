@@ -457,6 +457,7 @@ const ProductPage = () => {
       <div className="mx-16">
         <ReviewCard reviews={product.reviews} profile={userProfile} id={id} />
       </div>
+      <div className="h-20"/>
       <Footer />
     </div>
   );
