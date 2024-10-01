@@ -258,7 +258,7 @@ const ProductPage = () => {
           </p>
           <form onSubmit={(e) => e.preventDefault} noValidate>
             <div className="flex flex-col w-1/2 mt-[10%]">
-              <label className="w-1/2">Amount</label>
+              <label className=" font-Philosopher text-primary text-3xl mt-[10%]">Amount</label>
               <AnimatePresence mode="wait" initial={false}>
                 {AmountError && (
                   <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold w-fit text-red-500 bg-red-100 rounded-md">
@@ -283,7 +283,7 @@ const ProductPage = () => {
               </div>
             </div>
             {product.stock === 0 && (
-              <p className="text-red-500 font-bold text-3xl">Out of stock</p>
+              <p className="text-red-500 font-BreeSerif text-3xl">Out of stock</p>
             )}
             {product.stock > 0 && product.stock < 5 && (
               <p className="text-red-500">
@@ -294,7 +294,7 @@ const ProductPage = () => {
               <p className="text-red-500">Only 5 items can be added to cart</p>
             )}
 
-            <h1 className=" font-Philosopher text-primary text-3xl mt-[10%] ">
+            <h1 className=" font-Philosopher text-primary text-3xl mt-5 ">
               Select Size
             </h1>
             <div className="fle flex-col">
@@ -310,7 +310,7 @@ const ProductPage = () => {
                 {product.sizes.map((size, index) => (
                   <div
                     key={index}
-                    className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl "
+                    className="flex flex-row border-r-2 cursor-pointer border-ternary "
                   >
                     <input
                       key={size.id}
@@ -351,7 +351,7 @@ const ProductPage = () => {
                     {product.colors.map((color, index) => (
                       <div
                         key={index}
-                        className="flex flex-row border-r-2 cursor-pointer border-ternary  shadow-xl"
+                        className="flex flex-row border-r-2 cursor-pointer border-ternary"
                       >
                         <input
                           disabled={product.stock === 0}
@@ -390,7 +390,7 @@ const ProductPage = () => {
       <hr className="w-full mx-4 mb-4 border-1 border-primary" />
 
       <div className="flex flex-col items-center mb-[6%] w-full ">
-        <h1 className="text-[35px] font-Philosopher text-primary">Reviews</h1>
+        <h1 className="text-4xl mb-4 font-bold font-Aboreto text-primary">Reviews</h1>
         <div className="flex flex-row justify-evenly w-fit bg-secondary p-4 rounded-xl">
           <div className="text-[20px] font-BreeSerif text-primary mx-10">
             Overall Rating
@@ -429,7 +429,7 @@ const ProductPage = () => {
                   </AnimatePresence>
                 </div>
               </div>
-              <div className="flex flex-row justify-between w-fit my-4">
+              <div className="flex flex-row font justify-between w-fit my-4">
                 Review
                 <div className="flex flex-col">
                   <textarea

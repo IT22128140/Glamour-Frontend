@@ -18,7 +18,7 @@ const CustomerNavbar = () => {
         <DropDownButton title="Men's" options={mens} />
         <DropDownButton title="Women's" options={womens} />
       </div>
-      <div className="flex flex-row h-[70px] justify-between">
+      <div className="flex flex-row font-BreeSerif h-[70px] justify-between">
         <Search />
         <Link to="/Cart">
           <MdOutlineShoppingCart className="text-[50px] text-primary mt-2 lg:ml-4" />
@@ -28,27 +28,27 @@ const CustomerNavbar = () => {
             <IoPersonCircleOutline className=" menu-hover lg:mx-4 text-[50px] text-primary" />
           </div>
           <div className="invisible absolute z-50 flex px-2  w-28 flex-col bg-primary rounded-md text-c shadow-xl group-hover:visible">
-            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/cusProfile">
+            <Link className="rounded-md p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary" to="/cusProfile">
               Profile
             </Link>
-            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/measurements/view/:id">
+            <Link className="rounded-md p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary" to="/measurements/view/:id">
               Model
             </Link>
             <Link
-              className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary "
+              className="rounded-md p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary "
               to="/Orders"
             >
               Orders
             </Link>
             <Link
-              className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
+              className="rounded-md p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary"
               to="/Addresses"
             >
               Addresses
             </Link>
             {token && (
               <button
-                className="rounded-md text-start p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
+                className="rounded-md text-start p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary"
                 onClick={() => {
                   localStorage.removeItem("token");
                   navigate("/login");
@@ -60,7 +60,7 @@ const CustomerNavbar = () => {
             {!token && (
               <Link
                 to="/login"
-                className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
+                className="rounded-md p-2 my-2 block  text-secondary  hover:bg-secondary hover:text-primary"
               >
                 Login
               </Link>

@@ -62,7 +62,7 @@ const handleSaveMeasurement = async (data) => {
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(handleSaveMeasurement)} className="bg-secondary rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
-          <h1 className='text-4xl  font-philosopher text-primary font-semibold my-8 text-center alignment-center'>Add New Measurement</h1>
+          <h1 className='text-5xl  font-Aboreto text-primary font-bold my-8 text-center alignment-center'>Add New Measurement</h1>
           <Input
             formtype='input'
             label='Unique Name'
@@ -142,6 +142,7 @@ const handleSaveMeasurement = async (data) => {
         </form>
       </FormProvider>
       <div className='h-40'></div>
+      <div className="h-20"/>
       <Footer />
     </div>
   )

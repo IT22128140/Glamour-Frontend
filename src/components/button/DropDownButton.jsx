@@ -12,12 +12,12 @@ const DropDownButton = (props) => {
         </a>
         <LuChevronDown />
       </div>
-      <div className="invisible absolute z-50 flex w-full flex-col bg-primary rounded-md text-ternary shadow-xl group-hover:visible">
+      <div className="invisible absolute font-BreeSerif z-50 flex w-full flex-col bg-primary rounded-md text-ternary shadow-xl group-hover:visible">
         {props.options.map((opt) => (
           <Link
             onClick={props.onClick}
             key={opt.id}
-            className="rounded-md p-1 m-2 block font-semibold text-secondary hover:bg-secondary hover:text-primary"
+            className="rounded-md p-1 m-2 block text-secondary hover:bg-secondary hover:text-primary"
             to={opt.url}
             state={opt.state}
           >

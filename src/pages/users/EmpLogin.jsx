@@ -43,7 +43,7 @@ const EmpLogin = () => {
             </div>
             {loading && <Spinner />}
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(handleLogin)} className="bg-white  bg-opacity-20 rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
+                <form onSubmit={handleSubmit(handleLogin)} className="bg-secondary rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif shadow-2xl">
                     <h1 className='text-4xl font-Aboreto text-primary font-semibold my-8 text-center'>Login to Your Account</h1>
                     <Input
                         formtype='input'
@@ -72,7 +72,7 @@ const EmpLogin = () => {
                     </div>
                 </form>
             </FormProvider>
-            <div className='text-center mt-4'>
+            <div className='text-center mt-4 font-BreeSerif text-xl'>
                 <span className='text-white'>New Here? </span>
                 <Link to="/EmpRegister">
                     <button type="button" className='text-blue-500 underline'>Sign Up</button>

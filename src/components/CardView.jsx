@@ -16,7 +16,7 @@ const CardView = (props) => {
       <p className="font-BreeSerif text-primary w-80"></p>
       <p className="font-BreeSerif text-primary">Rs.{props.price}.00</p>
       {props.stock === 0 && (
-              <p className="text-red-500 font-bold">Out of stock</p>
+              <p className="text-red-500 font-BreeSerif">Out of stock</p>
             )}
     </Link>
   );

@@ -77,12 +77,12 @@ const ViewMeasurement = () => {
                 {loadingMeasurements ? (
                     <p className="text-center text-gray-500">Loading measurements...</p>
                 ) : measurements ? (
-                    <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8 mb-8">
-                        <h2 className="text-3xl font-bold text-primary text-center mb-8">
+                    <div className="w-full max-w-4xl bg-secondary shadow-lg rounded-lg p-8 mb-8">
+                        <h2 className="text-5xl font-bold font-Aboreto text-primary text-center mb-8">
                             Body Measurements
                         </h2>
-                        <div className="grid grid-cols-2 gap-6">
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                        <div className="grid grid-cols-2 gap-6 font-BreeSerif">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Measurement ID
                                 </p>
@@ -91,7 +91,7 @@ const ViewMeasurement = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Gender
                                 </p>
@@ -100,7 +100,7 @@ const ViewMeasurement = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Bust Size (inches)
                                 </p>
@@ -109,7 +109,7 @@ const ViewMeasurement = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Waist Size (inches)
                                 </p>
@@ -118,7 +118,7 @@ const ViewMeasurement = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Hip Size (inches)
                                 </p>
@@ -127,7 +127,7 @@ const ViewMeasurement = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
                                     Shoulder Width (inches)
                                 </p>
@@ -139,7 +139,7 @@ const ViewMeasurement = () => {
 
                         <div className="flex justify-center mt-6">
                             <Link to={`/measurements/edit/${measurements._id}`}>
-                                <button className="bg-bgc text-white font-bold py-2 px-8 rounded">
+                                <button className="bg-bgc font-BreeSerif text-white py-2 px-8 rounded">
                                     Edit Measurements
                                 </button>
                             </Link>
@@ -154,10 +154,10 @@ const ViewMeasurement = () => {
                     </Link>
                 )}
 
-                <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
+                <div className="w-full max-w-4xl bg-secondary font-BreeSerif shadow-lg rounded-lg p-8">
                     {measurements?.Gender === "Female" && (
                         <>
-                            <h2 className="text-2xl font-bold text-primary w-full text-center mb-4">
+                            <h2 className="text-2xl text-primary w-full text-center mb-4">
                                 Your model size for below cloth types:{" "}
                                 {measurements.TopSize || "N/A"}
                             </h2>
@@ -171,7 +171,7 @@ const ViewMeasurement = () => {
                                     />
                                 ))}
                             </div>
-                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
+                            <h2 className="text-2xl text-primary w-full text-center mt-10 mb-4">
                                 Your model size for below cloth types:{" "}
                                 {measurements.PantSize || "N/A"}
                             </h2>
@@ -223,6 +223,7 @@ const ViewMeasurement = () => {
                 </div>
 
             </div>
+            <div className="h-20"/>
             <Footer />
         </div>
     )

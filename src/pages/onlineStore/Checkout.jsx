@@ -508,8 +508,9 @@ const Checkout = () => {
                         </button>
                     </div>
                 </div>
-                <Footer />
             </form>
+            <div className=" h-20"/>
+            <Footer />
         </div>
     );
 };

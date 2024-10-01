@@ -43,7 +43,7 @@ const EmpSignup = () => {
                     <Link to="/EmpLogin">
                         <button
                             type="submit"
-                            className='ml-auto p-2 bg-primary text-white rounded'>
+                            className='ml-auto p-2 bg-primary font-BreeSerif text-white rounded'>
                             Login
                         </button>
                     </Link>
@@ -62,7 +62,7 @@ const EmpSignup = () => {
                     <div className="w-1/2 flex justify-center items-center p-8 bg-ternary">
                         {loading && <Spinner />}
                         <FormProvider {...methods}>
-                            <div className="bg-white bg-opacity-20 rounded-xl p-8 w-full max-w-lg mx-auto">
+                            <div className="bg-secondary shadow-2xl rounded-xl p-8 w-full max-w-lg mx-auto">
                                 <h1 className='text-4xl font-Aboreto text-primary font-semibold my-8 text-center'>Create Your Account</h1>
                                 <form onSubmit={handleSubmit(handleSignup)} className="space-y-4">
                                     <Input
@@ -108,7 +108,7 @@ const EmpSignup = () => {
                                     <div className="flex justify-center">
                                         <button
                                             type="submit"
-                                            className='mt-4 p-2 bg-primary text-white rounded w-1/3'>
+                                            className='mt-4 p-2 bg-primary font-BreeSerif text-white rounded w-1/3'>
                                             Register
                                         </button>
                                     </div>

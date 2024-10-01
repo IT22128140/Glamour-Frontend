@@ -58,7 +58,7 @@ const Signup = () => {
                     <div className="w-1/2 flex justify-center items-center p-8 bg-ternary">
                         {loading && <Spinner />}
                         <FormProvider {...methods}>
-                            <div className="bg-white bg-opacity-20 rounded-xl p-8 w-full max-w-lg mx-auto">
+                            <div className="bg-secondary rounded-xl p-8 w-full max-w-lg mx-auto shadow-xl">
                                 <h1 className='text-4xl font-Aboreto text-primary font-semibold my-8 text-center'>Create Your Account</h1>
                                 <form onSubmit={handleSubmit(handleSignup)} className="space-y-4">
                                     <Input

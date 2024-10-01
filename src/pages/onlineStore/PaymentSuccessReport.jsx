@@ -92,11 +92,12 @@ const PaymentSuccessReport = () => {
         </div>
       )}
       <div className="flex justify-center mb-4">
-        <button onClick={downloadPDF} className="bg-ternary text-primary font-bold p-3 rounded-md font-BreeSerif shadow-lg">
+        <button onClick={downloadPDF} className="bg-black text-white p-3 rounded-md font-BreeSerif shadow-lg">
           Download Receipt
         </button>
       </div>
       </div>
+      <div className='h-20'/>
       <Footer />
     </div>
   );

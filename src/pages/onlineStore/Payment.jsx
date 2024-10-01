@@ -429,8 +429,9 @@ const Payment = () => {
                         <hr className="my-3 font-extrabold border-ternary border-2" />
                     </div>
                 </div>
-                <Footer />
             </form>
+            <div className=' h-20'/>
+            <Footer />
         </div>
     );
 };

@@ -72,39 +72,39 @@ const Profile = () => {
                                 className="object-cover w-full h-full"
                             />
                         </div>
-                        <div className="bg-white shadow-lg rounded-lg w-full p-8 mb-8">
-                            <h1 className="text-3xl font-Aboreto font-bold text-primary mb-6 text-center">
+                        <div className="bg-secondary shadow-lg rounded-lg w-full p-8 mb-8">
+                            <h1 className="text-5xl font-Aboreto font-bold text-primary mb-6 text-center">
                                 Profile Details
                             </h1>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4 font-BreeSerif">
                                 <div className="bg-primary text-white p-4 rounded-lg">
-                                    <p className="font-semibold">First Name</p>
+                                    <p>First Name</p>
                                 </div>
-                                <div className="bg-gray-100 p-4 rounded-lg">
+                                <div className="bg-white p-4 rounded-lg">
                                     <p>{userProfile.firstName || "N/A"}</p>
                                 </div>
                                 <div className="bg-primary text-white p-4 rounded-lg">
-                                    <p className="font-semibold">Last Name</p>
+                                    <p>Last Name</p>
                                 </div>
-                                <div className="bg-gray-100 p-4 rounded-lg">
+                                <div className="bg-white p-4 rounded-lg">
                                     <p>{userProfile.lastName || "N/A"}</p>
                                 </div>
                                 <div className="bg-primary text-white p-4 rounded-lg">
-                                    <p className="font-semibold">Email Address</p>
+                                    <p>Email Address</p>
                                 </div>
-                                <div className="bg-gray-100 p-4 rounded-lg">
+                                <div className="bg-white p-4 rounded-lg">
                                     <p>{userProfile.email || "N/A"}</p>
                                 </div>
                                 <div className="bg-primary text-white p-4 rounded-lg">
-                                    <p className="font-semibold">Phone Number</p>
+                                    <p>Phone Number</p>
                                 </div>
-                                <div className="bg-gray-100 p-4 rounded-lg">
+                                <div className="bg-white p-4 rounded-lg">
                                     <p>{userProfile.phoneNumber || "N/A"}</p>
                                 </div>
                             </div>
                             <div className="flex justify-center mt-6">
                                 <Link to="/EditCusProfile">
-                                    <button className="bg-bgc text-white font-bold py-2 px-8 rounded">
+                                    <button className="bg-bgc font-BreeSerif text-white py-2 px-8 rounded">
                                         Edit Profile
                                     </button>
                                 </Link>
@@ -117,7 +117,7 @@ const Profile = () => {
                         <p className="text-center text-gray-500">Loading measurements...</p>
                     ) : measurements ? (
                         <Link to="/measurements/view/:id">
-                            <button className="bg-primary text-white font-bold py-2 px-8 rounded">
+                            <button className="bg-primary text-white font-BreeSerif py-2 px-8 rounded">
                                 View Model
                             </button>
                         </Link>
@@ -130,6 +130,7 @@ const Profile = () => {
                     )}
                 </div>
             </div>
+            <div className="h-20"/>
             <Footer />
         </div>
     );

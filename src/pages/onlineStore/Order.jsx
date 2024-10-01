@@ -90,7 +90,7 @@ const Order = () => {
       <div className='flex flex-row'>
         <div className='w-fit min-h-[50vh]'></div>
         <div className='flex flex-col w-full'>
-          <h1 className='text-center text-5xl font-Aboreto py-5 text-primary'>YOUR ORDERS</h1>
+          <h1 className='text-center text-5xl font-Aboreto font-bold py-5 text-primary'>YOUR ORDERS</h1>
           <div className='font-Philosopher text-3xl text-center'>
             <button
               className={`px-5 py-1 rounded-xl text-primary ${ongoing}`}

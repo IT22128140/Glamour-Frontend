@@ -74,7 +74,7 @@ const Home = () => {
         </div>
         <img src="/Clothes/home/Home1.jpg" alt="image" className="w-1/2" />
       </div>
-
+<div className="h-20"/>
       <Footer />
     </div>
   );

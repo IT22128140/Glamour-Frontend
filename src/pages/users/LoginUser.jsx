@@ -35,10 +35,10 @@ const Login = () => {
             <div className='flex h-fit flex-row justify-center bg-white mt-3 pb-3 '>
                 <Logo />
             </div>
-        <div className='w-full h-full bg-fixed bg-ternary p-8 bg-no-repeat'>
+        <div className='w-full h-full bg-fixed pt-9 bg-ternary bg-no-repeat'>
             {loading && <Spinner />}
             <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(handleLogin)} className="bg-white  bg-opacity-20 rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
+                <form onSubmit={handleSubmit(handleLogin)} className="bg-secondary shadow-2xl   rounded-xl w-[600px] p-8 mt-20 mx-auto font-BreeSerif">
                     <h1 className='text-4xl font-Aboreto text-primary font-semibold my-8 text-center'>Login to Your Account</h1>
                     <Input
                         formtype='input'
@@ -67,12 +67,13 @@ const Login = () => {
                     </div>
                 </form>
             </FormProvider>
-            <div className='text-center mt-4'>
-                <span className='text-white'>New Here? </span>
+            <div className='text-center text-xl mt-4'>
+                <span className='text-black font-BreeSerif'>New Here? </span>
                 <Link to="/Register">
-                    <button type="button" className='text-blue-500 underline'>Sign Up</button>
+                    <button type="button" className='text-blue-500 font-BreeSerif underline'>Sign Up</button>
                 </Link>
             </div>
+            <div className='h-40'></div>
             <Footer />
         </div>
         </div>

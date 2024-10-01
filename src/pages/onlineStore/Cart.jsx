@@ -195,7 +195,7 @@ const Cart = () => {
             ) : (
               <div
                 key={index}
-                className={`flex flex-row mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md ${
+                className={`flex flex-row bg-secondary mx-8 my-5 justify-between mr-32 h-32 items-center rounded-lg p-5 shadow-md ${
                   item.product.stock < item.quantity ? "border-red-500 border-2 bg-gray-100 opacity-75" : ""
                 }`}
               >

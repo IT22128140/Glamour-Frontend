@@ -7,7 +7,7 @@ import FooterMap from "./FooterMap";
 const Footer = () => {
   return (
     <>
-      <div className="flex flex-row mt-[5%] w-[100%] bg-footer min-h-[350px] bg-secondary">
+      <div className="flex flex-row w-[100%] bg-footer min-h-[350px] bg-secondary">
         <FooterSocialLinks />
         <FooterLinks />
         <FooterMap />

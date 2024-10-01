@@ -69,14 +69,13 @@ const EditMeasurement = () => {
     return(
         <div className='w-full h-full bg-fixed bg-no-repeat' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
           <Navbar/>
-          <BackButton/>
       {loading ? <Spinner /> : ''}
 
        <div className="bg-secondary  rounded-xl w-[600px] p-8 mx-auto mt-20 font-BreeSerif">
-       <h1 className='text-3xl text-center my-4 font-BreeSerif'>Edit Measurement Details</h1>
+       <h1 className='text-4xl text-center my-4 font-Aboreto font-bold text-primary'>Edit Measurement Details</h1>
 
        <div className="flex w-[80%] justify-between mb-2">
-        <label className='text-ternary'>Measurement Name</label>
+        <label className='text-primary'>Measurement Name</label>
        </div>
        <div> 
           <input
@@ -92,7 +91,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-        <label className='text-ternary'>Gender</label>
+        <label className='text-primary'>Gender</label>
        </div>
        <div> 
           <input
@@ -107,7 +106,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-           <label className='text-ternary'>Bust Size</label>
+           <label className='text-primary'>Bust Size</label>
           </div>
           <div>
           <input
@@ -122,7 +121,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-            <label className='text-ternary'>Under Bust Size</label>
+            <label className='text-primary'>Under Bust Size</label>
           </div>
           <div>  
           <input
@@ -137,7 +136,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-            <label className='text-ternary'>Neck Base Size</label>
+            <label className='text-primary'>Neck Base Size</label>
           </div>
           <div>  
           <input
@@ -152,7 +151,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-            <label className='text-ternary'>Waist Size</label>
+            <label className='text-primary'>Waist Size</label>
           </div>
           <div>
            <input
@@ -167,7 +166,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-            <label className='text-ternary'>Hip Size</label>
+            <label className='text-primary'>Hip Size</label>
           </div>
           <div>
            <input
@@ -182,7 +181,7 @@ const EditMeasurement = () => {
           </div>
 
           <div className="flex w-[80%] justify-between mb-2">
-             <label className='text-ternary'>Shoulder Width Size</label>
+             <label className='text-primary'>Shoulder Width Size</label>
           </div>
           <div>   
           <input
@@ -198,6 +197,7 @@ const EditMeasurement = () => {
         
           <center className="mt-3" onClick={handleEditMeasurement}><SubmitButton/></center>
           </div>
+          <div className="h-20"/>
           <Footer/>
           </div>
     )
