@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner";
 import Navbar from "../../components/navbar/CustomerNavbar.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 import { enqueueSnackbar } from "notistack";
+import { MdOutlineCancel } from 'react-icons/md';
 import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
@@ -16,6 +17,7 @@ function EditProfile() {
   });
   const [userID, setuserID] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
   const navigate = useNavigate();
 
   // Fetch userID on component mount
@@ -28,7 +30,8 @@ function EditProfile() {
           setuserID(response.data.userID);
         })
         .catch((err) => {
-          console.error("Error fetching user ID:", err);
+          console.error(err);
+          enqueueSnackbar("Error fetching user ID:", { variant: "error" });
         });
     }
   }, []);
@@ -50,7 +53,8 @@ function EditProfile() {
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching profile information:", error);
+          console.error(error);
+          enqueueSnackbar("Error fetching profile information:", { variant: "error" });
         });
     }
   }, [userID]);
@@ -68,17 +72,17 @@ function EditProfile() {
     const { firstName, lastName, email, phoneNumber, password } = userProfile;
 
     if (!firstName || !lastName || !email || !phoneNumber) {
-      alert("Please fill in all the fields.");
+      enqueueSnackbar("Please fill in all the fields", { variant: "error" });
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      alert("Please enter a valid email address.");
+      enqueueSnackbar("Please enter a valid email address", { variant: "error" });
       return;
     }
 
     if (!/^\d{10}$/.test(phoneNumber)) {
-      alert("Please enter a valid 10-digit phone number.");
+      enqueueSnackbar("Please enter a valid 10-digit phone number", { variant: "error" });
       return;
     }
 
@@ -88,9 +92,7 @@ function EditProfile() {
         !/\d/.test(password) ||
         !/[!@#$%^&*]/.test(password))
     ) {
-      alert(
-        "Password must be at least 8 characters long and contain at least one digit and one special character."
-      );
+      enqueueSnackbar("Password must be at least 8 characters long and contain at least one digit and one special character", { variant: "error" });
       return;
     }
 
@@ -103,8 +105,8 @@ function EditProfile() {
       enqueueSnackbar("Profile updated successfully.", { variant: "success" });
       navigate("/cusProfile");
     } catch (error) {
-      console.error("Error saving profile:", error);
-      alert("Failed to save profile.");
+      console.error(error);
+      enqueueSnackbar("Failed to save profile", { variant: "error" });
     }
   };
 
@@ -123,6 +125,46 @@ function EditProfile() {
       enqueueSnackbar("Failed to delete profile", { variant: "error" });
     }
   };
+
+  const DeleteConfirmationModal = () => (
+    <div
+  className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+  onClick={() => setShowDeleteModal(false)} 
+>
+  <div
+    onClick={(event) => event.stopPropagation()} 
+    className="w-[900px] max-w-full h-auto bg-white rounded-xl p-4 flex flex-col relative"
+  >
+    <h1 className="text-3xl ml-4 my-4 font-Philosopher text-ternary">
+      Confirm Deletion
+    </h1>
+    <MdOutlineCancel
+      className="absolute top-6 right-6 text-3xl text-red-600 cursor-pointer"
+      onClick={() => setShowDeleteModal(false)} 
+    />
+    <div className="flex flex-col rounded-xl mx-auto text-2xl font-BreeSerif">
+      <div className="flex flex-row">
+        Are you sure you want to delete your profile? This action cannot be undone.
+      </div>
+      <div className="flex justify-center gap-x-40 mt-2">
+        <button
+          className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+          onClick={handleDeleteProfile} 
+        >
+          Delete
+        </button>
+        <button
+          className="bg-black text-white py-2 px-4 rounded hover:bg-gray-600"
+          onClick={() => setShowDeleteModal(false)} // Close modal on cancel
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  );
 
   if (loading) {
     return <Spinner />;
@@ -191,8 +233,8 @@ function EditProfile() {
                 <input
                   className="p-4 rounded-lg border-2 border-gray-300"
                   type="password"
-                  placeholder="••••••••" // Placeholder to show it's a password
-                  value={userProfile.password} // Password field remains empty
+                  placeholder="••••••••"
+                  value={userProfile.password} 
                   onChange={(e) => handleInputChange(e, "password")}
                 />
               </div>
@@ -209,11 +251,12 @@ function EditProfile() {
           </button>
           <button
             className="bg-red-500 text-white font-BreeSerif py-3 px-6 rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
-            onClick={handleDeleteProfile}
+            onClick={() => setShowDeleteModal(true)}
           >
             DELETE
           </button>
         </div>
+        {showDeleteModal && <DeleteConfirmationModal />}
         <div className="h-20" />
         <Footer />
       </div>

@@ -26,7 +26,7 @@ const EmpLogin = () => {
             navigate('/Store_Manager');
         } catch (error) {
             setLoading(false);
-            enqueueSnackbar("Error Login", { variant: "error" });
+            enqueueSnackbar("Invalid email or password", { variant: "error" });
             console.log(error);
         }
     };

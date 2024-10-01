@@ -8,10 +8,8 @@ import SubmitButton from '../../components/button/SubmitButton';
 import { enqueueSnackbar } from "notistack";
 import Navbar from "../../components/navbar/CustomerNavbar.jsx";
 import Footer from "../../components/footer/Footer.jsx";
-import BackButton from '../../components/button/BackButton.jsx';
 import {measurementValidation} from '../../utils/inputValidations';
 import {textValidation} from '../../utils/inputValidations';
-import {BMIDValidation} from '../../utils/inputValidations';
 
 
 const AddMeasurement = () => {
@@ -38,10 +36,9 @@ const AddMeasurement = () => {
 const handleSaveMeasurement = async (data) => {
   setLoading(true);
   try {
-    // Attach the userID to the form data as MeasurementID
     const formData = {
       ...data,
-      MeasurementID: userID  // Replace MeasurementID with userID
+      MeasurementID: userID 
     };
 
     await axios.post('http://localhost:3000/measurements', formData);
@@ -57,7 +54,6 @@ const handleSaveMeasurement = async (data) => {
   return (
     <div >
       <Navbar />
-      <BackButton />
       {loading ? <Spinner /> : ''}
 
       <FormProvider {...methods}>

@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import Input from '../../components/form/Input'; // Ensure you have this component
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
 import Spinner from '../../components/Spinner';
+import {pnoValidation} from '../../utils/inputValidations';
+import {EmailValidation} from '../../utils/inputValidations';
+import {PasswordValidation} from '../../utils/inputValidations';
 
 const EmpSignup = () => {
 
@@ -88,6 +91,7 @@ const EmpSignup = () => {
                                         type='email'
                                         placeholder='Enter email'
                                         name='email'
+                                        {...EmailValidation}
                                     />
                                     <Input
                                         formtype='input'
@@ -96,6 +100,7 @@ const EmpSignup = () => {
                                         type='text'
                                         placeholder='Enter contact number'
                                         name='phoneNumber'
+                                        {...pnoValidation}
                                     />
                                     <Input
                                         formtype='input'
@@ -104,6 +109,7 @@ const EmpSignup = () => {
                                         type='password'
                                         placeholder='Enter password'
                                         name='password'
+                                        {...PasswordValidation}
                                     />
                                     <div className="flex justify-center">
                                         <button

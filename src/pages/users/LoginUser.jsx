@@ -25,7 +25,7 @@ const Login = () => {
             navigate('/HomeCus');
         } catch (error) {
             setLoading(false);
-            enqueueSnackbar("Error Login", { variant: "error" });
+            enqueueSnackbar("Invalid email or password", { variant: "error" });
             console.log(error);
         }
     };
