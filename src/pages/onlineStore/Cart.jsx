@@ -287,6 +287,7 @@ const Cart = () => {
           )}
         </div>
       </div>
+      <div className="h-[300px]"></div>
       <Footer />
     </div>
   );

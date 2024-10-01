@@ -52,8 +52,8 @@ const PaymentSuccessReport = () => {
       ) : (
         <div ref={reportRef} className="flex flex-col bg-secondary rounded-xl w-[600px] p-8 mx-auto font-BreeSerif text-primary mb-5">
           <div className="flex flex-row">
-            <img src="/Logo2.png" alt="logo" className="w-[10rem] h-[3rem] lg:w-[17rem] lg:h-[4rem]" />
-            <img src="/Logo1.png" alt="logo" className="w-[4rem] h-[3rem] lg:w-[6rem] lg:h-[4rem] ml-auto"/>
+            <img src="/Logo2.png" alt="logo" className="w-[24rem] h-[5rem] lg:w-[24rem] lg:h-[5rem]" />
+            <img src="/Logo1.png" alt="logo" className="w-[4rem] h-[5rem] lg:w-[4rem] lg:h-[5rem] ml-auto"/>
           </div>
           <h1 className="font-Philosopher text-2xl mt-4 mb-5 font-bold text-center text-primary">Payment Detail Report</h1>
           <div className="my-4 text-black">
@@ -93,7 +93,7 @@ const PaymentSuccessReport = () => {
       )}
       <div className="flex justify-center mb-4">
         <button onClick={downloadPDF} className="bg-ternary text-primary font-bold p-3 rounded-md font-BreeSerif shadow-lg">
-          Download PDF
+          Download Receipt
         </button>
       </div>
       </div>

@@ -1,10 +1,6 @@
-//import React from 'react'
-import { useEffect, useState } from "react";
-import axios from 'axios';
-
 import Logo from "./NavbarLogo.jsx";
 import DropDownButton from "../button/DropDownButton.jsx";
-import { mens, womens, kids, Unisex } from "../../utils/arrays.js";
+import { mens, womens } from "../../utils/arrays.js";
 // import { CiSearch } from "react-icons/ci";
 import Search from "./Search.jsx";
 import { MdOutlineShoppingCart } from "react-icons/md";
@@ -21,21 +17,22 @@ const CustomerNavbar = () => {
       <div className="flex flex-row p-5">
         <DropDownButton title="Men's" options={mens} />
         <DropDownButton title="Women's" options={womens} />
-        <DropDownButton title="Kids" options={kids} />
-        <DropDownButton title="Unisex" options={Unisex} />
       </div>
       <div className="flex flex-row h-[70px] justify-between">
         <Search />
         <Link to="/Cart">
           <MdOutlineShoppingCart className="text-[50px] text-primary mt-2 lg:ml-4" />
         </Link>
-        <div className="group relative cursor-pointer py-2">
+        <div className="group relative cursor-pointer py-2 mr-8">
           <div className="flex items-center">
             <IoPersonCircleOutline className=" menu-hover lg:mx-4 text-[50px] text-primary" />
           </div>
-          <div className="invisible absolute z-50 flex w-full flex-col bg-primary rounded-md text-c shadow-xl group-hover:visible">
+          <div className="invisible absolute z-50 flex px-2  w-28 flex-col bg-primary rounded-md text-c shadow-xl group-hover:visible">
             <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/cusProfile">
               Profile
+            </Link>
+            <Link className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary" to="/measurements/view/:id">
+              Model
             </Link>
             <Link
               className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary "
@@ -51,7 +48,7 @@ const CustomerNavbar = () => {
             </Link>
             {token && (
               <button
-                className="rounded-md p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
+                className="rounded-md text-start p-2 my-2 block font-semibold text-secondary  hover:bg-secondary hover:text-primary"
                 onClick={() => {
                   localStorage.removeItem("token");
                   navigate("/login");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Spinner from '../../components/Spinner';
 import Navbar from "../../components/navbar/CustomerNavbar.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -8,23 +9,44 @@ import BackButton from '../../components/button/BackButton.jsx';
 
 const ViewMeasurement = () => {
 
-    const [measurement, setMeasurement] = useState('');
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams();
+    const [userID, setuserID] = useState("");
+    const [measurements, setMeasurements] = useState(null);
+    const [loadingMeasurements, setLoadingMeasurements] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
+        const token = localStorage.getItem("token");
         axios
-            .get(`http://localhost:3000/measurements/${id}`)
+            .post("http://localhost:3000/login/auth", { token: token })
             .then((response) => {
-                setMeasurement(response.data);
-                setLoading(false);
+                setuserID(response.data.userID)
+                if (response.data.status === false) {
+                    window.location.href = "/login";
+                }
             })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
+            .catch((err) => {
+                console.log(err);
             });
-    }, [])
+    });
+
+    // Fetch body measurements for the user
+    useEffect(() => {
+        if (userID) {
+            axios
+                .get(`http://localhost:3000/measurements/user/${userID}`)
+                .then((response) => {
+                    console.log(response.data);
+                    if (response.data) {
+                        setMeasurements(response.data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching body measurements:", error);
+                })
+                .finally(() => {
+                    setLoadingMeasurements(false);
+                });
+        }
+    }, [userID]);
 
     const femaleTops = [
         '/Female/Blouse.webp',
@@ -51,76 +73,151 @@ const ViewMeasurement = () => {
     return (
         <div className='w-full mt-6 h-full bg-fixed bg-no-repeat ' style={{ backgroundPosition: 'top right', backgroundSize: 'cover' }}>
             <Navbar />
-            <BackButton />
-            <div className="container mx-auto flex flex-row">
-                {loading ? (
-                    <Spinner />
-                ) : (
-                    <div className=" border-2 rounded-xl h-fit w-fit p-4 mt-20 mx-auto ml-10">
-                        <h1 className='text-3xl text-center text-primary my-4 font-Aboreto'>Body Measurements</h1>
-                        <div className='my-6 flex'>
-                            <p className='text-xl text-primary font-BreeSerif w-60'>Unique Name</p>
-                            <p className='text-xl font-BreeSerif'>{measurement.UniqueName}</p>
-                        </div>
-                        <div className='my-6 flex'>
-                            <p className='text-xl text-primary font-BreeSerif w-60'>Gender</p>
-                            <p className='text-xl font-BreeSerif'>{measurement.Gender}</p>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Bust Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.Bust}</span>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Under Bust Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.UnderBust}</span>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Neck Base Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.NeckBase}</span>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Waist Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.Waist}</span>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Hip Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.Hip}</span>
-                        </div>
-                        <div className='my-6 flex'>
-                            <span className='text-xl text-primary font-BreeSerif w-60'>Shoulder Width Size</span>
-                            <span className='text-xl font-BreeSerif'>{measurement.ShoulderWidth}</span>
+            <div className="mt-20 min-h-full flex flex-col items-center">
+                {loadingMeasurements ? (
+                    <p className="text-center text-gray-500">Loading measurements...</p>
+                ) : measurements ? (
+                    <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8 mb-8">
+                        <h2 className="text-3xl font-bold text-primary text-center mb-8">
+                            Body Measurements
+                        </h2>
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Measurement ID
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.UniqueName || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Gender
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.Gender || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Bust Size (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.Bust || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Waist Size (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.Waist || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Hip Size (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.Hip || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Shoulder Width (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.ShoulderWidth || "N/A"}
+                                </p>
+                            </div>
                         </div>
 
-
+                        <div className="flex justify-center mt-6">
+                            <Link to={`/measurements/edit/${measurements._id}`}>
+                                <button className="bg-bgc text-white font-bold py-2 px-8 rounded">
+                                    Edit Measurements
+                                </button>
+                            </Link>
+                        </div>
                     </div>
+
+                ) : (
+                    <Link to="/measurements/create">
+                        <button className="bg-primary text-white font-bold py-2 px-8 rounded">
+                            Add Measurements
+                        </button>
+                    </Link>
                 )}
 
-                <div className="w-1/2 flex flex-wrap justify-center items-center mt-10 ml-10">
-                    {measurement.Gender === 'Female' && (
+                <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
+                    {measurements?.Gender === "Female" && (
                         <>
-                            <h2 className="text-2xl w-full text-center mb-4">Your model size for below cloth types : {measurement.TopSize || "N/A"}</h2>
-                            {femaleTops.map((image, index) => (
-                                <img key={index} src={image} alt="Female Top" className='w-1/3 p-2' />
-                            ))}
-
-                            <h2 className="text-2xl w-full text-center mt-10 mb-4">Your model size for below cloth types : {measurement.PantSize || "N/A"}</h2>
-                            {femalePants.map((image, index) => (
-                                <img key={index} src={image} alt="Female Pants" className={image === '/Female/Pant2.jpeg' ? 'w-1/2 p-2' : 'w-1/3 p-2'} />
-                            ))}
+                            <h2 className="text-2xl font-bold text-primary w-full text-center mb-4">
+                                Your model size for below cloth types:{" "}
+                                {measurements.TopSize || "N/A"}
+                            </h2>
+                            <div className="flex justify-center space-x-4">
+                                {femaleTops.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt="Female Top"
+                                        className="w-40 rounded-lg shadow-md"
+                                    />
+                                ))}
+                            </div>
+                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
+                                Your model size for below cloth types:{" "}
+                                {measurements.PantSize || "N/A"}
+                            </h2>
+                            <div className="flex justify-center space-x-4">
+                                {femalePants.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt="Female Pants"
+                                        className="w-40 rounded-lg shadow-md"
+                                    />
+                                ))}
+                            </div>
                         </>
                     )}
 
-                    {measurement.Gender === 'Male' && (
+                    {measurements?.Gender === "Male" && (
                         <>
-                            <h2 className="text-2xl w-full text-center mt-10 mb-4">Your model size for below cloth types : {measurement.PantSize || "N/A"}</h2>
-                            {maleShirts.map((image, index) => (
-                                <img key={index} src={image} alt="Male Top" className='w-1/3 p-2' />
-                            ))}
-
-                            <h2 className="text-2xl w-full text-center mt-10 mb-4">Your model size for below cloth types : {measurement.TopSize || "N/A"}</h2>
-                            {maleTrousers.map((image, index) => (
-                                <img key={index} src={image} alt="Male Pants" className={image === '/Male/Pant.webp' ? 'w-1/2 p-2' : 'w-1/3 p-2' }/>
-                            ))}
+                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
+                                Your model size for below cloth types:{" "}
+                                {measurements.PantSize || "N/A"}
+                            </h2>
+                            <div className="flex justify-center space-x-4">
+                                {maleShirts.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt="Male Shirt"
+                                        className="w-40 rounded-lg shadow-md"
+                                    />
+                                ))}
+                            </div>
+                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
+                                Your model size for below cloth types:{" "}
+                                {measurements.TopSize || "N/A"}
+                            </h2>
+                            <div className="flex justify-center space-x-4">
+                                {maleTrousers.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt="Male Pants"
+                                        className="w-40 rounded-lg shadow-md"
+                                    />
+                                ))}
+                            </div>
                         </>
                     )}
                 </div>

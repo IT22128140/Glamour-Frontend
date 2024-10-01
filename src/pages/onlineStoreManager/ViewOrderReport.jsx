@@ -63,15 +63,15 @@ const ViewOrderReport = () => {
 
       <div className="flex flex-row justify-center">
       <div className="border mx-[1.75%] border-black rounded-lg w-fit my-8 flex flex-row bg-white">
-        <h1 className="text-2xl font-BreeSerif text-primary m-6">
-          Generate and Download <br /> Monthly Order Report
+        <h1 className="text-2xl font-BreeSerif text-primary m-12">
+          Download Monthly Order Report
         </h1>
         <button
           type="submit"
           className="w-fit h-fit p-1.5 text-lg font-BreeSerif bg-primary text-white rounded-lg shadow-md m-12"
           onClick={downloadPDF}
         >
-          Generate Report
+          Download Report
         </button>
       </div>
 

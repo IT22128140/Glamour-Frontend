@@ -78,6 +78,7 @@ const EmpLogin = () => {
                     <button type="button" className='text-blue-500 underline'>Sign Up</button>
                 </Link>
             </div>
+            <div className=' h-[440px]'></div>
             <StaffFooter />
         </div>
     );

@@ -55,7 +55,7 @@ if (loading) {
     return <Spinner />;
   }
   return (
-    <div>
+    <div className=" bg-secondary">
       <StoreNavbar pro={true}/>
       <h1 className="my-8 text-6xl font-semibold font-Aboreto text-primary text-center">
         Store Products

@@ -40,8 +40,7 @@ const HrDashboard = () => {
                   View Monthly Order Report
                 </h2>
                 <p className="text-md text-black pb-2">
-                  lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing
-                  elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                  Generate reports based on the orders that were placed for a particular month
                 </p>
 
                 <Link to="/ViewOrderReport">
@@ -55,7 +54,7 @@ const HrDashboard = () => {
         <div>
           <div className="px-14 py-8">
             <div className="border border-black rounded-xl w-[800px] h-fit  flex flex-col items-center font-BreeSerif p-6 bg-white">
-              <h1 className="text-3xl font-Philosopher text-ternary">
+              <h1 className="text-3xl font-Philosopher font-bold text-primary">
                 Model Sizes
               </h1>
 

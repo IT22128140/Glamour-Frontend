@@ -158,15 +158,6 @@ const Checkout = () => {
         return isValid;
     }
 
-    function validateId(id) {
-        let isValid = true;
-        if (id == "") {
-            console.log("noid")
-            isValid = false;
-        }
-        return isValid
-    }
-
     //Fetching delivery info
     useEffect(() => {
         if (userID) {
@@ -235,7 +226,6 @@ const Checkout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();  //ensure form submisssion does not reload the page
-        const isvalidId = validateId(id)
         const isValidFirstName = validateFirstName(firstName);
         const isValidLastName = validateLastName(lastName);
         const isValidContact = validateContact(contact);
@@ -245,7 +235,7 @@ const Checkout = () => {
         const isValidProvince = validateProvince(province);
         const isValidDistrict = validateDistrict(district);
 
-        if (isvalidId && isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict) {
+        if (isValidFirstName && isValidLastName && isValidContact && isValidEmail && isValidAddress && isValidPostalCode && isValidProvince && isValidDistrict) {
             const deliveryInfo = {
                 firstName: firstName,
                 lastName: lastName,
@@ -258,8 +248,7 @@ const Checkout = () => {
             };
 
             // sessionStorage.setItem("total", total + 500);
-
-            if (id.length < 0) {
+            if (!id) {
                 axios.post(`http://localhost:3000/deliveryInfo/${userID}`, deliveryInfo)
                     .then((response) => {
                         console.log(response);

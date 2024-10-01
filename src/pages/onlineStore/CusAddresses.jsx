@@ -71,13 +71,13 @@ const CusAddresses = () => {
                                 onClick={() => {
                                     setCAddress(address), setShowEdit(true);
                                 }}
-                                className={"absolute translate-x-[192px] translate-y-[135px]"}
+                                className={"absolute translate-x-[1px] translate-y-[135px]"}
                             />
                             <DeleteButton
                                 onClick={() => {
                                     setId(address._id), setShowDelete(true);
                                 }}
-                                className={"absolute translate-x-[300px] translate-y-[135px]"}
+                                className={"absolute translate-x-[100px] translate-y-[135px]"}
                             />
                         </div>
                     ))}
@@ -89,6 +89,7 @@ const CusAddresses = () => {
             {showDelete && (
                 <DeleteAddress id={id} onClose={() => setShowDelete(false)} />
             )}
+            <div className='h-[300px]'></div>
             <Footer />
         </div>
     );

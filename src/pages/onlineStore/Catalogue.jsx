@@ -14,6 +14,8 @@ const Catalogue = () => {
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [personalized, setPersonalized] = useState([]);
+  const [userID, setuserID] = useState("");
+  const [boolean, setBoolean] = useState(false);
 
   const location = useLocation();
   const recievedData = location.state;
@@ -61,39 +63,72 @@ const Catalogue = () => {
     }
   }
 
+
+
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:3000/measurements")
+    .get("http://localhost:3000/cusItems")
+    .then((response) => {
+      setLoading(false);
+      setItems(response.data);
+      if (recievedData) {
+        const filteredData = response.data.filter((opt) =>
+          opt.category.toLowerCase().includes(recievedData.toLowerCase())
+        );
+        setFilteredData(filteredData);
+      } else {
+        setFilteredData(response.data);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      setLoading(false);
+    });
+    const token = localStorage.getItem("token");
+    if (token !== null) {
+      axios
+      .post("http://localhost:3000/login/auth", { token: token })
       .then((response) => {
-        setPersonalized(response.data.data);
+        setuserID(response.data.userID);
+        axios
+        .get(`http://localhost:3000/measurements/user/${response.data.userID}`)
+        .then((response) => {
+          setPersonalized(response.data);
+          if (response.data.Hip > 0 ){
+            setBoolean(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
-  }, []);
+    }
+  }, [userID, recievedData]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/cusItems")
-      .then((response) => {
-        setLoading(false);
-        setItems(response.data);
-        if (recievedData) {
-          const filteredData = response.data.filter((opt) =>
-            opt.category.toLowerCase().includes(recievedData.toLowerCase())
-          );
-          setFilteredData(filteredData);
-        } else {
-          setFilteredData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, [recievedData]);
-
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3000/cusItems")
+  //     .then((response) => {
+  //       setLoading(false);
+  //       setItems(response.data);
+  //       if (recievedData) {
+  //         const filteredData = response.data.filter((opt) =>
+  //           opt.category.toLowerCase().includes(recievedData.toLowerCase())
+  //         );
+  //         setFilteredData(filteredData);
+  //       } else {
+  //         setFilteredData(response.data);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoading(false);
+  //     });
+  // }, [recievedData]);
   if (loading) {
     return <Spinner />;
   }
@@ -106,27 +141,25 @@ const Catalogue = () => {
             CATEGORIES
           </h1>
           <div>
-            {personalized.length > 0 && (
-              <>
-                <h2 className=" font-Philosopher text-primary text-2xl my-3">
-                  Personalized
-                </h2>
-                {personalized.map((measurements) => (
+              {boolean && (
+                <>
+                  <h2 className=" font-Philosopher text-primary text-2xl my-3">
+                    Personalized
+                  </h2>
                   <RadioButton
-                    key={measurements._id}
+                    key={personalized._id}
                     name="check"
                     value={JSON.stringify([
-                      measurements.TopSize,
-                      measurements.PantSize,
-                      measurements.Gender,
-                      measurements._id,
+                      personalized.TopSize,
+                      personalized.PantSize,
+                      personalized.Gender,
+                      personalized._id,
                     ])}
-                    label={measurements.UniqueName}
+                    label={personalized.UniqueName}
                     onChange={(e) => filterPersonalizedItems(e)}
                   />
-                ))}
-              </>
-            )}
+                </>
+              )}
           </div>
           {/* Mens */}
           <div>
