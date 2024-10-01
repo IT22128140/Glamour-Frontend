@@ -35,13 +35,13 @@ const Catalogue = () => {
         mensTops.includes(opt.category.toLowerCase("mensshirt", "menstshirt", "menshoodies" ))
       );
       const filteredwithSizeTops = filteredTops.filter(
-        (opt) => opt.sizes.includes(inputValue[0])
+        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
         mensBottoms.includes(opt.category.toLowerCase("menstrousers", "mensdenims", "mensshorts" ))
       );
       const filteredwithSizeBottoms = filteredBottoms.filter(
-        (opt) => opt.sizes.includes(inputValue[1])
+        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
       );
       const filteredData = filteredwithSizeTops.concat(filteredwithSizeBottoms);
       setFilteredData(filteredData);
@@ -50,14 +50,16 @@ const Catalogue = () => {
         womensTops.includes(opt.category.toLowerCase( "womenssets", "womensdresses", "womenstops" ))
       );
       const filteredwithSizeTops = filteredTops.filter(
-        (opt) => opt.sizes.includes(inputValue[0])
+        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
         womensBottoms.includes(opt.category.toLowerCase( "womenstrousers", "womensdenims", "womenskirts" ))
       );
       const filteredwithSizeBottoms = filteredBottoms.filter(
-        (opt) => opt.sizes.includes(inputValue[1])
+        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
       );
+      console.log(filteredwithSizeTops);
+      console.log(filteredwithSizeBottoms);
       const filteredData = filteredwithSizeTops.concat(filteredwithSizeBottoms);
       setFilteredData(filteredData);
     }
