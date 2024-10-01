@@ -7,17 +7,17 @@ import { MdError } from "react-icons/md";
 import { enqueueSnackbar } from "notistack";
 
 const AddStoreItem = ({ onClose, onAdd }) => {
-  const [productId, setProductId] = useState();
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
-  const [minprice, setMinPrice] = useState();
-  const [maxprice, setMaxPrice] = useState();
-  const [salesdifference, setSalesDifference] = useState();
-  const [priceincrease, setPriceIncrease] = useState();
-  const [category, setCategory] = useState();
-  const [image, setImage] = useState();
-  const [trending, setTrending] = useState();
-  const [stock, setStock] = useState();
+  const [productId, setProductId] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [minprice, setMinPrice] = useState("");
+  const [maxprice, setMaxPrice] = useState("");
+  const [salesdifference, setSalesDifference] = useState("");
+  const [priceincrease, setPriceIncrease] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
+  const [trending, setTrending] = useState("");
+  const [stock, setStock] = useState("");
   const [color, setColor] = useState("");
   const [colors, setColors] = useState([]);
   const [size, setSize] = useState("");
@@ -35,6 +35,7 @@ const AddStoreItem = ({ onClose, onAdd }) => {
   const [stockError, setStockError] = useState("");
   const [colorsError, setColorsError] = useState("");
   const [sizesError, setSizesError] = useState("");
+  const [trendingError, setTrendingError] = useState("");
 
   function validateProductId(productId) {
     let isValid = true;
@@ -193,6 +194,14 @@ const AddStoreItem = ({ onClose, onAdd }) => {
     }
     return isValid;
   }
+  function validateTrending(trending) {
+    let isValid = true;
+    if (trending === "") {
+      setTrendingError("Trending is required");
+      isValid = false;
+    }
+    return isValid;
+  }
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -232,6 +241,7 @@ const AddStoreItem = ({ onClose, onAdd }) => {
     const isValidStock = validateStock(stock);
     const isValidColors = validateColors(colors);
     const isValidSizes = validateSizes(sizes);
+    const isValidTrending = validateTrending(trending);
 
     if (
       isValidProductId &&
@@ -245,7 +255,8 @@ const AddStoreItem = ({ onClose, onAdd }) => {
       isValidImage &&
       isValidStock &&
       isValidColors &&
-      isValidSizes
+      isValidSizes &&
+      isValidTrending
     ) {
       const data = {
         productId,
@@ -481,6 +492,14 @@ const AddStoreItem = ({ onClose, onAdd }) => {
             <div className="flex flex-row w-[80%] justify-between">
               <div className="flex flex-col">
                 <label className="ml-0.5 mb-1">Trending</label>
+                <AnimatePresence mode="wait" initial={false}>
+                  {trendingError && (
+                    <motion.p className="flex items-center my-1 gap-1 px-2 font-semibold text-red-500 bg-red-100 rounded-md">
+                      <MdError />
+                      {trendingError}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
                 <select
                   className="h-11 p-2 border-gray-200 rounded-md border-2  shadow-sm "
                   id="trending"

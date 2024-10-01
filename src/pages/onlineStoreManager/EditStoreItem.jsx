@@ -268,7 +268,7 @@ const AddStoreItem = ({ item, onClose, onEdit }) => {
         .then(() => {
           onEdit();
           onClose();
-          enqueueSnackbar("Item added", { variant: "success" });
+          enqueueSnackbar("Item updated", { variant: "success" });
         })
         .catch((error) => {
           console.log(error);

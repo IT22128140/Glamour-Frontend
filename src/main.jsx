@@ -8,7 +8,7 @@ import { SnackbarProvider } from "notistack";
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <SnackbarProvider
-    className='mb-[273%]'
+    className=''
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",
