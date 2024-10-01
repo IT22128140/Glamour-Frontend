@@ -23,7 +23,7 @@ const Catalogue = () => {
   function filterItems(e) {
     const inputValue = e.target.value.toLowerCase();
     const filteredData = items.filter((opt) =>
-      opt.category.toLowerCase().includes(inputValue)
+      opt.category.toLowerCase() === inputValue
     );
     setFilteredData(filteredData);
   }

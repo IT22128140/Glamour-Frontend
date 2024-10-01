@@ -250,10 +250,10 @@ const ProductPage = () => {
           <h1 className=" pb-[2%] text-6xl font-Aboreto text-primary">
             {product.name}
           </h1>
-          <p className="mb-[2%] font-BreeSerif text-primary">
+          <p className="mb-[2%] w-[700px] font-BreeSerif text-primary">
             {product.description}
           </p>
-          <p className="mb-[2%] mt-8 text-xl font-BreeSerif text-primary">
+          <p className="mb-[2%] mt-8 text-5xl font-BreeSerif text-primary">
             Rs.{product.minprice}.00
           </p>
           <form onSubmit={(e) => e.preventDefault} noValidate>
@@ -387,7 +387,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <hr className="w-full mx-4 mb-4 border-1 border-primary" />
+      <hr className="mx-4 mb-4 border-1 border-primary" />
 
       <div className="flex flex-col items-center mb-[6%] w-full ">
         <h1 className="text-4xl mb-4 font-bold font-Aboreto text-primary">Reviews</h1>
