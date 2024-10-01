@@ -32,13 +32,13 @@ const Catalogue = () => {
     const inputValue = JSON.parse(e.target.value);
     if (inputValue[2].toLowerCase() == "male") {
       const filteredTops = items.filter((opt) =>
-        mensTops.includes(opt.category.toLowerCase("mensshirt", "menstshirt", "menshoodies" ))
+        mensTops.includes(opt.category.toLowerCase(mensTops ))
       );
       const filteredwithSizeTops = filteredTops.filter(
         (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
-        mensBottoms.includes(opt.category.toLowerCase("menstrousers", "mensdenims", "mensshorts" ))
+        mensBottoms.includes(opt.category.toLowerCase(mensBottoms ))
       );
       const filteredwithSizeBottoms = filteredBottoms.filter(
         (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
@@ -47,13 +47,13 @@ const Catalogue = () => {
       setFilteredData(filteredData);
     } else if (inputValue[2].toLowerCase() == "female") {
       const filteredTops = items.filter((opt) =>
-        womensTops.includes(opt.category.toLowerCase( "womenssets", "womensdresses", "womenstops" ))
+        womensTops.includes(opt.category.toLowerCase(womensTops ))
       );
       const filteredwithSizeTops = filteredTops.filter(
         (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
-        womensBottoms.includes(opt.category.toLowerCase( "womenstrousers", "womensdenims", "womenskirts" ))
+        womensBottoms.includes(opt.category.toLowerCase( womensBottoms ))
       );
       const filteredwithSizeBottoms = filteredBottoms.filter(
         (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
@@ -110,27 +110,7 @@ const Catalogue = () => {
       });
     }
   }, [userID, recievedData]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3000/cusItems")
-  //     .then((response) => {
-  //       setLoading(false);
-  //       setItems(response.data);
-  //       if (recievedData) {
-  //         const filteredData = response.data.filter((opt) =>
-  //           opt.category.toLowerCase().includes(recievedData.toLowerCase())
-  //         );
-  //         setFilteredData(filteredData);
-  //       } else {
-  //         setFilteredData(response.data);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // }, [recievedData]);
+  
   if (loading) {
     return <Spinner />;
   }
