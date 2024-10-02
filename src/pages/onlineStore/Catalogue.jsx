@@ -8,6 +8,7 @@ import CardView from "../../components/CardView";
 import { useLocation } from "react-router-dom";
 import { mensTops, mensBottoms, mensFliter } from "../../utils/arrays.js";
 import { womensTops, womensBottoms, womensFliter } from "../../utils/arrays.js";
+import { Link } from "react-router-dom";
 
 const Catalogue = () => {
   const [loading, setLoading] = useState(false);
@@ -99,8 +100,8 @@ const Catalogue = () => {
         setLoading(false);
         setItems(response.data);
         if (recievedData) {
-          const filteredData = response.data.filter((opt) =>
-            opt.category.toLowerCase() === recievedData
+          const filteredData = response.data.filter(
+            (opt) => opt.category.toLowerCase() === recievedData
           );
           setFilteredData(filteredData);
         } else {
@@ -166,6 +167,18 @@ const Catalogue = () => {
                   label={personalized.UniqueName}
                   onChange={(e) => filterPersonalizedItems(e)}
                 />
+              </>
+            )}
+            {!boolean && (
+              <>
+                <h2 className=" font-Philosopher text-primary text-2xl my-3">
+                  Personalized
+                </h2>
+                <Link to="/measurements/create">
+                  <button className="bg-primary text-white font-bold py-2 px-8 rounded">
+                    Add Measurements
+                  </button>
+                </Link>
               </>
             )}
           </div>
