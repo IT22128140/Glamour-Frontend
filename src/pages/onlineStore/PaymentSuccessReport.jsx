@@ -57,31 +57,31 @@ const PaymentSuccessReport = () => {
           </div>
           <h1 className="font-Philosopher text-2xl mt-4 mb-5 font-bold text-center text-primary">Payment Detail Report</h1>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Payment ID</span>
+            <span className="text-xl mr-4">Payment ID : </span>
             <span>{successPayment._id}</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Customer Name</span>
+            <span className="text-xl mr-4">Customer Name : </span>
             <span>{successPayment.firstName} {successPayment.lastName}</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Email</span>
+            <span className="text-xl mr-4">Email : </span>
             <span>{successPayment.email}</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Bank Name</span>
+            <span className="text-xl mr-4">Bank Name : </span>
             <span>{successPayment.bank}</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Branch Name</span>
+            <span className="text-xl mr-4">Branch Name : </span>
             <span>{successPayment.branch}</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Total Payment</span>
-            <span>{successPayment.totalPay}</span>
+            <span className="text-xl mr-4">Total Payment : </span>
+            <span>Rs.{successPayment.totalPay}.00</span>
           </div>
           <div className="my-4 text-black">
-            <span className="text-xl mr-4">Payment Slip</span>
+            <span className="text-xl mr-4">Payment Slip : </span>
             <img
                 src={successPayment.slip}
                 alt="slip"

@@ -181,6 +181,7 @@ const Order = () => {
       {showDelete && (
         <DeleteOrder id={id} onClose={() => setShowDelete(false)} />
       )}
+      <div className=" h-20"/>
       <Footer />
     </div>
   )

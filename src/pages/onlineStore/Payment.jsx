@@ -235,10 +235,10 @@ const Payment = () => {
         try {
             await axios.delete(`http://localhost:3000/cart/${userID}`);
             setCart([]);
-            enqueueSnackbar("Cart cleared successfully", { variant: "success" });
+            // enqueueSnackbar("Cart cleared successfully", { variant: "success" });
         } catch (error) {
             console.log("Error clearing the cart: ", error);
-            enqueueSnackbar("Error clearing cart", { variant: "error" });
+            // enqueueSnackbar("Error clearing cart", { variant: "error" });
         }
     }
 

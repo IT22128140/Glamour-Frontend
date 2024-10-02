@@ -89,7 +89,7 @@ const CusAddresses = () => {
             {showDelete && (
                 <DeleteAddress id={id} onClose={() => setShowDelete(false)} />
             )}
-            <div className='h-[300px]'></div>
+           <div className=" h-20"/>
             <Footer />
         </div>
     );
