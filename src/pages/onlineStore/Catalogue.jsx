@@ -6,8 +6,8 @@ import CustomerNavbar from "../../components/navbar/CustomerNavbar";
 import Footer from "../../components/footer/Footer";
 import CardView from "../../components/CardView";
 import { useLocation } from "react-router-dom";
-import { mensTops, mensBottoms } from "../../utils/arrays.js";
-import { womensTops, womensBottoms } from "../../utils/arrays.js";
+import { mensTops, mensBottoms, mensFliter } from "../../utils/arrays.js";
+import { womensTops, womensBottoms, womensFliter } from "../../utils/arrays.js";
 
 const Catalogue = () => {
   const [loading, setLoading] = useState(false);
@@ -22,8 +22,26 @@ const Catalogue = () => {
 
   function filterItems(e) {
     const inputValue = e.target.value.toLowerCase();
+    const filteredData = items.filter(
+      (opt) => opt.category.toLowerCase() === inputValue
+    );
+    setFilteredData(filteredData);
+  }
+
+  function clearfilterdata() {
+    setFilteredData(items);
+  }
+
+  function filterMensItems() {
     const filteredData = items.filter((opt) =>
-      opt.category.toLowerCase() === inputValue
+      mensFliter.includes(opt.category.toLowerCase(mensFliter))
+    );
+    setFilteredData(filteredData);
+  }
+
+  function filterWomensItems() {
+    const filteredData = items.filter((opt) =>
+      womensFliter.includes(opt.category.toLowerCase(womensFliter))
     );
     setFilteredData(filteredData);
   }
@@ -32,31 +50,39 @@ const Catalogue = () => {
     const inputValue = JSON.parse(e.target.value);
     if (inputValue[2].toLowerCase() == "male") {
       const filteredTops = items.filter((opt) =>
-        mensTops.includes(opt.category.toLowerCase(mensTops ))
+        mensTops.includes(opt.category.toLowerCase(mensTops))
       );
-      const filteredwithSizeTops = filteredTops.filter(
-        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
+      const filteredwithSizeTops = filteredTops.filter((opt) =>
+        opt.sizes
+          .map((size) => size.toLowerCase())
+          .includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
-        mensBottoms.includes(opt.category.toLowerCase(mensBottoms ))
+        mensBottoms.includes(opt.category.toLowerCase(mensBottoms))
       );
-      const filteredwithSizeBottoms = filteredBottoms.filter(
-        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
+      const filteredwithSizeBottoms = filteredBottoms.filter((opt) =>
+        opt.sizes
+          .map((size) => size.toLowerCase())
+          .includes(inputValue[1].toLowerCase())
       );
       const filteredData = filteredwithSizeTops.concat(filteredwithSizeBottoms);
       setFilteredData(filteredData);
     } else if (inputValue[2].toLowerCase() == "female") {
       const filteredTops = items.filter((opt) =>
-        womensTops.includes(opt.category.toLowerCase(womensTops ))
+        womensTops.includes(opt.category.toLowerCase(womensTops))
       );
-      const filteredwithSizeTops = filteredTops.filter(
-        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[0].toLowerCase())
+      const filteredwithSizeTops = filteredTops.filter((opt) =>
+        opt.sizes
+          .map((size) => size.toLowerCase())
+          .includes(inputValue[0].toLowerCase())
       );
       const filteredBottoms = items.filter((opt) =>
-        womensBottoms.includes(opt.category.toLowerCase( womensBottoms ))
+        womensBottoms.includes(opt.category.toLowerCase(womensBottoms))
       );
-      const filteredwithSizeBottoms = filteredBottoms.filter(
-        (opt) => opt.sizes.map(size => size.toLowerCase()).includes(inputValue[1].toLowerCase())
+      const filteredwithSizeBottoms = filteredBottoms.filter((opt) =>
+        opt.sizes
+          .map((size) => size.toLowerCase())
+          .includes(inputValue[1].toLowerCase())
       );
       console.log(filteredwithSizeTops);
       console.log(filteredwithSizeBottoms);
@@ -65,52 +91,52 @@ const Catalogue = () => {
     }
   }
 
-
-
   useEffect(() => {
     setLoading(true);
     axios
-    .get("http://localhost:3000/cusItems")
-    .then((response) => {
-      setLoading(false);
-      setItems(response.data);
-      if (recievedData) {
-        const filteredData = response.data.filter((opt) =>
-          opt.category.toLowerCase().includes(recievedData.toLowerCase())
-        );
-        setFilteredData(filteredData);
-      } else {
-        setFilteredData(response.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      setLoading(false);
-    });
+      .get("http://localhost:3000/cusItems")
+      .then((response) => {
+        setLoading(false);
+        setItems(response.data);
+        if (recievedData) {
+          const filteredData = response.data.filter((opt) =>
+            opt.category.toLowerCase() === recievedData
+          );
+          setFilteredData(filteredData);
+        } else {
+          setFilteredData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
     const token = localStorage.getItem("token");
     if (token !== null) {
       axios
-      .post("http://localhost:3000/login/auth", { token: token })
-      .then((response) => {
-        setuserID(response.data.userID);
-        axios
-        .get(`http://localhost:3000/measurements/user/${response.data.userID}`)
+        .post("http://localhost:3000/login/auth", { token: token })
         .then((response) => {
-          setPersonalized(response.data);
-          if (response.data.Hip > 0 ){
-            setBoolean(true);
-          }
+          setuserID(response.data.userID);
+          axios
+            .get(
+              `http://localhost:3000/measurements/user/${response.data.userID}`
+            )
+            .then((response) => {
+              setPersonalized(response.data);
+              if (response.data.Hip > 0) {
+                setBoolean(true);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     }
   }, [userID, recievedData]);
-  
+
   if (loading) {
     return <Spinner />;
   }
@@ -123,29 +149,32 @@ const Catalogue = () => {
             CATEGORIES
           </h1>
           <div>
-              {boolean && (
-                <>
-                  <h2 className=" font-Philosopher text-primary text-2xl my-3">
-                    Personalized
-                  </h2>
-                  <RadioButton
-                    key={personalized._id}
-                    name="check"
-                    value={JSON.stringify([
-                      personalized.TopSize,
-                      personalized.PantSize,
-                      personalized.Gender,
-                      personalized._id,
-                    ])}
-                    label={personalized.UniqueName}
-                    onChange={(e) => filterPersonalizedItems(e)}
-                  />
-                </>
-              )}
+            {boolean && (
+              <>
+                <h2 className=" font-Philosopher text-primary text-2xl my-3">
+                  Personalized
+                </h2>
+                <RadioButton
+                  key={personalized._id}
+                  name="check"
+                  value={JSON.stringify([
+                    personalized.TopSize,
+                    personalized.PantSize,
+                    personalized.Gender,
+                    personalized._id,
+                  ])}
+                  label={personalized.UniqueName}
+                  onChange={(e) => filterPersonalizedItems(e)}
+                />
+              </>
+            )}
           </div>
           {/* Mens */}
           <div>
-            <h2 className=" font-Philosopher text-primary text-2xl my-3">
+            <h2
+              className=" font-Philosopher text-primary text-2xl my-3 hover:cursor-pointer"
+              onClick={() => filterMensItems()}
+            >
               Mens
             </h2>
             <RadioButton
@@ -187,7 +216,10 @@ const Catalogue = () => {
           </div>
           {/* Womens */}
           <div>
-            <h2 className=" font-Philosopher text-primary text-2xl my-3">
+            <h2
+              className=" font-Philosopher text-primary text-2xl my-3 hover:cursor-pointer"
+              onClick={() => filterWomensItems()}
+            >
               Women
             </h2>
             <RadioButton
@@ -227,6 +259,12 @@ const Catalogue = () => {
               onChange={(e) => filterItems(e)}
             />
           </div>
+          <button
+            className="bg-primary self text-white font-bold rounded-lg px-4 py-2 mt-5"
+            onClick={() => clearfilterdata()}
+          >
+            Clear Filter
+          </button>
         </div>
         <div className="flex flex-row flex-wrap ml-10 h-fit">
           {filteredData.map((item) => (
@@ -241,8 +279,8 @@ const Catalogue = () => {
           ))}
         </div>
       </div>
-      <div className="h-20"/>
-      <Footer /> 
+      <div className="h-20" />
+      <Footer />
     </div>
   );
 };

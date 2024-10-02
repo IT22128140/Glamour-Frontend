@@ -55,6 +55,24 @@ export const womensBottoms = [
   "womensdenims",
 ];
 
+export const womensFliter = [
+  "womenssets",
+  "womensdresses",
+  "womenstops",
+  "womenskirts",
+  "womenstrousers",
+  "womensdenims",
+];
+
+export const mensFliter = [
+  "mensshirt",
+  "menstshirt",
+  "menstrousers",
+  "mensdenims",
+  "mensshorts",
+  "menshoodies",
+];
+
 export const provinces = [
   { id: 0, option: "Western", value: "Western" },
   { id: 1, option: "Central", value: "Central" },
