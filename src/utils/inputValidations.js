@@ -315,5 +315,60 @@ export const measurementValidation = {
   },
 };
 
+export const pnoValidation = {
+  validation: {
+      required: {
+          value: true,
+          message: "Required",
+      },
+      pattern: {
+          value: /^\d{10}$/, 
+          message: "Phone number must be 10 digits",
+      },
+  },
+};
+
+export const EmailValidation = {
+  validation: {
+      required: {
+          value: true,
+          message: "Required",
+      },
+      maxLength: {
+          value: 30,
+          message: "30 characters max",
+      },
+      minLength: {
+          value: 3,
+          message: "3 characters min",
+      },
+      pattern: {
+          value: /\S+@\S+\.\S+/,
+          message: "Invalid email address", 
+      },
+  },
+};
+
+export const PasswordValidation = {
+  validation: {
+      required: {
+          value: true,
+          message: "Required",
+      },
+      maxLength: {
+          value: 30,
+          message: "30 characters max",
+      },
+      minLength: {
+          value: 8,
+          message: "8 characters min",
+      },
+      validate: {
+          passwordComplexity: (value) => 
+              value.length >= 8 && /\d/.test(value) && /[!@#$%^&*]/.test(value) || "Password must contain at least 8 characters, one digit, and one special character",
+      },
+  },
+};
+
 
 

@@ -3,9 +3,6 @@ import axios from "axios";
 import Spinner from "../../components/Spinner";
 import { Link } from "react-router-dom";
 import TableView from '../../components/table/TableView';
-import DeleteButton from "../../components/button/DeleteButton";
-import ViewButton from "../../components/button/ViewButton";
-import DeleteMeasurement from "./DeleteBodyMeasurement";
 import StoreNavbar from "../../components/navbar/staffheader/StoreNavbar";
 import StaffFooter from "../../components/footer/stafffooter/StaffFooter";
 
@@ -14,9 +11,7 @@ const MeasurementTable = () => {
     const [measurements, setMeasurements] = useState([]);
     const [loading, setLoading] = useState(false);
     const [data1, setdata1] = useState([]);
-    const [showDelete, setShowDelete] = useState(false);
-    const [selectedMeasurement, setSelectedMeasurement] = useState(null);
-    const headers = ['Gender', 'Bust Size', 'Under Bust Size', 'Neck Base Size', 'Waist Size', 'Hip Size', 'Shoulder Width Size', 'Top Size', 'Pant Size', 'Operations']
+    const headers = ['Gender', 'Bust Size', 'Under Bust Size', 'Neck Base Size', 'Waist Size', 'Hip Size', 'Shoulder Width Size', 'Top Size', 'Pant Size']
 
     useEffect(() => {
         setLoading(true);
@@ -74,22 +69,13 @@ const MeasurementTable = () => {
                                     <td className='border border-slate-700 rounded-md text-center'>
                                         {measurement.ShoulderWidth}
                                     </td>
-                                    <td className='border border-slate-700 rounded-md text-center'>
+                                    <td className='border text-primary border-slate-700 rounded-md text-center'>
                                         {measurement.TopSize}
                                     </td>
-                                    <td className='border border-slate-700 rounded-md text-center'>
+                                    <td className='border text-primary border-slate-700 rounded-md text-center'>
                                         {measurement.PantSize}
                                     </td>
-                                    <td className='border border-slate-700 rounded-md text-center'>
-                                        <div className='flex justify-center gap-x-4 ml-2 mr-2'>
-                                            <DeleteButton
-                                                onClick={() => {
-                                                    setSelectedMeasurement(measurement);
-                                                    setShowDelete(true)
-                                                }}
-                                            />
-                                        </div>
-                                    </td>
+
                                 </tr>
                             ))}
                         </tbody>
@@ -97,14 +83,16 @@ const MeasurementTable = () => {
 
                 )}
 
-                {showDelete && (
-                    <DeleteMeasurement
-                        id={selectedMeasurement._id}
-                        onClose={() => setShowDelete(false)}
-                    />
-                )}
+
 
             </div>
+            <center className="mt-20">
+                <Link to="/ModelSizesReport">
+                    <button className="bg-primary text-white font-BreeSerif py-2 px-8 rounded">
+                        Generate Model Sizes Report
+                    </button>
+                </Link>
+            </center>
             <div className='h-40'></div>
             <StaffFooter />
         </div>

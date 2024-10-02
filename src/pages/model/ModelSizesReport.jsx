@@ -70,18 +70,18 @@ const ModelSizesReport = () => {
           Model Sizes Report
         </h1>
 
-        <div className='ml-10 mt-7 mb-10 flex flex-col items-center'> {/* Set outer div as flex and center items */}
-          <div className="flex items-center mb-4"> {/* Wrap labels and inputs in a flex div for horizontal alignment */}
+        <div className='ml-10 mt-7 mb-10 flex flex-col items-center'> 
+          <div className="flex items-center mb-4"> 
             <label>From: </label>
             <input
-              className='mr-12 bg-secondary text-black'
+              className='h-11 p-2  border-gray-200 rounded-md border-2  shadow-sm mr-20'
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
             <label>To: </label>
             <input
-              className='bg-secondary text-black'
+              className='h-11 p-2  border-gray-200 rounded-md border-2  shadow-sm mr-4'
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
@@ -89,7 +89,7 @@ const ModelSizesReport = () => {
           </div>
 
           <button
-            className="mt-4 px-4 py-2 bg-primary text-white rounded" // Add margin-top for spacing
+            className="mt-4 px-4 py-2 bg-primary text-white rounded"
             onClick={handleSubmit}
           >
             Generate

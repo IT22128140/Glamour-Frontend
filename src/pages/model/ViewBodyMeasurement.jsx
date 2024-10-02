@@ -111,6 +111,15 @@ const ViewMeasurement = () => {
 
                             <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
                                 <p className="text-lg font-semibold text-black">
+                                    Under Bust (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.UnderBust || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
                                     Waist Size (inches)
                                 </p>
                                 <p className="text-lg text-gray-700">
@@ -133,6 +142,15 @@ const ViewMeasurement = () => {
                                 </p>
                                 <p className="text-lg text-gray-700">
                                     {measurements.ShoulderWidth || "N/A"}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center p-4 bg-white rounded-lg shadow">
+                                <p className="text-lg font-semibold text-black">
+                                    Neck Base (inches)
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {measurements.NeckBase || "N/A"}
                                 </p>
                             </div>
                         </div>
@@ -161,30 +179,34 @@ const ViewMeasurement = () => {
                                 Your model size for below cloth types:{" "}
                                 {measurements.TopSize || "N/A"}
                             </h2>
-                            <div className="flex justify-center space-x-4">
-                                {femaleTops.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt="Female Top"
-                                        className="w-40 rounded-lg shadow-md"
-                                    />
-                                ))}
-                            </div>
+                            <Link to="/Catalogue">
+                                <div className="flex justify-center space-x-4">
+                                    {femaleTops.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt="Female Top"
+                                            className="w-40 rounded-lg shadow-md"
+                                        />
+                                    ))}
+                                </div>
+                            </Link>
                             <h2 className="text-2xl text-primary w-full text-center mt-10 mb-4">
                                 Your model size for below cloth types:{" "}
                                 {measurements.PantSize || "N/A"}
                             </h2>
-                            <div className="flex justify-center space-x-4">
-                                {femalePants.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt="Female Pants"
-                                        className="w-40 rounded-lg shadow-md"
-                                    />
-                                ))}
-                            </div>
+                            <Link to="/Catalogue">
+                                <div className="flex justify-center space-x-4">
+                                    {femalePants.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt="Female Pants"
+                                            className="w-40 rounded-lg shadow-md"
+                                        />
+                                    ))}
+                                </div>
+                            </Link>
                         </>
                     )}
 
@@ -192,38 +214,42 @@ const ViewMeasurement = () => {
                         <>
                             <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
                                 Your model size for below cloth types:{" "}
-                                {measurements.PantSize || "N/A"}
-                            </h2>
-                            <div className="flex justify-center space-x-4">
-                                {maleShirts.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt="Male Shirt"
-                                        className="w-40 rounded-lg shadow-md"
-                                    />
-                                ))}
-                            </div>
-                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
-                                Your model size for below cloth types:{" "}
                                 {measurements.TopSize || "N/A"}
                             </h2>
-                            <div className="flex justify-center space-x-4">
-                                {maleTrousers.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt="Male Pants"
-                                        className="w-40 rounded-lg shadow-md"
-                                    />
-                                ))}
-                            </div>
+                            <Link to="/Catalogue">
+                                <div className="flex justify-center space-x-4">
+                                    {maleShirts.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt="Male Shirt"
+                                            className="w-40 rounded-lg shadow-md"
+                                        />
+                                    ))}
+                                </div>
+                            </Link>
+                            <h2 className="text-2xl font-bold text-primary w-full text-center mt-10 mb-4">
+                                Your model size for below cloth types:{" "}
+                                {measurements.PantSize || "N/A"}
+                            </h2>
+                            <Link to="/Catalogue">
+                                <div className="flex justify-center space-x-4">
+                                    {maleTrousers.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt="Male Pants"
+                                            className="w-40 rounded-lg shadow-md"
+                                        />
+                                    ))}
+                                </div>
+                            </Link>
                         </>
                     )}
                 </div>
 
             </div>
-            <div className="h-20"/>
+            <div className="h-20" />
             <Footer />
         </div>
     )

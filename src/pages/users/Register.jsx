@@ -7,6 +7,9 @@ import Logo from "../../components/navbar/NavbarLogo";
 import Input from '../../components/form/Input'; // Ensure you have this component
 import Spinner from '../../components/Spinner';
 import Footer from "../../components/footer/Footer";
+import {pnoValidation} from '../../utils/inputValidations';
+import {EmailValidation} from '../../utils/inputValidations';
+import {PasswordValidation} from '../../utils/inputValidations';
 
 const Signup = () => {
     const [loading, setLoading] = useState(false);
@@ -38,7 +41,7 @@ const Signup = () => {
                     <Link to="/login">
                         <button
                             type="submit"
-                            className='ml-auto p-2 bg-primary text-white rounded'>
+                            className='ml-auto p-2 bg-primary font-BreeSerif text-white rounded'>
                             Login
                         </button>
                     </Link>
@@ -84,6 +87,7 @@ const Signup = () => {
                                         type='email'
                                         placeholder='Enter email'
                                         name='email'
+                                        {...EmailValidation}
                                     />
                                     <Input
                                         formtype='input'
@@ -92,6 +96,7 @@ const Signup = () => {
                                         type='text'
                                         placeholder='Enter contact number'
                                         name='phoneNumber'
+                                        {...pnoValidation}
                                     />
                                     <Input
                                         formtype='input'
@@ -100,6 +105,7 @@ const Signup = () => {
                                         type='password'
                                         placeholder='Enter password'
                                         name='password'
+                                        {...PasswordValidation}
                                     />
                                     <div className="flex justify-center">
                                         <button
