@@ -87,6 +87,7 @@ const EditMeasurement = () => {
             Go to Profile
           </button>
         </div>
+        <div className="h-20" />
         <Footer />
       </div>
     );
