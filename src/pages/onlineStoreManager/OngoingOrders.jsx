@@ -145,18 +145,21 @@ const OngoingOrders = () => {
                       <select
                         className="h-11 mx-3 my-2 font-BreeSerif p-2 border-gray-200 rounded-md border-2"
                         onChange={(e) => {
+                          setLoading(true);
                           axios
                             .put(`http://localhost:3000/orders/${order._id}`, {
                               status: e.target.value,
                             })
                             .then((res) => {
                               console.log(res);
+                              setLoading(false);
                               enqueueSnackbar("Order status updated", {
                                 variant: "success",
                               });
                             })
                             .catch((err) => {
                               console.log(err);
+                              setLoading(false);
                               enqueueSnackbar("Error updating order status", {
                                 variant: "error",
                               });
